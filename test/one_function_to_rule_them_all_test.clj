@@ -7,15 +7,22 @@
        (concat-elements [[1 2]])       => (just '(1 2))
        (concat-elements [[1 2] [3 4]]) => (just '(1 2 3 4)))
 
-(facts "my-count"
-       (my-count [])      => 0
-       (my-count [1 2 3]) => 3
-       (my-count [1])     => 1)
-
 (facts "str-cat"
        (str-cat ["I" "am" "Legend"]) => "I am Legend"
        (str-cat ["I" "am" "back"])   => "I am back"
        (str-cat ["more" " " "space"]) => "more   space")
+
+(facts "my-interpose"
+       (my-interpose 0 [1 2 3])               => (just '(1 0 2 0 3))
+       (my-interpose "," ["I" "me" "myself"])
+       => (just '("I" "," "me" "," "myself"))
+       (my-interpose :a [1])                  => (just '(1))
+       (my-interpose :a [])                   => (just '()))
+
+(facts "my-count"
+       (my-count [])      => 0
+       (my-count [1 2 3]) => 3
+       (my-count [1])     => 1)
 
 (facts "my-reverse"
        (my-reverse [1 2 3]) => (just '(3 2 1))
@@ -35,3 +42,8 @@
 (facts "insertion-sort"
        (insertion-sort [2 5 3 1]) => (just '(1 2 3 5))
        (insertion-sort [1 2])     => (just '(1 2)))
+
+(facts "parity"
+       (parity [:a :b :c])    => #{:a :b :c}
+       (parity [:a :a :b :b]) => #{}
+       (parity [1 2 3 1])     => #{2 3})

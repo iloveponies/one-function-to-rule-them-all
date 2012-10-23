@@ -3,10 +3,13 @@
 (defn concat-elements [a-seq]
   [:-])
 
-(defn my-count [a-seq]
+(defn str-cat [a-seq]
   :-)
 
-(defn str-cat [a-seq]
+(defn my-interpose [x a-seq]
+  [:-])
+
+(defn my-count [a-seq]
   :-)
 
 (defn my-reverse [a-seq]
@@ -19,4 +22,7 @@
   [:-])
 
 (defn insertion-sort [a-seq]
+  [:-])
+
+(defn parity [a-seq]
   [:-])
