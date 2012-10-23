@@ -47,3 +47,28 @@
        (parity [:a :b :c])    => #{:a :b :c}
        (parity [:a :a :b :b]) => #{}
        (parity [1 2 3 1])     => #{2 3})
+
+(facts "minus"
+       (minus 2)   => -2
+       (minus 4 3) => 1)
+
+(facts "count-params"
+       (count-params)            => 0
+       (count-params :a)         => 1
+       (count-params :a 1 :b :c) => 4)
+
+(facts "my-*"
+       (my-*) => 1
+       (my-* 4 3) => 12
+       (my-* 1 2 3 4 5) => 120)
+
+(facts "pred-and"
+       (filter (pred-and) [1 0 -2])                    => [1 0 -2]
+       (filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) => [1 7]
+       (filter (pred-and number? decimal? pos? even?)
+               [1 0 -2 :a 7 "a" 2])                    => [0 2])
+
+(facts "my-map"
+       (my-map inc [1 2 3 4])                  => [2 3 4 5]
+       (my-map + [1 1 1] [1 1 1] [1 1 1])      => [3 3 3]
+       (my-map vector [1 2 3] [1 2 3] [1 2 3]) => [[1 1 1] [1 1 1] [1 1 1]])
