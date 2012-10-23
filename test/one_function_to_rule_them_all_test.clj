@@ -8,16 +8,17 @@
        (concat-elements [[1 2] [3 4]]) => (just '(1 2 3 4)))
 
 (facts "str-cat"
-       (str-cat ["I" "am" "Legend"]) => "I am Legend"
-       (str-cat ["I" "am" "back"])   => "I am back"
-       (str-cat ["more" " " "space"]) => "more   space")
+       (str-cat ["I" "am" "Legend"])  => "I am Legend"
+       (str-cat ["I" "am" "back"])    => "I am back"
+       (str-cat ["more" " " "space"]) => "more   space"
+       (str-cat [])                   => "")
 
 (facts "my-interpose"
-       (my-interpose 0 [1 2 3])               => (just '(1 0 2 0 3))
+       (my-interpose 0 [1 2 3])               => [1 0 2 0 3]
        (my-interpose "," ["I" "me" "myself"])
        => (just '("I" "," "me" "," "myself"))
-       (my-interpose :a [1])                  => (just '(1))
-       (my-interpose :a [])                   => (just '()))
+       (my-interpose :a [1])                  => [1]
+       (my-interpose :a [])                   => [])
 
 (facts "my-count"
        (my-count [])      => 0
@@ -30,9 +31,9 @@
        (my-reverse [])      => (just '()))
 
 (facts "min-max-element"
-       (min-max-element [2 7 3 15 4]) => (just '(2 15))
-       (min-max-element [1 2 3 4])    => (just '(1 4))
-       (min-max-element [1])          => (just '(1 1)))
+       (min-max-element [2 7 3 15 4]) => [2 15]
+       (min-max-element [1 2 3 4])    => [1 4]
+       (min-max-element [1])          => [1 1])
 
 (facts "insert"
        (insert [] 2)      => (just '(2))
@@ -65,10 +66,10 @@
 (facts "pred-and"
        (filter (pred-and) [1 0 -2])                    => [1 0 -2]
        (filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) => [1 7]
-       (filter (pred-and number? decimal? pos? even?)
-               [1 0 -2 :a 7 "a" 2])                    => [0 2])
+       (filter (pred-and number? integer? pos? even?)
+               [1 0 -2 :a 7 "a" 2])                    => [2])
 
 (facts "my-map"
        (my-map inc [1 2 3 4])                  => [2 3 4 5]
        (my-map + [1 1 1] [1 1 1] [1 1 1])      => [3 3 3]
-       (my-map vector [1 2 3] [1 2 3] [1 2 3]) => [[1 1 1] [1 1 1] [1 1 1]])
+       (my-map vector [1 2 3] [1 2 3] [1 2 3]) => [[1 1 1] [2 2 2] [3 3 3]])
