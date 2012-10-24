@@ -28,7 +28,9 @@
                 [(min min-val e) (max max-val e)]) [current current] a-seq))))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (concat (filter #(<= % n) sorted-seq)
+          (seq [n])
+          (filter #(< n %) sorted-seq)))
 
 (defn insertion-sort [a-seq]
   [:-])
