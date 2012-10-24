@@ -36,7 +36,13 @@
   (reduce insert '() a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (set (keys (filter #(odd? (val %))
+                     (reduce (fn [freqs e]
+                               (assoc freqs e (if (contains? freqs e)
+                                                (inc (freqs e))
+                                                1)))
+                             {}
+                             a-seq)))))
 
 (defn minus [x]
   :-)
