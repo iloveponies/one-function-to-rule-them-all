@@ -21,7 +21,11 @@
             (cons e my-list)) '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    []
+    (let [current (first a-seq)]
+      (reduce (fn [[min-val max-val] e]
+                [(min min-val e) (max max-val e)]) [current current] a-seq))))
 
 (defn insert [sorted-seq n]
   [:-])
