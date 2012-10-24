@@ -64,5 +64,9 @@
   ([x & more]
    #(reduce (fn [old c] (and old (c %))) (x %) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & more]
+  (if (some empty? more)
+   '()
+   (cons (apply f (map first more))
+         (apply (partial my-map f)
+                (map rest more)))))
