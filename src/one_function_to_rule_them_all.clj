@@ -60,5 +60,7 @@
   ([p] p)
   ([p & more] (fn [x] (reduce (fn [acc e] (and acc (e x))) (p x) more))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map 
+  ([] nil)
+  ([f s] (reverse (reduce (fn [acc x] (cons (f x) acc)) [] s)))
+  ([f s & more] ([])))
