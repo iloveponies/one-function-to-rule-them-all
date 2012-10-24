@@ -14,7 +14,7 @@
     (reduce (fn [a b] (conj a x b)) (vector (first a-seq)) (rest a-seq))))
 
 (defn my-count [a-seq]
-  :-)
+  (reduce (fn [c e] (inc c)) 0 a-seq))
 
 (defn my-reverse [a-seq]
   [:-])
