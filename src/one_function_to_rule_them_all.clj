@@ -17,7 +17,8 @@
   (reduce (fn [c e] (inc c)) 0 a-seq))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (reduce (fn [my-list e]
+            (cons e my-list)) '() a-seq))
 
 (defn min-max-element [a-seq]
   [:-])
