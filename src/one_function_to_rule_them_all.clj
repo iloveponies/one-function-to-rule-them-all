@@ -34,13 +34,13 @@
         (recur (conj p (first r)) (rest r) n))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
   [:-])
 
 (defn minus [x]
-  :-)
+  )
 
 (defn count-params [x]
   :-)
