@@ -62,5 +62,11 @@
 
 (defn my-map 
   ([] nil)
-  ([f s] (reverse (reduce (fn [acc x] (cons (f x) acc)) [] s)))
-  ([f s & more] ([])))
+  ([f s] (if (empty? s)
+           []
+           (cons (f (first s)) (my-map f (rest s)))))
+  ([f s & more] (let [seqs (cons s more)]
+                  (if (empty? (filter (fn [x] (not (empty? x))) seqs))
+                    []
+                    (cons (apply f (my-map first seqs))
+                          (apply my-map f (my-map rest seqs)))))))
