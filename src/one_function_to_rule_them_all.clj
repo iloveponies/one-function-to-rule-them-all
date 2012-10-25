@@ -68,6 +68,25 @@
   ([x y & more]
    (reduce pred-and (pred-and x y) more)))
 
+(defn my-map-one-element [f a-seq]
+  (if (empty? a-seq)
+    []
+    (if (coll? (first a-seq))
+      (cons (apply f (first a-seq)) (my-map-one-element f (rest a-seq)))
+      (cons (f (first a-seq)) (my-map-one-element f (rest a-seq))))))
+
+(defn reduce-to-single-collection [seq-so-far new-seq]
+  (if (or (empty? seq-so-far) (empty? new-seq))
+    []
+    (cons (conj (first seq-so-far) (first new-seq)) 
+          (reduce-to-single-collection (rest seq-so-far) (rest new-seq)))))
+
+(defn my-map 
+  ([f a-seq] (my-map-one-element f a-seq))
+  ([g a-seq & more] 
+   (let [trans-f (fn [s] (if (coll? s) s [s]))]
+   (my-map-one-element g (reduce reduce-to-single-collection (map trans-f a-seq) more)))))
+
 (defn reducing-map [f x]
   (if (coll? x)
     (fn [y] (apply f (conj x y)))
@@ -79,9 +98,9 @@
     (cons ((first function-seq) (first a-seq)) 
           (combine (rest function-seq) (rest a-seq)))))
 
-(defn my-map 
+(defn my-map2 
   ([f a-seq] (map f a-seq))
-  ([g a-seq b-seq] (let [reduced (my-map (fn [x] (reducing-map g x)) a-seq)]
+  ([g a-seq b-seq] (let [reduced (my-map2 (fn [x] (reducing-map g x)) a-seq)]
                       (combine reduced b-seq)))
   ([h a-seq b-seq & more] 
-   (reduce (fn [a b] (my-map h a b)) (my-map h a-seq b-seq) more)))
+   (reduce (fn [a b] (my-map2 h a b)) (my-map2 h a-seq b-seq) more)))
