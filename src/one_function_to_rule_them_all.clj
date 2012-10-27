@@ -56,5 +56,16 @@
      (let [f (fn [b p] (and b (p x)))]
        (reduce f true fs))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq]
+   (let [g (fn [ys x] (conj ys (f x)))]
+     (reduce g [] a-seq)))
+  ([f a-seq & more]
+   (let [all-seqs (cons a-seq more)]
+     (my-map #(apply f %) 
+          (loop [acc []
+                 consume all-seqs]
+            (if (not (empty? (filter empty? consume)))
+              acc
+              (recur (concat acc [(my-map first consume)])
+                     (my-map rest consume))))))))
