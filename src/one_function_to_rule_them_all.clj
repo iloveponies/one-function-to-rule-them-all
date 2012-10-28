@@ -27,17 +27,25 @@
 (defn parity [a-seq]
   [:-])
 
-(defn minus [x]
-  :-)
+(defn minus 
+   ([x](- x))
+   ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params
+ ([& more] (count more)))
 
-(defn my-* [x]
-  :-)
+(defn my-* 
+ ([] 1)
+ ([x] x)
+ ([x y] (* x y))
+ ([x y & more] (reduce my-* (my-* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and 
+([] (fn [x] true))  
+([z] (fn [x] (z x)))
+([z y] (fn [x] (and (z x) (y x))))
+([z y & more] (reduce (fn [z y] (fn [x] (and (z x) (y x))))
+              (fn [x] (and (z x) (y x))) more)))
 
 (defn my-map [f a-seq]
   [:-])
