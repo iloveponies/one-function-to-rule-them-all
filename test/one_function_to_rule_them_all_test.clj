@@ -36,7 +36,7 @@
 (facts "my-reverse" {:exercise 5
                      :points 1}
   (my-reverse [1 2 3])    => (just '(3 2 1))
-  (my-reverse [1 2 2 3 3] => (just '(3 3 2 2 1)))
+  (my-reverse [1 2 2 3 3]) => (just '(3 3 2 2 1))
   (my-reverse [1 2])      => (just '(2 1))
   (my-reverse [])         => (just '()))
 
