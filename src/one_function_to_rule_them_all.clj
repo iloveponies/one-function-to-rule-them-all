@@ -56,5 +56,9 @@
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
   ([p1 p2 & m] (reduce pred-and p1 (conj m p2))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq] (reduce #(conj %1 (f %2)) [] a-seq))
+  ([f a & rst] (if (some empty? (conj rst a))
+                  ()
+                  (conj (apply my-map f (my-map rest (conj rst a)))
+                        (apply f (my-map first (conj rst a)))))))
