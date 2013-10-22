@@ -63,5 +63,19 @@
   ([x y] #(and (x %1) (y %1)))
   ([x y & z] #(reduce (fn [a b] (and a (b %1))) ((pred-and x y) %1) z)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn smap [f a-seq]
+  (reduce #(conj %1 (f %2)) [] a-seq))
+
+(defn firsts [seqs]
+  (smap first seqs))
+
+(defn rests [seqs]
+  (smap rest seqs))
+
+(defn my-zip [seqs]
+  (if (some empty? seqs)
+    ()
+    (cons (firsts seqs) (my-zip (rests seqs)))))
+
+(defn my-map
+  [f & seqs] (reduce #(conj %1 (apply f %2)) [] (my-zip seqs)))
