@@ -1,7 +1,11 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  :-)
+  (loop [target-seq []
+         source-seq a-seq]
+    (if (empty? source-seq)
+      target-seq
+      (recur (concat target-seq (first source-seq)) (rest source-seq)))))
 
 (defn str-cat [a-seq]
   :-)
