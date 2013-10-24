@@ -60,5 +60,7 @@
   ([] (fn [x] true))
   ([& more] (fn [x] (every? (fn [p] (p x)) more))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & more]
+  (if (some true? (for [x more] (empty? x)))
+    ()
+    (cons (apply f (for [x more] (first x))) (apply my-map f (for [x more] (rest x))))))
