@@ -19,9 +19,6 @@
     '()
     (reduce f [(first a-seq)] (rest a-seq)))))
 
-(conj [] "a" "b")
-(my-interpose 0 [1 2 3])
-
 (defn my-count [a-seq]
   (let [counter (fn [cnt e]
                   (inc cnt))]
@@ -105,12 +102,6 @@
       (recur (conj acc (rest (first tails)))
              (rest tails)))))
 
-
-(first-of-each [[1 2 3] [4 5 6] [7 8 9]])
-
-(rest-of-each [[1 2 3] [4 5 6] [7 8 9]])
-
-
 (defn my-map [f & more]
   (loop [acc []
          tails more]
@@ -118,8 +109,3 @@
       acc
       (recur (conj acc (apply f (first-of-each tails)))
              (rest-of-each tails)))))
-
-(my-map inc [1 2 3 4])
-
-(my-map + [1 1 1] [1 1 1] [1 1 1])
-(my-map vector [1 2 3] [1 2 3] [1 2 3])
