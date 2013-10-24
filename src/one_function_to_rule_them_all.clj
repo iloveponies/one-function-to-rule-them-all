@@ -1,14 +1,13 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  (loop [target-seq []
-         source-seq a-seq]
-    (if (empty? source-seq)
-      target-seq
-      (recur (concat target-seq (first source-seq)) (rest source-seq)))))
+  (reduce concat [] a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (let [join(fn [a b] (str a " " b))]
+    (if (empty? a-seq)
+      ""
+      (reduce join a-seq))))
 
 (defn my-interpose [x a-seq]
   [:-])
