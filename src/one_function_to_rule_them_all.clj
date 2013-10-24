@@ -81,7 +81,45 @@
   ([p q & more]
    (reduce pred-and (pred-and p q) more)))
 
-(defn my-map
-  ([f a-seq] :-)
-  ([f a-seq & more]
-   :-))
+(defn first-of-each [a-seq]
+  (loop [acc []
+         tails a-seq]
+    (if (empty? tails)
+      acc
+      (recur (conj acc (first (first tails)))
+             (rest tails)))))
+
+(defn first-of-each [a-seq]
+  (loop [acc []
+         tails a-seq]
+    (if (empty? tails)
+      acc
+      (recur (conj acc (first (first tails)))
+             (rest tails)))))
+
+(defn rest-of-each [a-seq]
+  (loop [acc []
+         tails a-seq]
+    (if (empty? tails)
+      acc
+      (recur (conj acc (rest (first tails)))
+             (rest tails)))))
+
+
+(first-of-each [[1 2 3] [4 5 6] [7 8 9]])
+
+(rest-of-each [[1 2 3] [4 5 6] [7 8 9]])
+
+
+(defn my-map [f & more]
+  (loop [acc []
+         tails more]
+    (if (some empty? tails)
+      acc
+      (recur (conj acc (apply f (first-of-each tails)))
+             (rest-of-each tails)))))
+
+(my-map inc [1 2 3 4])
+
+(my-map + [1 1 1] [1 1 1] [1 1 1])
+(my-map vector [1 2 3] [1 2 3] [1 2 3])
