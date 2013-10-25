@@ -10,7 +10,8 @@
       (reduce join a-seq))))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (let [interp(fn [a-seq b-seq] (if (empty? a-seq) (conj [] b-seq) (conj a-seq x b-seq)))]
+      (reduce interp [] a-seq)))
 
 (defn my-count [a-seq]
   :-)
