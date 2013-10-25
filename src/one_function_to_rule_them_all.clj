@@ -14,7 +14,8 @@
       (reduce interp [] a-seq)))
 
 (defn my-count [a-seq]
-  :-)
+  (let [counter(fn [counter element] (+ counter 1))]
+  (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
   [:-])
