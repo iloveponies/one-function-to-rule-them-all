@@ -40,19 +40,20 @@
   (let [freqs (frequencies a-seq)]
         (set (filter (fn [a] (odd? (get freqs a))) (keys freqs)))))
 
-
 (defn minus 
   ([x] (- 0 x))
   ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params 
+  ( [ & more] (count more)))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([ & more ] (reduce * 1 more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [x] true))
+  ([ & more] (fn [x] (every? true? (map (fn [p] (p x)) more)))))
+
 
 (defn my-map [f a-seq]
   [:-])
