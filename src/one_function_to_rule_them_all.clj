@@ -46,14 +46,15 @@
   ([x] (- 0 x))
   ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& params]
+  (my-count params))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& params]
+  (reduce * 1 params))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and [& preds]
+  (let [pred-helper (fn [x] (fn [prev-result pred] (and prev-result (pred x))))]
+  (fn [x] (reduce (pred-helper x) true preds))))
 
 (defn my-map [f a-seq]
   [:-])
