@@ -1,7 +1,7 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  (reduce concat [] a-seq) )
+  (reduce concat '() a-seq) )
 
 (defn str-cat [a-seq]
   (if (empty? a-seq) ""
@@ -24,16 +24,26 @@
   ])
 
 (defn insert [sorted-seq n]
-  [:-])
+  (if (empty? sorted-seq) (seq [n])
+      (loop [acc '()
+             s sorted-seq]
+        (if (empty? s) (seq (conj (vec acc) n))
+         (if (> (first s) n)
+           (concat (conj (vec acc) n) s)
+           (recur (conj (vec acc) (first s)) (rest s)))))))
+         
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [freqs (frequencies a-seq)]
+        (set (filter (fn [a] (odd? (get freqs a))) (keys freqs)))))
 
-(defn minus [x]
-  :-)
+
+(defn minus 
+  ([x] (- 0 x))
+  ([x y] (- x y)))
 
 (defn count-params [x]
   :-)
