@@ -21,13 +21,19 @@
   (reduce (fn [target-seq element] (cons element target-seq)) [] a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [min-max-helper (fn [[min-value max-value] x]
+                         [(min min-value x) (max max-value x)])]
+    (reduce min-max-helper [(first a-seq) (first a-seq)] (rest a-seq))))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (let [split-helper (fn [x] (< x n))]
+    (concat
+      (take-while split-helper sorted-seq)
+      (cons n '())
+      (drop-while split-helper sorted-seq))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
   [:-])
