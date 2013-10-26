@@ -55,5 +55,9 @@
   ([ & more] (fn [x] (every? true? (map (fn [p] (p x)) more)))))
 
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map 
+  ([f a-seq] (map f a-seq))
+  ([f a-seq & more] (loop [acc []
+                           seqs (into [a-seq] more)]
+                      (if (some empty? seqs) acc                           
+                          (recur (into acc (vector (apply f (map first seqs)))) (map rest seqs))))))
