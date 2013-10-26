@@ -110,22 +110,21 @@
                               more)))))
 
 
+(defn new-vector [pos old-vectors]
+  (let [helper (fn [new-vector token]
+                 (cond
+                  (nil? token) new-vector
+                  :else (cons (token pos) new-vector))
+                  )]
+  (reduce helper [] old-vectors)))
+
+
 (defn my-map
-  ([f a-seq]
-              (loop [out-seq ()
-                     in-seq a-seq]
-                (if (empty? in-seq)
-                  (reverse out-seq)
-                  (recur (cons (f (first in-seq)) out-seq) (rest in-seq))
-                  )))
-  ([f a-seq & more]
-   (let [helper (fn [result seq]
-                        (loop [output ()
-                               data result
-                               input seq]
-                          (cond
-                           (empty? input) output
-                           :else (recur (cons (f (first data) (first input)) output)
-                                        (rest data)
-                                        (rest input)))))]
-     (reduce helper (my-map f a-seq) more))))
+  ([f & more]
+    (loop [pos 0
+           limit (count (first more))
+           in-param more
+           new-seq []]
+      (cond
+       (>= pos limit) (reverse new-seq)
+       :else (recur (inc pos) limit in-param (cons (apply f (new-vector pos in-param)) new-seq))))))
