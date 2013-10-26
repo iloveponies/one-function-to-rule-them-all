@@ -74,26 +74,31 @@
 
 (defn my-map
   ([f a-seq]
-     (reduce (fn [seqq x] (concat seqq [(do (f x))]))
-             [(do (f (first a-seq)))] (rest a-seq)))
-  ([f a-seq b-seq]
-     (loop [seqp a-seq
-            seqq b-seq
-            res '()]
-       (if (or (empty? seqp) (empty? seqq))
-         res
-         (recur (rest seqp)
-                (rest seqq)
-                (concat res [(cond
-                              (and (coll? (first seqp))
-                                   (not (coll? (first seqq))))
-                              (apply f (conj (first seqp) (first seqq))),
-                                   (and (coll? (first seqp)) (coll? (first
-                                                                     seqq)))
-                                   (apply f (concat (first seqp) (first seqq))),
-                                   (and (not (coll? (first seqp)))
-                                        (coll? (first seqq)))
-                                   (apply f (cons (first seqp) seqq))
-                               :else (f (first seqp) (first seqq)))])))))
-  ([f a-seq b-seq & more]
-     (reduce (fn [seqp seqq] (my-map f seqp seqq)) (my-map f a-seq b-seq) more)))
+     (reduce (fn [a-vec x] (conj a-vec (f x))) [(f (first a-seq))] (drop 1
+                                                                         a-seq)))
+  ([f a-seq & more]
+     (let [vecmore (vec more)
+           conced (vec (concat [a-seq] vecmore))
+           everyfirst (fn [seqseq]
+                        (reduce
+                         (fn [vec seqs]
+                           (conj vec (first seqs)))
+                         [] seqseq))
+           anyempty? (fn [seqseq]
+                       (if (not-every? empty? seqseq)
+                         false
+                         true))
+           dropfirsts (fn [seqseq]
+                        (reduce
+                         (fn [vec seqs]
+                           (conj vec (drop 1 seqs)))
+                         [] seqseq))
+           trnsps (loop [seqs conced
+                         rseq []]
+                    (if (anyempty? seqs)
+                      rseq
+                      (recur (dropfirsts seqs) (conj rseq (everyfirst seqs)))))]
+       (reduce (fn [a-vec seq]
+                 (conj a-vec
+                       (apply f seq))) [(apply f (first trnsps))]
+                       (drop 1 trnsps)))))
