@@ -1,7 +1,11 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  :-)
+  (reduce concat () a-seq))
+
+;(concat-elements [])            ;=> ()
+;(concat-elements [[1 2]])       ;=> (1 2)
+;(concat-elements [[1 2] [3 4]]) ;=> (1 2 3 4)
 
 (defn str-cat [a-seq]
   :-)
