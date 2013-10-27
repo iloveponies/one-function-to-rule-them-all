@@ -58,5 +58,5 @@
   ([x y] (fn [a] (and (x a) (y a))))
   ([x y & more] (fn [a] ((reduce pred-and (pred-and x y) more) a))))
 
-(defn my-map
-  :-)
+(defn my-map []
+  [:-])
