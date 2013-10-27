@@ -20,28 +20,43 @@
   (reduce (fn [rev e] (conj rev e)) '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [update (fn [[current-min current-max] elem] [(min elem current-min) (max elem current-max)])]
+    (reduce (fn [current elem] (update current elem)) [(first a-seq) (first a-seq)] a-seq)))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [smaller []
+         unread sorted-seq]
+    (cond
+     (empty? unread) (seq (conj smaller n))
+     (< n (first unread)) (concat (seq (conj smaller n)) unread)
+     :else (recur (conj smaller (first unread)) (rest unread)))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce (fn [sorted-seq elem] (insert sorted-seq elem)) [] a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [toggle (fn [a-set elem] (if (contains? a-set elem) (disj a-set elem) (conj a-set elem)))]
+    (reduce (fn [odds elem] (toggle odds elem)) #{} a-seq)))
 
-(defn minus [x]
+(defn minus
+  ([x] (- 0 x))
+  ([x y] (- x y)))
+
+(defn count-params [& x]
+  (reduce (fn [times p] (inc times)) 0 x))
+
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce my-* (my-* x y) more)))
+
+
+(defn pred-and
+  ([] (fn [_] true))
+  ([x] (fn[a] (x a)))
+  ([x y] (fn [a] (and (x a) (y a))))
+  ([x y & more] (fn [a] ((reduce pred-and (pred-and x y) more) a))))
+
+(defn my-map
   :-)
-
-(defn count-params [x]
-  :-)
-
-(defn my-* [x]
-  :-)
-
-(defn pred-and [x]
-  (fn [x] :-))
-
-(defn my-map [f a-seq]
-  [:-])
