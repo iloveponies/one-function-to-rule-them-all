@@ -20,20 +20,8 @@
 (defn min-max-element [a-seq]
   (reduce #(vector (min (first %1) %2) (max (second %1) %2)) [(first a-seq) (first a-seq)] (rest a-seq)))
 
-; tämähän räjähti käsiin kek
 (defn insert [sorted-seq n]
-  (loop [acc ()
-         s sorted-seq
-         i n]
-    (cond
-      (and (empty? s) (not (nil? i)))
-        (cons i acc)
-      (empty? s)
-        acc
-      (and (not (nil? i)) (< (last s) i))
-        (recur (cons i acc) s nil)
-      :else
-        (recur (cons (last s) acc) (butlast s) i))))
+  (concat (take-while #(< %1 n) sorted-seq) [n] (drop-while #(< %1 n) sorted-seq)))
 
 (defn insertion-sort [a-seq]
   (reduce insert () a-seq))
