@@ -9,9 +9,9 @@
     (reduce str (interpose " " a-seq))))
 
 (defn my-interpose [x a-seq]
-  (if (empty? a-seq)
-    a-seq
-    (interpose x a-seq)))
+  (let [intr (fn [e1 e2]
+               (conj e1 x e2))]
+    (drop 1 (reduce intr [] a-seq))))
 
 (defn my-count [a-seq]
   (let [counter (fn [count e]
