@@ -4,7 +4,9 @@
   (reduce concat [] a-seq))
 
 (defn str-cat [a-seq]
-  (clojure.string/join " " a-seq))
+  (if (empty? a-seq)
+    ""
+    (reduce (fn [a b] (str a " " b)) a-seq)))
 
 (defn my-interpose [x a-seq]
   (drop 1 (interleave (repeat x) a-seq)))
@@ -19,7 +21,12 @@
   [(apply min a-seq) (apply max a-seq)])
 
 (defn insert [sorted-seq n]
-  (sort (conj sorted-seq n)))
+  (cond
+    (empty? sorted-seq)      (list n)
+    (> (first sorted-seq) n) (cons n sorted-seq)
+    :else                    (cons
+                               (first sorted-seq)
+                               (insert (rest sorted-seq) n))))
 
 (defn insertion-sort [a-seq]
   (reduce insert [] a-seq))
