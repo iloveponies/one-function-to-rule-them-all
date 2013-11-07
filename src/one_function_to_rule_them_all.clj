@@ -5,13 +5,15 @@
 
 
 (defn str-cat [a-seq]
-  (str (clojure.string/join " " a-seq)))
+(if (or (empty? a-seq) (= 1 (count a-seq)))
+  ""
+  (reduce str (interpose " " (concat a-seq)))))
 
 (defn my-interpose [x a-seq]
   (if (or (empty? a-seq) (= 1 (count a-seq)))
   a-seq
   (flatten (reduce (fn [acc next]
-            (concat [acc] [x] [next])) a-seq))))
+            (conj [acc] [x] [next])) a-seq))))
 
 
 (defn my-count [a-seq]
