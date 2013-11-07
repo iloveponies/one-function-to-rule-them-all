@@ -31,7 +31,11 @@
    (apply max a-seq)]))
 
 (defn insert [sorted-seq n]
-    (sort (conj sorted-seq n)))
+  (cond
+   (empty? sorted-seq) (list n)
+   (< n (first sorted-seq)) (cons n sorted-seq)
+   :else (cons (first sorted-seq) (insert (rest sorted-seq) n))))
+
 
 (defn insertion-sort [a-seq]
   (reduce insert '() a-seq))
