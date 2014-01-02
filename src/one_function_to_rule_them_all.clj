@@ -98,24 +98,14 @@
   (reduce (fn [acc x]
             (concat acc (conj '() (f x)))) '() a-seq))
 
-(defn first-of-all [seqs]
-  (if (empty? seqs)
-    '()
-    (cons (first (first seqs)) (first-of-all (rest seqs)))))
+(defn nth-of-all-re [n seqs]
+  (reduce (fn [acc x]
+    (concat acc (list (nth x n)))) '() seqs))
 
-(defn rest-of-all [seqs]
-  (if (empty? seqs)
-    '()
-    (cons (rest (first seqs)) (rest-of-all (rest seqs)))))
-
-(defn my-map-helper [f seqs]
-  ;(println (apply f (first-of-all seqs)))
-  ;(println "rest" (rest-of-all seqs))
-  ;(println (empty? (first (rest-of-all seqs))))
-  (cond
-   (empty? (first (rest-of-all seqs))) (cons (apply f (first-of-all seqs)) '())
-   :else (cons (apply f (first-of-all seqs)) (my-map-helper f (rest-of-all seqs)))))
+(defn my-map-helper-re [f seqs]
+  (reduce (fn [acc x]
+    (concat acc (conj '() (apply f (nth-of-all-re x seqs))))) '() (range 0 (count (first seqs)))))
 
 (defn my-map
   ([f a-seq] (my-map-one f a-seq))
-  ([f a-seq & more] (my-map-helper f (list* a-seq more))))
+  ([f a-seq & more] (my-map-helper-re f (list* a-seq more))))
