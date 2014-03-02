@@ -51,8 +51,20 @@
 (defn my-* [& xs]
   (reduce * 1 xs))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and [& preds]
+  (fn [val] (reduce #(and %1 (%2 val)) true preds)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn map1 [f sequence] ;; avoid using standard `map` in definition of my-map
+  (if (empty? sequence) '()
+      (cons (f (first sequence))
+            (map1 f (rest sequence)))))
+
+(defn zip [seqs]
+  (if (some empty? seqs) '()
+      (cons (map1 first seqs) (zip (map1 rest seqs)))))
+
+(defn my-map [f & seqs]
+  (reduce (fn [acc vals]
+            (conj acc (apply f vals)))
+          []
+          (zip seqs)))
