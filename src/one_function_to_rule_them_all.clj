@@ -4,13 +4,24 @@
   (reduce concat [] a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (if (empty? a-seq)
+    ""
+    ; this is equivalent to manually passing first element
+    ; (reduce (fn [acc, y] (str acc " " y)) (first a-seq) (rest a-seq))
+    (reduce (fn [acc, y] (str acc " " y)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq)
+    []
+    ; naming with acc for accumulator helps
+    ; knows to pass last element
+    (reduce (fn [acc, el] (conj acc x el)) (vector (first a-seq)) (rest a-seq))))
 
 (defn my-count [a-seq]
-  :-)
+  ; knows to pass last element, function name just used 
+  (let [acc-fn (fn [acc, el]
+                 (inc acc))]
+    (reduce acc-fn 0 a-seq)))
 
 (defn my-reverse [a-seq]
   [:-])
