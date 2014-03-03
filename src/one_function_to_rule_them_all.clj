@@ -18,13 +18,17 @@
     (reduce (fn [acc, el] (conj acc x el)) (vector (first a-seq)) (rest a-seq))))
 
 (defn my-count [a-seq]
-  ; knows to pass last element, function name just used 
+  ; knows to pass last element, function name just used
   (let [acc-fn (fn [acc, el]
                  (inc acc))]
     (reduce acc-fn 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    a-seq
+    (let [acc-fn (fn [acc, el]
+                   (cons el acc))]
+      (reduce acc-fn (vector (first a-seq)) (rest a-seq)))))
 
 (defn min-max-element [a-seq]
   [:-])
