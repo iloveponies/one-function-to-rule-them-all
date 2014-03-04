@@ -31,7 +31,11 @@
       (reduce acc-fn (vector (first a-seq)) (rest a-seq)))))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    a-seq
+    (let [find-max-min-vector (fn [max-min-vector, el]
+                   [(min (first max-min-vector) el) (max (second max-min-vector) el)])]
+      (reduce find-max-min-vector [(first a-seq) (first a-seq)] a-seq))))
 
 (defn insert [sorted-seq n]
   [:-])
