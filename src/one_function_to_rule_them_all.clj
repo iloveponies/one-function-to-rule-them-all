@@ -69,6 +69,7 @@
 (defn count-params [& more]
   (count more))
 
+; if without using arity
 ;(defn my-* [& more]
 ;  (let [input-arguments-count (count more)]
 ;    (cond
@@ -87,11 +88,11 @@
    (reduce my-* (my-* x y) more)))
 
 (defn pred-and
-  ([] true)
-  ([x] x)
-  ([x y] (and x y))
-  ([x y & more]
-   (reduce pred-and (pred-and x y) more)))
+  ([] (fn [x] true))
+  ([pred] (fn [x] (pred x)))
+  ([pred1 pred2] (fn [x] (and (pred1 x) (pred2 x))))
+  ([pred1 pred2 & more]
+   (reduce pred-and (pred-and pred1 pred2) more)))
 
 (defn my-map [f a-seq]
   [:-])
