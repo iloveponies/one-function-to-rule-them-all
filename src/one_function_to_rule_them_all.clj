@@ -38,13 +38,29 @@
       (reduce find-max-min-vector [(first a-seq) (first a-seq)] a-seq))))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [acc-seq []
+         current-seq sorted-seq]
+    (cond
+      (empty? current-seq) (conj acc-seq n)
+      (< (first current-seq) n) (recur
+                                  (conj acc-seq (first current-seq))
+                                  (rest current-seq))
+      :else
+      (concat acc-seq [n] current-seq))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  ; similar as (reduce (fn [acc, x] (insert acc x)) (vector (first a-seq)) (rest a-seq))
+  (reduce (fn [acc, x] (insert acc x)) [] a-seq))
+
+; only for adding
+(defn toggle [a-set elem]
+  (if (contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem)))
 
 (defn parity [a-seq]
-  [:-])
+  ; same as (reduce (fn [acc, el] (toggle acc el)) #{} a-seq)
+  (reduce toggle #{} a-seq))
 
 (defn minus [x]
   :-)
