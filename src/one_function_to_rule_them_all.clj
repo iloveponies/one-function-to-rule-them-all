@@ -62,14 +62,22 @@
   ; same as (reduce (fn [acc, el] (toggle acc el)) #{} a-seq)
   (reduce toggle #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (* -1 x))
+  ([x, y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& more]
+  (count more))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& more]
+  (let [input-arguments-count (count more)]
+    (cond
+      (== input-arguments-count 0) 1
+      (== input-arguments-count 1) (first more)
+      (== input-arguments-count 2) (* (first more) (second more))
+      (> input-arguments-count 2)
+          ; same as with acc expliticly stated: (reduce * (first more) (rest more))
+          (reduce * more))))
 
 (defn pred-and [x]
   (fn [x] :-))
