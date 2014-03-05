@@ -69,18 +69,29 @@
 (defn count-params [& more]
   (count more))
 
-(defn my-* [& more]
-  (let [input-arguments-count (count more)]
-    (cond
-      (== input-arguments-count 0) 1
-      (== input-arguments-count 1) (first more)
-      (== input-arguments-count 2) (* (first more) (second more))
-      (> input-arguments-count 2)
-          ; same as with acc expliticly stated: (reduce * (first more) (rest more))
-          (reduce * more))))
+;(defn my-* [& more]
+;  (let [input-arguments-count (count more)]
+;    (cond
+;      (== input-arguments-count 0) 1
+;      (== input-arguments-count 1) (first more)
+;      (== input-arguments-count 2) (* (first more) (second more))
+;      (> input-arguments-count 2)
+;          ; same as with acc expliticly stated: (reduce * (first more) (rest more))
+;          (reduce * more))))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more]
+   (reduce my-* (my-* x y) more)))
+
+(defn pred-and
+  ([] true)
+  ([x] x)
+  ([x y] (and x y))
+  ([x y & more]
+   (reduce pred-and (pred-and x y) more)))
 
 (defn my-map [f a-seq]
   [:-])
