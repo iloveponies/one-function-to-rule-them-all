@@ -51,16 +51,16 @@
 (defn pred-and
   ([] (fn [x] true))
   ([p] (fn [x] (p x)))
-  ([p q] (fn [x] (and (p x) (q x))))
-  ([p q & more]
+  ([p & more]
     (reduce
       (fn [prev curr]
-        (fn [x] (and (curr x) prev)))
+        (fn [x] (and (prev x) (curr x))))
 
-      (fn [x] (and (p x) (q x)))
+      (fn [x] (p x))
 
-      more)))
+      (reverse more))))
 
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f seq] (reduce f seq))
+  ([f seq & seqs] (reduce (fn [prev curr] (reduce f curr)) (concat seq seqs))))
