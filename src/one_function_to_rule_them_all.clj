@@ -94,5 +94,12 @@
   ([pred1 pred2 & more]
    (reduce pred-and (pred-and pred1 pred2) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map-helper [starting-count more]
+  (if (== starting-count (count more))
+    '()
+    (cons (map (fn [x] (nth x starting-count)) more)
+          (my-map-helper (inc starting-count) more))))
+
+(defn my-map
+  ([f a-seq] (map f a-seq))
+  ([f a-seq & more] (map (fn [x] (apply f x) ) (my-map-helper 0 (cons a-seq more)))))
