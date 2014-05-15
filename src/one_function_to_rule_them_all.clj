@@ -73,5 +73,9 @@
         true
         (do-checks x)))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & seqs]
+  (loop [result (vector)
+         seqs seqs]
+    (if (empty? (first seqs))
+      (seq result)
+      (recur (conj result (apply f (map first seqs))) (map rest seqs)))))

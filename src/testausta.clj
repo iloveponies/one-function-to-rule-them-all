@@ -58,5 +58,8 @@
 ; yllä pitäisi olla (2) oikea tulos, koska 0 ei ole pos?
 
 
+(my-map inc [1 2 3 4])                  ;=> (2 3 4 5)
+(my-map + [1 1 1] [1 1 1] [1 1 1])      ;=> (3 3 3)
+(my-map vector [1 2 3] [1 2 3] [1 2 3]) ;=> ((1 1 1) (2 2 2) (3 3 3))
 
 
