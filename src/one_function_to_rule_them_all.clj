@@ -80,20 +80,76 @@
 
 
 
+;; Exercise 5
+;; Write the function (my-reverse a-seq) that reverses a sequence.
+;;
+;; signature: seq -> seq
+;; purpose: reverse sequence
+;; stub
+;; (defn my-reverse [a-seq]
+;;   [:-])
+;;
 (defn my-reverse [a-seq]
-  [:-])
+  (reduce #(conj %1 %2) '() a-seq))
+;;
+(ctest/is (= (my-reverse [1 2 3])  '(3 2 1)))
+(ctest/is (= (my-reverse [1 2])    '(2 1)))
+(ctest/is (= (my-reverse [])       '()))
 
+
+;; Exercise 6
+;; Write the function (min-max-element a-seq) that returns the maximal and minimal elements of a-seq in a vertor like [min max].
+;;
+;; signature: seq -> seq
+;; purpose: return [min max] as a seq
+;; stub
+;; (defn min-max-element [a-seq]
+;;   [nil nil])
+;;
 (defn min-max-element [a-seq]
-  [:-])
+  ;; assign very first element
+  (let [fst (first a-seq)]
+    ;; loop over 
+    (loop [sq  a-seq
+           min fst
+           max fst]
+      
+      (cond
+       (empty? sq)        [min max]
+       (> (first sq) max) (recur (rest sq) min        (first sq))
+       (< (first sq) min) (recur (rest sq) (first sq) max)
+       :else              (recur (rest sq) min        max)))))
+;;
+(ctest/is (= (min-max-element [2 7 3 15 4])  [2 15]))
+(ctest/is (= (min-max-element [1 2 3 4])     [1 4]))
+(ctest/is (= (min-max-element [1])           [1 1]))
 
+
+Exercise 7
+Write the function (insert sorted-seq n) that adds the number n into a sorted sequence of number. The ordering of the sequence must be preserved.
+You don’t need to use reduce for this, and you probably don’t want to.
 (defn insert [sorted-seq n]
   [:-])
+;;
+(ctest/is (= (insert [] 2)       '(2)))
+(ctest/is (= (insert [1 3 4] 2)  '(1 2 3 4)))
+(ctest/is (= (insert [1] 2)      '(1 2)))
 
+Now implement (insertion-sort a-seq) using reduce and the function insert.
 (defn insertion-sort [a-seq]
   [:-])
+(ctest/is (= (insertion-sort [2 5 3 1])  '(1 2 3 5)))
+(ctest/is (= (insertion-sort [1 2])      '(1 2)))
 
+
+Exercise 8
+Write the fuction (parity a-seq) that picks into a set those elements of a-seq that occur odd number of time.
 (defn parity [a-seq]
   [:-])
+(ctest/is (= (parity [:a :b :c])     #{:a :b :c}))
+(ctest/is (= (parity [:a :a :b :b])  #{}))
+(ctest/is (= (parity [1 2 3 1])      #{2 3}))
+
 
 (defn minus [x]
   :-)
