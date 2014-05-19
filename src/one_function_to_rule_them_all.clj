@@ -273,10 +273,28 @@
 ;; Exercise 13
 ;; 3 points
 ;; Write the function my-map that works just like standard map. It takes one or more sequences and a function f that takes as many parameters as there are sequences.
-
-(defn my-map [f a-seq]
-  [:-])
 ;;
-(ctest/is (= (my-map inc [1 2 3 4])                  (2 3 4 5)))
-(ctest/is (= (my-map + [1 1 1] [1 1 1] [1 1 1])      (3 3 3)))
-(ctest/is (= (my-map vector [1 2 3] [1 2 3] [1 2 3]) ((1 1 1) (2 2 2) (3 3 3))))
+;; sig: f seq(s) -> seq
+;; purpose: map f to seq(s)
+;; sig
+(defn my-map [f a-seq]
+  [:- :- :-])
+
+;;
+(defn my-map
+  ([f sq]    (reduce #(conj %1 (f %2)) [] sq))
+  ([f sq1 & sqs]
+     (->> (concat [sq1] sqs) ; seq of seqs
+          ;; re-organize nth elements together
+          (apply interleave                     ,  )
+          (#(partition-all (inc (count sqs)) %) ,  )
+          ;; reduce by applying f sequentially. Careful now %2 is a seq, so use apply
+          (reduce #(conj %1 (apply f %2)) []    ,  ))))
+;;
+;;
+(ctest/is (= (my-map inc [1 2 3 4])                  '(2 3 4 5)))
+(ctest/is (= (my-map + [1 1 1] [1 1 1] [1 1 1])      '(3 3 3)))
+(ctest/is (= (my-map vector [1 2 3] [1 2 3] [1 2 3]) '((1 1 1) (2 2 2) (3 3 3))))
+;;
+;; (reduce #(conj %1 (apply + %2)) [] '((1 1 1) (1 1 1) (1 1 1)))
+
