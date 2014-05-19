@@ -1,7 +1,6 @@
 (ns one-function-to-rule-them-all
   (:require [clojure.test :as ctest]))
 
-
 ;; Exercise 1
 ;; Write the function (concat-elements a-seq) that takes a sequence of sequences and concatenates them together with concat.
 ;; Don’t use apply to implement this function.
@@ -16,9 +15,9 @@
   (reduce concat a-seq))
 ;;
 ;; careful. these need ' before ()
-(ctest/is (= (concat-elements [])            '()))
-(ctest/is (= (concat-elements [[1 2]])       '(1 2)))
-(ctest/is (= (concat-elements [[1 2] [3 4]]) '(1 2 3 4)))
+;; (ctest/is (= (concat-elements [])            '()))
+;; (ctest/is (= (concat-elements [[1 2]])       '(1 2)))
+;; (ctest/is (= (concat-elements [[1 2] [3 4]]) '(1 2 3 4)))
 
 
 ;; Exercise 2
@@ -32,12 +31,14 @@
 ;;   ":-")
 ;;
 (defn str-cat [a-seq]
-  (reduce #(str %1 " " %2) a-seq))
+  (if (empty? a-seq)
+    ""
+    (reduce #(str %1 " " %2) a-seq)))
 ;;
-(ctest/is (= (str-cat ["I" "am" "Legend"])  "I am Legend"))
-(ctest/is (= (str-cat ["I" "am" "back"])    "I am back"))
-(ctest/is (= (str-cat ["more" " " "space"]) "more   space"))
-(ctest/is (= (str-cat [])                   ""))
+;; (ctest/is (= (str-cat ["I" "am" "Legend"])  "I am Legend"))
+;; (ctest/is (= (str-cat ["I" "am" "back"])    "I am back"))
+;; (ctest/is (= (str-cat ["more" " " "space"]) "more   space"))
+;; (ctest/is (= (str-cat [])                   ""))
 
 
 ;; Exercise 3
@@ -53,10 +54,10 @@
 (defn my-interpose [x a-seq]
   (rest (reduce #(concat %1 [x %2]) [] a-seq)))
 ;;
-(ctest/is (= (my-interpose 0 [1 2 3])               '(1 0 2 0 3)))
-(ctest/is (= (my-interpose "," ["I" "me" "myself"]) '("I" "," "me" "," "myself")))
-(ctest/is (= (my-interpose :a [1])                  '(1)))
-(ctest/is (= (my-interpose :a [])                   '()))
+;; (ctest/is (= (my-interpose 0 [1 2 3])               '(1 0 2 0 3)))
+;; (ctest/is (= (my-interpose "," ["I" "me" "myself"]) '("I" "," "me" "," "myself")))
+;; (ctest/is (= (my-interpose :a [1])                  '(1)))
+;; (ctest/is (= (my-interpose :a [])                   '()))
 
 
 
@@ -74,9 +75,9 @@
   ;; just keep adding to a, b (new element from seq) is ignored
   (reduce (fn [a b] (inc a)) 0 a-seq))
 ;;
-(ctest/is (= (my-count [])      0))
-(ctest/is (= (my-count [1 2 3]) 3))
-(ctest/is (= (my-count [1])     1))
+;; (ctest/is (= (my-count [])      0))
+;; (ctest/is (= (my-count [1 2 3]) 3))
+;; (ctest/is (= (my-count [1])     1))
 
 
 
@@ -92,9 +93,9 @@
 (defn my-reverse [a-seq]
   (reduce #(conj %1 %2) '() a-seq))
 ;;
-(ctest/is (= (my-reverse [1 2 3])  '(3 2 1)))
-(ctest/is (= (my-reverse [1 2])    '(2 1)))
-(ctest/is (= (my-reverse [])       '()))
+;; (ctest/is (= (my-reverse [1 2 3])  '(3 2 1)))
+;; (ctest/is (= (my-reverse [1 2])    '(2 1)))
+;; (ctest/is (= (my-reverse [])       '()))
 
 
 ;; Exercise 6
@@ -120,9 +121,9 @@
        (< (first sq) min) (recur (rest sq) (first sq) max)
        :else              (recur (rest sq) min        max)))))
 ;;
-(ctest/is (= (min-max-element [2 7 3 15 4])  [2 15]))
-(ctest/is (= (min-max-element [1 2 3 4])     [1 4]))
-(ctest/is (= (min-max-element [1])           [1 1]))
+;; (ctest/is (= (min-max-element [2 7 3 15 4])  [2 15]))
+;; (ctest/is (= (min-max-element [1 2 3 4])     [1 4]))
+;; (ctest/is (= (min-max-element [1])           [1 1]))
 
 
 ;; Exercise 7
@@ -146,9 +147,9 @@
      ;; Otherwise recur
      :else                              (recur (conj passed (first remaining)) (rest remaining)))))
 ;;
-(ctest/is (= (insert [] 2)       '(2)))
-(ctest/is (= (insert [1 3 4] 2)  '(1 2 3 4)))
-(ctest/is (= (insert [1] 2)      '(1 2)))
+;; (ctest/is (= (insert [] 2)       '(2)))
+;; (ctest/is (= (insert [1 3 4] 2)  '(1 2 3 4)))
+;; (ctest/is (= (insert [1] 2)      '(1 2)))
 
 ;; Now implement (insertion-sort a-seq) using reduce and the function insert.
 ;;
@@ -161,8 +162,8 @@
 (defn insertion-sort [a-seq]
   (reduce insert [] a-seq))
 ;;
-(ctest/is (= (insertion-sort [2 5 3 1])  '(1 2 3 5)))
-(ctest/is (= (insertion-sort [1 2])      '(1 2)))
+;; (ctest/is (= (insertion-sort [2 5 3 1])  '(1 2 3 5)))
+;; (ctest/is (= (insertion-sort [1 2])      '(1 2)))
 
 
 ;; Exercise 8
@@ -182,9 +183,9 @@
     
     (reduce in-out #{} a-seq)))
 ;;
-(ctest/is (= (parity [:a :b :c])     #{:a :b :c}))
-(ctest/is (= (parity [:a :a :b :b])  #{}))
-(ctest/is (= (parity [1 2 3 1])      #{2 3}))
+;; (ctest/is (= (parity [:a :b :c])     #{:a :b :c}))
+;; (ctest/is (= (parity [:a :a :b :b])  #{}))
+;; (ctest/is (= (parity [1 2 3 1])      #{2 3}))
 
 
 ;; Exercise 9
@@ -199,8 +200,8 @@
   ([x]   (- x))
   ([x y] (- x y)))
 ;;
-(ctest/is (= (minus 2)   -2))
-(ctest/is (= (minus 4 3) 1))
+;; (ctest/is (= (minus 2)   -2))
+;; (ctest/is (= (minus 4 3) 1))
 
 
 ;; Exercise 10
@@ -215,9 +216,9 @@
 (defn count-params [& args]
   (count args))
 ;;
-(ctest/is (= (count-params)            0))
-(ctest/is (= (count-params :a)         1))
-(ctest/is (= (count-params :a 1 :b :c) 4))
+;; (ctest/is (= (count-params)            0))
+;; (ctest/is (= (count-params :a)         1))
+;; (ctest/is (= (count-params :a 1 :b :c) 4))
 
 
 ;; Exercise 11
@@ -233,9 +234,9 @@
 (defn my-* [& args]
   (reduce * 1 args))
 ;;
-(ctest/is (= (my-*)           1))
-(ctest/is (= (my-* 4 3)       12))
-(ctest/is (= (my-* 1 2 3 4 5) 120))
+;; (ctest/is (= (my-*)           1))
+;; (ctest/is (= (my-* 4 3)       12))
+;; (ctest/is (= (my-* 1 2 3 4 5) 120))
 
 
 ;; Exercise 12
@@ -264,9 +265,9 @@
   ([]     (fn [x] true))
   ([& fs] (fn [x] (every? #(% x) fs))))
 ;;
-(ctest/is (= (filter (pred-and) [1 0 -2])                    '(1 0 -2)))
-(ctest/is (= (filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) '(1 7)))
-(ctest/is (= (filter (pred-and number? integer? pos? even?) [1 0 -2 :a 7 "a" 2]) '(2)))
+;; (ctest/is (= (filter (pred-and) [1 0 -2])                    '(1 0 -2)))
+;; (ctest/is (= (filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) '(1 7)))
+;; (ctest/is (= (filter (pred-and number? integer? pos? even?) [1 0 -2 :a 7 "a" 2]) '(2)))
 
 
 
@@ -276,10 +277,9 @@
 ;;
 ;; sig: f seq(s) -> seq
 ;; purpose: map f to seq(s)
-;; sig
-(defn my-map [f a-seq]
-  [:- :- :-])
-
+;; stub
+;; (defn my-map [f a-seq]
+;;   [:- :- :-])
 ;;
 (defn my-map
   ([f sq]    (reduce #(conj %1 (f %2)) [] sq))
@@ -292,9 +292,9 @@
           (reduce #(conj %1 (apply f %2)) []    ,  ))))
 ;;
 ;;
-(ctest/is (= (my-map inc [1 2 3 4])                  '(2 3 4 5)))
-(ctest/is (= (my-map + [1 1 1] [1 1 1] [1 1 1])      '(3 3 3)))
-(ctest/is (= (my-map vector [1 2 3] [1 2 3] [1 2 3]) '((1 1 1) (2 2 2) (3 3 3))))
+;; (ctest/is (= (my-map inc [1 2 3 4])                  '(2 3 4 5)))
+;; (ctest/is (= (my-map + [1 1 1] [1 1 1] [1 1 1])      '(3 3 3)))
+;; (ctest/is (= (my-map vector [1 2 3] [1 2 3] [1 2 3]) '((1 1 1) (2 2 2) (3 3 3))))
 ;;
 ;; (reduce #(conj %1 (apply + %2)) [] '((1 1 1) (1 1 1) (1 1 1)))
 
