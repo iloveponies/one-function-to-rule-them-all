@@ -187,17 +187,83 @@
 (ctest/is (= (parity [1 2 3 1])      #{2 3}))
 
 
-(defn minus [x]
-  :-)
+;; Exercise 9
+;; Write the function minus that takes one or two parameters.
+;; If given a one parameter x, it returns −x.
+;; If given to parameters x and y, it returns x−y.
+;;
+;; sig: number, (number) -> number
+;; negate or subtract depending on the number of args
+;; 
+(defn minus
+  ([x]   (- x))
+  ([x y] (- x y)))
+;;
+(ctest/is (= (minus 2)   -2))
+(ctest/is (= (minus 4 3) 1))
 
+
+;; Exercise 10
+;; Write the function count-params that accepts any number of parameters and returns how many it was called with. You need only a one definition for this.
+;;
+;; sig: any args -> number
+;; purpose: count args
+;; stub
 (defn count-params [x]
-  :-)
+  -1)
+;;
+(defn count-params [& args]
+  (count args))
+;;
+(ctest/is (= (count-params)            0))
+(ctest/is (= (count-params :a)         1))
+(ctest/is (= (count-params :a 1 :b :c) 4))
 
-(defn my-* [x]
-  :-)
 
+;; Exercise 11
+;; Write the function my-* that takes any number of parameters.
+;; If no parameters are given, return 1
+;; If one parameter x is given, return x.
+;; If two parameters x and y are given, return xy.
+;; If more than two parameters x, y, … are given, return their product x⋅y⋯.
+;; You are free to use *, but not apply.
+;;
+;; sig numbers -> number
+;; purpose
+(defn my-* [& args]
+  (reduce * 1 args))
+;;
+(ctest/is (= (my-*)           1))
+(ctest/is (= (my-* 4 3)       12))
+(ctest/is (= (my-* 1 2 3 4 5) 120))
+
+
+;; Exercise 12
+;; Remember the function pred-and that you implemented in Predicates? Write a new definition for it that works for any amount of parameters.
+;; If no parameters are given, return a predicate that always returns true.
+;; If only one predicate p is given, return p.
+;; If two predicates are given, return a predicate that returns true if both of them return true and false otherwise.
+;; If more than two predicates are given, return a predicate that returns true only if all of the predicates return true and false otherwise.
+;;
+;; sig: pred1, pred2 -> fun
+;; purpose: create a new predicate (and pred1 pred2)
+;; 
 (defn pred-and [x]
   (fn [x] :-))
+;;
+(ctest/is (= (filter (pred-and) [1 0 -2])                    '(1 0 -2)))
+(ctest/is (= (filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) '(1 7)))
+(ctest/is (filter (pred-and number? integer? pos? even?) [1 0 -2 :a 7 "a" 2]) '(0 2))
+
+
+
+;; Exercise 13
+;; 3 points
+;; Write the function my-map that works just like standard map. It takes one or more sequences and a function f that takes as many parameters as there are sequences.
 
 (defn my-map [f a-seq]
   [:-])
+;;
+(ctest/is (= (my-map inc [1 2 3 4])                  (2 3 4 5)))
+(ctest/is (= (my-map + [1 1 1] [1 1 1] [1 1 1])      (3 3 3)))
+(ctest/is (= (my-map vector [1 2 3] [1 2 3] [1 2 3]) ((1 1 1) (2 2 2) (3 3 3))))
