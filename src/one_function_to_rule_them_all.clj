@@ -247,13 +247,26 @@
 ;;
 ;; sig: pred1, pred2 -> fun
 ;; purpose: create a new predicate (and pred1 pred2)
-;; 
-(defn pred-and [x]
-  (fn [x] :-))
+;; stub
+;; (defn pred-and [x]
+;;   (fn [x] :-))
+;;
+;; explicit
+;; (defn pred-and
+;;   ([]      (fn [x] true))
+;;   ([f1]    (fn [x] (f1 x)))
+;;   ([f1 f2] (fn [x] (and (f1 x) (f2 x))))
+;;   ([f1 f2 & fs] (fn [x](and (f1 x) (f2 x)
+;;                              ;; Use every? to test for all remaining functions
+;;                             (every? #(% x) fs)))))
+;; this is enough 
+(defn pred-and
+  ([]     (fn [x] true))
+  ([& fs] (fn [x] (every? #(% x) fs))))
 ;;
 (ctest/is (= (filter (pred-and) [1 0 -2])                    '(1 0 -2)))
 (ctest/is (= (filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) '(1 7)))
-(ctest/is (filter (pred-and number? integer? pos? even?) [1 0 -2 :a 7 "a" 2]) '(0 2))
+(ctest/is (= (filter (pred-and number? integer? pos? even?) [1 0 -2 :a 7 "a" 2]) '(2)))
 
 
 
