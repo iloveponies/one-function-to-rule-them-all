@@ -168,13 +168,19 @@
 ;; Exercise 8
 ;; Write the fuction (parity a-seq) that picks into a set those elements of a-seq that occur odd number of time.
 ;;
-;; 
+;; sig: seq -> set
+;; Keep ones appearing odd number of times
 ;; stub:
-(defn parity [a-seq]
-  [:-])
+;; (defn parity [a-seq]
+;;   #{nil})
 ;;
 (defn parity [a-seq]
-  [:-])
+  (let [in-out (fn [aset aval]
+                 (if (contains? aset aval)
+                   (disj aset aval)
+                   (conj aset aval)))]
+    
+    (reduce in-out #{} a-seq)))
 ;;
 (ctest/is (= (parity [:a :b :c])     #{:a :b :c}))
 (ctest/is (= (parity [:a :a :b :b])  #{}))
