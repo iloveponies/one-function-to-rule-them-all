@@ -60,11 +60,9 @@
             [a-seq []]
             b-seq)))
 
-(defn my-map
-  ([f a-seq] (reduce #(conj % (f %2)) [] a-seq))
-  ([f a-seq b-seq] (reduce (fn [a [x y]] (conj a (f x y)))
-                           []
-                           (pairs a-seq b-seq)))
-  ([f a-seq b-seq & more] (reduce (partial my-map f) (my-map f a-seq b-seq) more)))
 
+(defn my-map
+  ([f a-seq & more] (if (= 0 (count more))
+                (reduce #(conj % (f %2)) [] a-seq)
+                (reduce #(conj % (apply f %2)) []  (reduce pairs (cons a-seq more))))))
 
