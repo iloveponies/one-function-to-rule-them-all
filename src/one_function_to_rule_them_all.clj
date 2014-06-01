@@ -10,8 +10,8 @@
 
 (defn my-interpose [x a-seq]
     ( if (empty? a-seq)
-      (apply str ())
-      (apply str (reduce (fn [acc a] (concat acc (conj [x] a))) [(first a-seq)] (rest a-seq)))
+       ()
+      (seq (reduce (fn [acc a] (concat acc (conj [x] a))) [(first a-seq)] (rest a-seq)))
     )
   )
 
