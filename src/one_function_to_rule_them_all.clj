@@ -40,17 +40,39 @@
 (defn parity [a-seq]
   (reduce #(if (contains? %1 %2) (disj %1 %2) (conj %1 %2)) #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& more]
+  (count more))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& x]
+  (reduce * 1 x))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and [& predicates]
+  (fn [x]
+    (boolean
+     (reduce #(and %1 (%2 x)) true predicates))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq]
+    (->
+     ((fn [accum the-seq]
+       (if (empty? the-seq)
+         accum
+         (recur (cons (f (first the-seq)) accum) (rest the-seq))))
+      '() a-seq)
+     reverse))
+
+  ([f a-seq & more]
+    (->
+     ((fn [accum seqs]
+       (if (reduce #(or %1 (empty? %2)) false seqs)
+         accum
+         (let [firsts (my-map first seqs)
+               rests (my-map rest seqs)]
+           (recur (cons (apply f firsts) accum) rests)
+           )))
+      '() (cons a-seq more))
+     reverse)))
