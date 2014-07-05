@@ -65,6 +65,35 @@
   ([x y & more] (fn [k]
                   (reduce #(if % (%2 k)) true (list* x y more)))))
 
+(defn at-least-one-empty? [& [f & r :as all-seqs]]
+  (cond (empty? all-seqs) false
+        (empty? f) true
+        :else (recur r)))
+
+(defn split-head-rest [& all-seqs]
+  (letfn [(split-head-rest-iter [head-coll rest-coll [[f1 & r1] & r :as seqs]]
+                                (if (empty? seqs)
+                                  [head-coll rest-coll]
+                                  (recur (conj head-coll f1)
+                                         (conj rest-coll r1)
+                                         r)))]
+    (if (apply at-least-one-empty? all-seqs)
+      nil
+      (split-head-rest-iter () () all-seqs))))
+
+; Construct the arguments as a vector
+; Apply f over the vector
+
+(defn apply-function [f args-seq]
+  (reverse (reduce #(cons (apply f %2) %)
+                   ()
+                   args-seq)))
+
+(defn derive-arguments [& all-seqs]
+  (if-let [[heads rests] (apply split-head-rest all-seqs)]
+    (cons heads (apply derive-arguments rests))))
+
 (defn my-map [f & all-seq]
-  (if (some empty? all-seq)
-    ()))
+  (->> all-seq
+       (apply derive-arguments)
+       (apply-function f)))
