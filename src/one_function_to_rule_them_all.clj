@@ -9,8 +9,10 @@
               a-seq)))
 
 (defn my-interpose [x a-seq]
-  (if (empty? a-seq) '()
-      (reduce (fn [acc elem] (concat acc x elem)) a-seq)))
+  (cond (empty? a-seq) '()
+        ( = 1 (count a-seq)) a-seq
+        :else (reduce (fn [acc elem] (concat acc [x elem]))
+                      [(first a-seq)] (rest a-seq))))
 
 (defn my-count [a-seq]
   (reduce (fn [acc x] (inc acc)) 0 a-seq))
@@ -19,7 +21,7 @@
   (reduce (fn [acc x] (conj acc x)) '() a-seq))
 
 (defn min-max-element [a-seq]
-  (reduce  (fn [[mmin mmax] num] [(min mmin num) (max mmax num)]) [0 0] a-seq))
+  (reduce  (fn [[mmin mmax] num] [(min mmin num) (max mmax num)]) [(first a-seq) (first a-seq)] a-seq))
 
 (defn insert [sorted-seq n]
   (cond
@@ -36,21 +38,20 @@
   (reduce (fn [acc x] ((if (contains? acc x) disj conj) acc x))  #{} a-seq))
 
 (defn minus
-  [x] (* -1 x)
-  [x y] (- x y))
+  ([x] (* -1 x))
+  ([x y] (- x y)))
 
 (defn count-params [& x]
   (count x))
 
-(defn my-*
-  [& x] (reduce * 1 x))
+(defn my-* [& x] (reduce * 1 x))
 
 (defn pred-and
   ([] (fn [x] true))
   ([& more] (fn [x]
               (reduce (fn [acc y] (and acc (y x))) true more))))
 
-(defn my-map [f a-seq]
+(defn my-map [f & a-seq]
   (reverse (reduce
             (fn [acc x] (conj acc (f x)))
             '()
