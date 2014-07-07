@@ -24,7 +24,10 @@
   (reduce (fn [acc elt] (cons elt acc)) '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (reduce (fn [acc elt] (if (empty? acc)
+                          [elt elt]
+                          (let [[cur-min cur-max] acc]
+                            [(min cur-min elt) (max cur-max elt)]))) [] a-seq))
 
 (defn insert [sorted-seq n]
   [:-])
