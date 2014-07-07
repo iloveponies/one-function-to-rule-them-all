@@ -18,7 +18,7 @@
                 (concat acc (list x elt)))) '() a-seq)))
 
 (defn my-count [a-seq]
-  :-)
+  (reduce (fn [acc x] (inc acc)) 0 a-seq))
 
 (defn my-reverse [a-seq]
   [:-])
