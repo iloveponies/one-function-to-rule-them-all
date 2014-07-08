@@ -56,5 +56,14 @@
     (let [results (map (fn [pred] (pred x)) pred-list)]
       (every? (fn [p] p) results))))
 
-(defn my-map [f a-seq]
-  [:-])
+; Was I supposed to use reduce for my-map?
+
+(defn my-map-help [f seq-list acc]
+  (if (some empty? seq-list)
+    (reverse acc)
+    (let [args (map first seq-list)]
+      (recur f (map rest seq-list) (cons (apply f args) acc)))))
+
+(defn my-map [f & seq-list]
+  (my-map-help f seq-list '()))
+  
