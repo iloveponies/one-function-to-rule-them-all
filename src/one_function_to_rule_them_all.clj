@@ -50,8 +50,11 @@
 (defn my-* [& args]
   (reduce * 1 args))
 
-(defn pred-and [x]
-  (fn [x] :-))
+; It seems like there should be an easier way to do this
+(defn pred-and [& pred-list]
+  (fn [x]
+    (let [results (map (fn [pred] (pred x)) pred-list)]
+      (every? (fn [p] p) results))))
 
 (defn my-map [f a-seq]
   [:-])
