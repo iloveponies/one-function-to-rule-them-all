@@ -8,14 +8,8 @@
     ""
     (reduce (fn [x y] (str x " " y)) a-seq)))
 
-; There must be a more elegant approach.
 (defn my-interpose [x a-seq]
-  (if (empty? a-seq)
-    '()
-    (reduce (fn [acc elt]
-              (if (empty? acc)
-                (list elt)
-                (concat acc (list x elt)))) '() a-seq)))
+  (reduce (fn [acc elt] (if (empty? acc) [elt] (conj acc x elt))) [] a-seq))
 
 (defn my-count [a-seq]
   (reduce (fn [acc x] (inc acc)) 0 a-seq))
@@ -38,8 +32,13 @@
 (defn insertion-sort [a-seq]
   (reduce (fn [acc n] (insert acc n)) '() a-seq))
 
+(defn toggle [a-set elem]
+  (if (contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem)))
+
 (defn parity [a-seq]
-  [:-])
+  (reduce (fn [acc elt] (toggle acc elt)) #{} a-seq))
 
 (defn minus [x]
   :-)
