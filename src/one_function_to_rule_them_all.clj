@@ -40,11 +40,12 @@
 (defn parity [a-seq]
   (reduce (fn [acc elt] (toggle acc elt)) #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- 0 x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& params]
+  (count params))
 
 (defn my-* [x]
   :-)
