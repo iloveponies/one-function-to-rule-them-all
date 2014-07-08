@@ -29,11 +29,14 @@
                           (let [[cur-min cur-max] acc]
                             [(min cur-min elt) (max cur-max elt)]))) [] a-seq))
 
+; When in doubt, use brute force
 (defn insert [sorted-seq n]
-  [:-])
+  (let [lower (filter (fn [x] (< x n)) sorted-seq)
+        higher (filter (fn [x] (> x n)) sorted-seq)]
+    (concat lower (list n) higher)))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce (fn [acc n] (insert acc n)) '() a-seq))
 
 (defn parity [a-seq]
   [:-])
