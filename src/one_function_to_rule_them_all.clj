@@ -6,10 +6,12 @@
 (defn str-cat [a-seq]
   (if (empty? a-seq)
     ""
-    (reduce (fn [s, t] (str s " " t)) a-seq)))
+    (reduce (fn [s t] (str s " " t)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq)
+    a-seq
+    (reduce (fn [s t] (conj s x t)) [(first a-seq)] (rest a-seq))))
 
 (defn my-count [a-seq]
   :-)
