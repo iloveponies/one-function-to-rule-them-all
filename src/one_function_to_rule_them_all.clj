@@ -29,23 +29,30 @@
     (< n (first sorted-seq)) (cons n sorted-seq)
     :else (cons (first sorted-seq) (insert (rest sorted-seq) n))))
 
+(defn toggle [a-set elem]
+  (cond
+    (contains? a-set elem) (disj a-set elem)
+    :else (conj a-set elem)))
+
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert [] a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (reduce toggle #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- 0 x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& more]
+  (reduce (fn [counter elem] (inc counter)) 0 more))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& more]
+  (reduce * 1 more))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and [& preds]
+  (fn [x]
+    (reduce (fn [old pred] (and old (pred x))) true preds)))
 
 (defn my-map [f a-seq]
   [:-])
