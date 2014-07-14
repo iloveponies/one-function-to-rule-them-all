@@ -54,5 +54,9 @@
   (fn [x]
     (reduce (fn [old pred] (and old (pred x))) true preds)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & seqs]
+  (loop [res []
+         sqs seqs]
+    (if (empty? (first sqs))
+      res
+      (recur (conj res (apply f (map first sqs))) (map rest sqs)))))
