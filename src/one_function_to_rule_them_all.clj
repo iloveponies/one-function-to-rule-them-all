@@ -20,7 +20,8 @@
   (reduce conj '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (reduce (fn [[minimum maximum] elem]
+    [(min minimum elem) (max maximum elem)]) [(first a-seq) (first a-seq)] a-seq))
 
 (defn insert [sorted-seq n]
   [:-])
