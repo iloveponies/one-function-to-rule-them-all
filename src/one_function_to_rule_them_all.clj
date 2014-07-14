@@ -17,7 +17,7 @@
   (reduce (fn [counter elem] (inc counter)) 0 a-seq))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (reduce conj '() a-seq))
 
 (defn min-max-element [a-seq]
   [:-])
