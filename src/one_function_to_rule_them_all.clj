@@ -100,18 +100,55 @@
 (parity [:a :a :b :b]) ;=> #{}
 (parity [1 2 3 1])     ;=> #{2 3}
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y))
+  )
 
-(defn count-params [x]
-  :-)
+(minus 2)   ;=> -2
+(minus 4 3) ;=> 1
 
-(defn my-* [x]
-  :-)
+(defn count-params
+  ([& m] (count m))
+  )
 
-(defn pred-and [x]
-  (fn [x] :-))
+(count-params)            ;=> 0
+(count-params :a)         ;=> 1
+(count-params :a 1 :b :c) ;=> 4
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce my-* (my-* x y) more))
+  )
 
+(my-*)           ;=> 1
+(my-* 4 3)       ;=> 12
+(my-* 1 2 3 4 5) ;=> 120
+
+(defn pred-and
+  ([] (fn [x]
+        true
+        ))
+  ([pred] (fn [x]
+            (pred x)
+            ))
+  ([pred1 pred2] (fn [x]
+                   (and (pred1 x) (pred2 x))
+                   ))
+  ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more))
+  )
+
+(filter (pred-and) [1 0 -2])                    ;=> (1 0 -2)
+(filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) ;=> (1 7)
+(filter (pred-and number? integer? pos? even?)
+        [1 0 -2 :a 7 "a" 2])                    ;=> (0 2)
+
+(defn my-map [f & s]
+
+  )
+
+(my-map inc [1 2 3 4])                  ;=> (2 3 4 5)
+(my-map + [1 1 1] [1 1 1] [1 1 1])      ;=> (3 3 3)
+(my-map vector [1 2 3] [1 2 3] [1 2 3]) ;=> ((1 1 1) (2 2 2) (3 3 3))
