@@ -58,16 +58,54 @@
   ([x y] (* x y))
   ([x y & more] (reduce my-* (my-* x y) more)))
 
+(conj [1] 2)
+
+(nth '(1 2 3) 1)
+
 (defn pred-and
   ([]      (fn[v] true))
   ([x?]    x?)
   ([x? y?] (fn[v] (and (x? v) (y? v))))
   ([x? y? & more?] (fn[v] (reduce #(and %1 (%2 v)) ((pred-and x? y?) v) more?))))
 
-(filter (pred-and) [1 0 -2])                    ;=> (1 0 -2)
-(filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) ;=> (1 7)
-(filter (pred-and number? integer? pos? even?)
-        [1 0 -2 :a 7 "a" 2])                    ;=> (0 2)
+(defn get-nth [a-seq n]
+  (let [helper (fn[result a-seq]
+                 (if (<= (count a-seq) n)
+                   nil
+                   (cons (nth a-seq n) result)))]
+    (reduce helper '() a-seq)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map2 [f & more-seq]
+  (reduce #(concat %1 ()) '() more-seq))
+
+(get-nth '((1 2 3 4) (1 2 3 4) (1 2 3 4)) 3)
+
+(defn temp [a-seq]
+  (let [crazy (fn[[remaining result] inner]
+                (if (empty? inner)
+                  [])
+                [(conj remaining (rest inner)) (conj result (first inner))])
+        [remaining result] (reduce crazy [[] []] a-seq)]
+    (cons (sequence result) (temp remaining))))
+
+(temp '((1 2 3) (1 2 3) (1 2 3)))
+(temp '((1) (1) (1)))
+
+
+(defn my-map
+  ([f a-seq] (sequence (reduce #(conj %1 (f %2)) [] a-seq)))
+  ([f a-seq b-seq]
+    (loop [remain-a-seq a-seq remain-b-seq b-seq result []]
+      (if (or (empty? remain-a-seq) (empty? remain-b-seq))
+        (sequence result)
+        (recur (rest remain-a-seq) (rest remain-b-seq) (conj result (f (first remain-a-seq) (first remain-b-seq)))))))
+  ([f a-seq b-seq & more]
+    (reduce #(my-map f %1 %2) (my-map f a-seq b-seq) more)))
+
+
+(my-map inc [1 2 3 4])                  ;=> (2 3 4 5)
+(my-map + [1 1 1] [1 1 1])
+(my-map + [1 1 1] [1 1 1] [1 1 1])      ;=> (3 3 3)
+(my-map vector [1 2 3] [1 2 3] [1 2 3]) ;=> ((1 1 1) (2 2 2) (3 3 3))
+
+(my-map vector [1 2 3] [1 2 3])
