@@ -44,25 +44,31 @@
    :else (cons (first sorted-seq) (insert (rest sorted-seq) n))))
 
 (defn insertion-sort [a-seq]
-  (reduce
-   insert
-   '()
-   a-seq))
+  (reduce insert '() a-seq))
+
 
 (defn parity [a-seq]
-  [:-])
+  (reduce
+    (fn [a-set elem]
+      (if (contains? a-set elem) (disj a-set elem) (conj a-set elem)))
+   #{}
+   a-seq
+   ))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& x]
+  (count x))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& x]
+  (reduce * 1 x))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and [& x]
+  (cond
+   (empty? x) (fn [z] true)
+   :else (reduce and x)))
 
 (defn my-map [f a-seq]
   [:-])
