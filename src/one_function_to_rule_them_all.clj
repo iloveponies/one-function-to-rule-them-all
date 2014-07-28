@@ -1,13 +1,20 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  :-)
+  (reduce concat a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (if (empty? a-seq) ""
+    (reduce (fn [x y] (str x " " y)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq) '()
+    (reduce (fn [y z]
+                (let [the-list (if (list? y)
+                                    (conj y x z)
+                                    (list y x z))]
+                  (reverse the-list)))
+            a-seq)))
 
 (defn my-count [a-seq]
   :-)
