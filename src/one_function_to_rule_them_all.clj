@@ -11,10 +11,8 @@
    a-seq)))
 
 (defn my-interpose [x a-seq]
-  (reduce
-   (fn [y ys]
-     (into [] (y x ys)))
-   a-seq))
+  (if (empty? a-seq) '()
+  (cons (first a-seq) (reduce (fn [in sea] (conj in x sea)) [] (rest a-seq)))))
 
 (defn my-count [a-seq]
   (reduce
@@ -66,9 +64,35 @@
   (reduce * 1 x))
 
 (defn pred-and [& x]
-  (cond
-   (empty? x) (fn [z] true)
-   :else (reduce and x)))
+  (if (empty? x)
+    (fn [y] true)
+    (reduce
+     (fn [y z]
+       (fn [s]
+         (and (y s) (z s))))
+     x)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn an-empty? [& colls]
+  (reduce (fn [x coll] (or x (empty? coll))) false colls))
+
+(defn rests [& colls]
+  (reduce (fn [x y] (conj x (rest y))) [] colls))
+
+(defn firsts [& colls]
+  (reduce (fn [x y] (conj x (first y))) [] colls))
+
+(defn build-vect [res colls]
+  (if (apply an-empty? colls)
+    res
+    (build-vect
+     (cons (apply firsts colls) res)
+     (apply rests colls))))
+
+(defn sing [f x]
+  (reverse (reduce (fn [col z] (cons (f z) col)) [] x)))
+
+(defn my-map
+  ([f x] (sing f x))
+  ([f x & more]
+   (reverse (reduce (fn [a b] (cons (apply f b) a)) [] (reverse (build-vect [] (conj more x)))))))
+
