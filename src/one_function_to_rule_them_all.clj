@@ -17,10 +17,12 @@
             a-seq)))
 
 (defn my-count [a-seq]
-  :-)
+  (let [counter (fn[cnt e](inc cnt))]
+    (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (let [reverser (fn[new-list e](conj new-list e))]
+    (reduce reverser '() a-seq)))
 
 (defn min-max-element [a-seq]
   [:-])
