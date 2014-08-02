@@ -8,8 +8,10 @@
     (reduce (fn [x y] (str x " " y)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  (if (empty? a-seq) '()
-    (reduce (fn [y z]
+  (cond
+   (empty? a-seq) '()
+   (= 1 (count a-seq)) a-seq
+   :else (reduce (fn [y z]
                 (let [the-list (if (list? y)
                                     (conj y x z)
                                     (list y x z))]
@@ -24,8 +26,14 @@
   (let [reverser (fn[new-list e](conj new-list e))]
     (reduce reverser '() a-seq)))
 
+(defn nil-or-true [n pred tester]
+  (or (nil? tester)(pred n tester)))
+
 (defn min-max-element [a-seq]
-  [:-])
+  (let [miner (fn [min-max e] (if (nil-or-true e <= (first min-max)) [e (last min-max)] min-max))
+         maxer (fn [min-max e] (if (nil-or-true e >= (last min-max)) [(first min-max) e] min-max))
+         min-maxer (fn [min-max e](maxer (miner min-max e) e))]
+   (reduce min-maxer [] a-seq)))
 
 (defn insert [sorted-seq n]
   [:-])
