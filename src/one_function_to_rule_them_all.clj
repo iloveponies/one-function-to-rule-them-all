@@ -36,19 +36,42 @@
    (reduce min-maxer [] a-seq)))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [new-sorted-list '()
+           sorted-list sorted-seq
+           elem n]
+
+    (let [fst (first sorted-list)
+         snd (second sorted-list)]
+      (cond
+       (nil? fst)(list n)
+       (nil-or-true n <= fst)(concat new-sorted-list (list n fst)(rest sorted-list))
+       (nil-or-true n <= snd)(concat new-sorted-list (list fst n)(rest sorted-list))
+       :else (recur (concat new-sorted-list (list fst)) (rest sorted-list) n)))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert [] a-seq))
+
+(defn toggle [a-set elem]
+  (if (contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem)))
 
 (defn parity [a-seq]
-  [:-])
+  (reduce toggle #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params
+  ([] 0)
+  ([x] 1)
+  ([x y] 2)
+  ([x y & more] (reduce count-params (count-params x y) more)))
+
+;(count-params)            ;=> 0
+;(count-params :a)         ;=> 1
+;(count-params :a 1 :b :c) ;=> 4
 
 (defn my-* [x]
   :-)
