@@ -64,20 +64,21 @@
   ([x y] (- x y)))
 
 (defn count-params
-  ([] 0)
-  ([x] 1)
-  ([x y] 2)
-  ([x y & more] (reduce count-params (count-params x y) more)))
+  ([& more] (count more)))
 
-;(count-params)            ;=> 0
-;(count-params :a)         ;=> 1
-;(count-params :a 1 :b :c) ;=> 4
-
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce * (* x y) more)))
 
 (defn pred-and [x]
   (fn [x] :-))
+
+;(filter (pred-and) [1 0 -2])                    ;=> (1 0 -2)
+;(filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) ;=> (1 7)
+;(filter (pred-and number? integer? pos? even?)
+;        [1 0 -2 :a 7 "a" 2])                    ;=> (0 2)
 
 (defn my-map [f a-seq]
   [:-])
