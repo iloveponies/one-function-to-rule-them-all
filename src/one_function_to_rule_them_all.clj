@@ -72,13 +72,10 @@
   ([x y] (* x y))
   ([x y & more] (reduce * (* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
-
-;(filter (pred-and) [1 0 -2])                    ;=> (1 0 -2)
-;(filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) ;=> (1 7)
-;(filter (pred-and number? integer? pos? even?)
-;        [1 0 -2 :a 7 "a" 2])                    ;=> (0 2)
+(defn pred-and
+  ([] (fn [x] true))
+  ([p] (fn [x] (p x)))
+  ([p q] (fn [x] (and (p x)(q x)))))
 
 (defn my-map [f a-seq]
   [:-])
