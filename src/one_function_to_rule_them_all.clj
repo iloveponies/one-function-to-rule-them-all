@@ -75,7 +75,16 @@
 (defn pred-and
   ([] (fn [x] true))
   ([p] (fn [x] (p x)))
-  ([p q] (fn [x] (and (p x)(q x)))))
+  ([p q] (fn [x] (and (p x)(q x))))
+  ([p q r s] (fn [x] (and (p x)(q x)(r x)(s x)))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f coll]
+   (if (empty? coll) '()
+   (cons (f (first coll))(my-map f (rest coll)))))
+  ([f c1 c2]
+   (if (or (empty? c1)(empty? c2)) '()
+   (cons (f (first c1)(first c2))(my-map f (rest c1)(rest c2)))))
+  ([f c1 c2 c3]
+   (if (or (empty? c1)(empty? c2)(empty? c3)) '()
+   (cons (f (first c1)(first c2)(first c3))(my-map f (rest c1)(rest c2)(rest c3))))))
