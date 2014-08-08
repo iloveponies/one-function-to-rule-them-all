@@ -50,5 +50,15 @@
   ([p1 p2] #(and (p1 %) (p2 %)))
   ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)))
 
+
+(defn accumulate [acc acc-fn item-fn coll]
+  (reduce #(acc-fn %1 (item-fn %2)) acc coll))
+
+(def heads (partial accumulate [] conj first))
+
+(def tails (partial accumulate [] conj rest))
+
 (defn my-map [f & seqs]
-  [:-])
+  (if (some empty? seqs)
+    ()
+    (cons (apply f (heads seqs)) (apply my-map f (tails seqs)))))
