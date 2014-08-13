@@ -34,7 +34,10 @@
       a-seq)))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (concat
+    (take-while #(<= % n) sorted-seq)
+    [n]
+    (drop-while #(<= % n) sorted-seq)))
 
 (defn insertion-sort [a-seq]
   [:-])
