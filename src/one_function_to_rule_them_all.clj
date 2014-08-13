@@ -40,7 +40,7 @@
     (drop-while #(<= % n) sorted-seq)))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce #(insert % %2) [] a-seq))
 
 (defn parity [a-seq]
   [:-])
