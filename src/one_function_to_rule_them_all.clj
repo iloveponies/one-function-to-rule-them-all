@@ -12,11 +12,11 @@
 (defn my-interpose [x a-seq]
   (if
     (empty? a-seq)
-    ""
-    (reduce #(concat % x %2) a-seq)))
+    []
+    (rest (reduce #(conj % x %2) [] a-seq))))
 
 (defn my-count [a-seq]
-  :-)
+  (reduce (fn [acc _] (inc acc)) 0 a-seq))
 
 (defn my-reverse [a-seq]
   [:-])
