@@ -42,11 +42,18 @@
 (defn insertion-sort [a-seq]
   (reduce #(insert % %2) [] a-seq))
 
-(defn parity [a-seq]
-  [:-])
+(defn toggle [a-set elem]
+  (if
+    (contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem)))
 
-(defn minus [x]
-  :-)
+(defn parity [a-seq]
+  (reduce #(toggle % %2) #{} a-seq))
+
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
 (defn count-params [x]
   :-)
