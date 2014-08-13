@@ -19,10 +19,19 @@
   (reduce (fn [acc _] (inc acc)) 0 a-seq))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (reduce (fn [acc itm] (cons itm acc)) [] a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (if
+    (empty? a-seq)
+    []
+    (reduce
+      (fn [acc itm]
+        (let [new-min (min itm (first acc))
+              new-max (max itm (first (rest acc)))]
+          [new-min new-max]))
+      [(first a-seq) (first a-seq)]
+      a-seq)))
 
 (defn insert [sorted-seq n]
   [:-])
