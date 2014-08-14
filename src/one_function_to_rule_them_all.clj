@@ -63,10 +63,13 @@
   ([x] x)
   ([x y] (* x y))
   ([x y & rest]
-   (reduce * (* x y) rest)))
+   (reduce my-* (my-* x y) rest)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (constantly true))
+  ([pred1] pred1)
+  ([pred1 pred2] #(and (pred1 %) (pred2 %)))
+  ([pred1 pred2 & preds] (reduce pred-and (pred-and pred1 pred2) preds)))
 
 (defn my-map [f a-seq]
   [:-])
