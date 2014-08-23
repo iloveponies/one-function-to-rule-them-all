@@ -21,10 +21,15 @@
   (reduce (fn [[l h] x] [(min l x) (max h x)]) [(first a-seq) (first a-seq)] a-seq))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [acc []
+         a-seq sorted-seq]
+    (cond
+     (empty? a-seq) (seq (conj acc n))
+     (< n (first a-seq)) (concat (conj acc n) a-seq)
+     :else (recur (conj acc (first a-seq)) (rest a-seq)))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
   [:-])
