@@ -9,7 +9,7 @@
     (reduce (fn [acc x] (str acc " " x)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (rest (reduce (fn [acc e] (conj acc x e)) [] a-seq)))
 
 (defn my-count [a-seq]
   :-)
