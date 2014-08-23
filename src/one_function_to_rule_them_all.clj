@@ -12,7 +12,7 @@
   (rest (reduce (fn [acc e] (conj acc x e)) [] a-seq)))
 
 (defn my-count [a-seq]
-  :-)
+  (reduce (fn [acc _] (inc acc)) 0 a-seq))
 
 (defn my-reverse [a-seq]
   [:-])
