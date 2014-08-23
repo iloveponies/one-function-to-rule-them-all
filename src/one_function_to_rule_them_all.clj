@@ -4,7 +4,9 @@
   (reduce concat a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (if (empty? a-seq)
+    ""
+    (reduce (fn [acc x] (str acc " " x)) a-seq)))
 
 (defn my-interpose [x a-seq]
   [:-])
