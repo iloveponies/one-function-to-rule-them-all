@@ -4,32 +4,30 @@
   (reduce concat '() a-seq))
 
 (defn str-cat [a-seq]
-  (if (empty? a-seq) ""
-      (reduce str (interpose " " a-seq))))
+  (reduce str "" (interpose " " a-seq)))
 
 (defn my-interpose [x a-seq]
-  (reverse 
-   (loop [input a-seq
-          output '()]
-     (cond (empty? input) output
-           (empty? (rest input)) (conj output (first input))
-           :else (recur (rest input) 
-                        (conj output (first input) x))))))
+  (seq (reduce (fn [first second]
+                 (if (empty? first) (conj first second)
+                     (conj first x second))) [] a-seq)))
 
 (defn my-count [a-seq]
-  :-)
+  (reduce (fn [acc _] (inc acc)) 0 a-seq))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (reduce (fn [first second]
+            (cons second first)) [] a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  [(reduce min a-seq) (reduce max a-seq)])
 
 (defn insert [sorted-seq n]
-  [:-])
+  (let [place (count (filter #(> n %) sorted-seq))
+        [before after] (split-at place sorted-seq)]
+    (concat before (cons n after))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
   [:-])
