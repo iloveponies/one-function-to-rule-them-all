@@ -56,5 +56,14 @@
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
   ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq] (reduce (fn [acc x] (conj acc (f x))) [] a-seq))
+  ([f a-seq & more] (loop [as  a-seq
+                           mr  more
+                           res []]
+                     (if (empty? as)
+                       res
+                       (recur (rest as)
+                              (my-map rest mr)
+                              (conj res (apply f (cons (first as)
+                                                       (my-map first mr)))))))))
