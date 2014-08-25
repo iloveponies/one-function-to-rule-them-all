@@ -9,10 +9,15 @@
     (reduce #(apply str %1 " " %2) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (let [coll (seq a-seq)]
+    (cond
+     (empty? coll) '()
+     (empty? (next coll)) coll
+     :else
+     (seq (reduce #(conj %1 x %2) (vector (first coll)) (next coll))))))
 
 (defn my-count [a-seq]
-  :-)
+    (reduce (fn (inc %1)) 0 a-seq))
 
 (defn my-reverse [a-seq]
   [:-])
