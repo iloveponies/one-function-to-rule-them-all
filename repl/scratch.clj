@@ -41,13 +41,14 @@
 (filter (pred-and number? integer? pos? even?)
         [1 0 -2 :a 7 "a" 2])                    ;=> (0 2)
 
-(my-map inc [1 2 3 4])                  ;=> (2 3 4 5)
-(my-map + [1 1 1] [1 1 1] [1 1 1])      ;=> (3 3 3)
-(my-map vector [1 2 3] [1 2 3] [1 2 3]) ;=> ((1 1 1) (2 2 2) (3 3 3))
 
-(def fred (fn [& colls]
-            (loop [cls colls
-                   acc '()]
-              (if (empty? cls)
-                acc
-                (recur (next cls) (cons (ffirst cls) acc) )))))
+(firsts '((1 2 3)[4 5 6]#{7 8 9}))
+(nexts '((1 2 3)(4 5 6)#{7 8 9}))
+(any-empty? [[][2][4]])
+
+
+(map str [1 2 9 3 4][4 7 5 8 6][7 8 8 9 3])
+(my-map str [1 2 9 3 4][4 7 5 8 6][7 8 8 9 3])
+
+
+;;

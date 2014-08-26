@@ -76,10 +76,35 @@
         :else
         (recur (next preds)))))))
 
+(defn apply-list
+  "apply function to list of lists"
+  ([list-fn seqs] (apply-list list-fn seqs []))
+  ([list-fn seqs acc]
+   (if (empty? seqs)
+     (reverse acc)
+     (apply-list list-fn (next seqs) (cons (list-fn (first seqs)) acc)))))
+
+(defn any-empty? [seqs]
+  (cond
+   (empty? seqs)
+   false
+   (empty? (first seqs))
+   true
+   :else
+    (recur (next seqs))))
+
+(defn firsts [seqs] (apply-list first seqs))
+(defn nexts [seqs] (apply-list next seqs))
+
+
 (defn my-map
   ([f a-seq]
    (if (empty? a-seq)
-   '()
-   (cons (f (first a-seq)) (my-map f (next a-seq))))))
-;  ([f a-seq & more-seq])
-;  )
+     '()
+     (cons (f (first a-seq)) (my-map f (next a-seq)))))
+  ([f a-seq & seqs]
+   (if (or (empty? a-seq)
+           (any-empty? seqs))
+     '()
+     (cons (apply f (first a-seq) (firsts seqs))
+           (apply my-map f (next a-seq) (nexts seqs))))))
