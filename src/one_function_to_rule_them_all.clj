@@ -9,11 +9,21 @@
     (reduce #(str %1 " " %2) a-seq)))
 
 (defn my-interpose [x a-seq]
-  (reduce #(conj %1 %2 x) [] a-seq))
+  (cond
+   (empty? a-seq) []
+   (empty? (next a-seq)) a-seq
+   :else
+   (reduce #(conj %1 x %2) (vector (first a-seq)) (rest a-seq))))
+
+(my-interpose 0 [1 2])
+
+(reduce #(conj (if (vector? %1) %1 (vector %1)) 0 %2)  [1 2 3])
 
 
 (defn my-count [a-seq]
-  :-)
+  (let [counter (fn [a-count elem]
+                  (inc a-count))]
+    (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
   [:-])
