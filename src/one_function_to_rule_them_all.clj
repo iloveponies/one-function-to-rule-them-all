@@ -15,21 +15,22 @@
    :else
    (reduce #(conj %1 x %2) (vector (first a-seq)) (rest a-seq))))
 
-(my-interpose 0 [1 2])
-
-(reduce #(conj (if (vector? %1) %1 (vector %1)) 0 %2)  [1 2 3])
-
-
 (defn my-count [a-seq]
   (let [counter (fn [a-count elem]
                   (inc a-count))]
     (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (reduce #(cons %2 %1) '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    a-seq
+    (let [min-max-reducer (fn [min-max elem]
+                            (vector
+                             (min (first min-max) elem)
+                             (max (last min-max) elem)))]
+      (reduce min-max-reducer [(first a-seq) (first a-seq)] (rest a-seq)))))
 
 (defn insert [sorted-seq n]
   [:-])
