@@ -35,3 +35,24 @@
              (count-params :a) => 1)
        (fact "Check count-params with four params"
              (count-params :a 1 :b :c) => 4))
+
+(facts "Check my-*" :mine
+       (fact "Check my-* for no params"
+             (my-*) => 1)
+       (fact "Check my-* for one param"
+             (my-* 3) => 3)
+       (fact "Check my-* for two params"
+             (my-* 4 3) => 12)
+       (fact "Check my-* for more than two params"
+             (my-* 1 2 3 4 5) => 120))
+
+(facts "Check pred-and" :mine
+       (fact "Check non parameters"
+             (filter (pred-and) [1 0 -2]) => '(1 0 -2))
+       (fact "Check one predicate"
+             (filter (pred-and pos?) [1 2 -4 0]) => '(1 2))
+       (fact "Check two predicates"
+             (filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) => '(1 7))
+       (fact "Check four predicates"
+             (filter (pred-and number? integer? pos? even?) [1 0 -2 :a 7 "a" 2])
+             => '(2)))
