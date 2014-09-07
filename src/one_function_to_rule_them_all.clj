@@ -39,11 +39,10 @@
       (if (or (empty? curr-seq)
               (<= n fst-elem))
         (concat result-seq (cons n curr-seq))
-        (recur (conj result-seq fst-elem) (rest curr-seq))))))
-
+        (recur (concat result-seq (list fst-elem)) (rest curr-seq))))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce #(insert %1 %2) [] a-seq))
 
 (defn parity [a-seq]
   [:-])
