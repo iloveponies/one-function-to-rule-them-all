@@ -52,11 +52,13 @@
                    (conj a-set elem)))]
     (reduce toggle #{} a-seq)))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params
+  ([& more] (let [count-fn (fn [x y] (inc x))]
+              (reduce count-fn 0 more))))
 
 (defn my-* [x]
   :-)
