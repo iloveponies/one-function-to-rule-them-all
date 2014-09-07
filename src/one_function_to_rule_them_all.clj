@@ -33,7 +33,14 @@
       (reduce min-max-reducer [(first a-seq) (first a-seq)] (rest a-seq)))))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [result-seq '()
+         curr-seq sorted-seq]
+    (let [fst-elem (first curr-seq)]
+      (if (or (empty? curr-seq)
+              (<= n fst-elem))
+        (concat result-seq (cons n curr-seq))
+        (recur (conj result-seq fst-elem) (rest curr-seq))))))
+
 
 (defn insertion-sort [a-seq]
   [:-])
