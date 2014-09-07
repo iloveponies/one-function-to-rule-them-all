@@ -14,3 +14,9 @@
       (insertion-sort []) => '()
       (insertion-sort [2 5 3 1]) => '(1 2 3 5)
       (insertion-sort [1 2]) => '(1 2))
+
+(fact "Check parity." :mine
+      (parity [:a :b :c]) => #{:a :b :c}
+      (parity [:a :a :b :b]) => #{}
+      (parity [1 2 3 1]) => #{2 3}
+      (parity []) => #{})

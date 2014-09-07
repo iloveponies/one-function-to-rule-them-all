@@ -45,7 +45,12 @@
   (reduce #(insert %1 %2) [] a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [toggle (fn [a-set
+                   elem]
+                 (if (contains? a-set elem)
+                   (disj a-set elem)
+                   (conj a-set elem)))]
+    (reduce toggle #{} a-seq)))
 
 (defn minus [x]
   :-)
