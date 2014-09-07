@@ -72,5 +72,31 @@
   ([x y] #(and (x %) (y %)))
   ([x y & more] (reduce pred-and (pred-and x y) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f] '())
+  ([f coll] (if (empty? coll)
+              coll
+              (cons (f (first coll)) (my-map f (rest coll)))))
+  ([f coll1 coll2] (if (or
+                        (empty? coll1)
+                        (empty? coll2))
+                     '()
+                     (cons (f (first coll1) (first coll2)) (my-map f (rest coll1) (rest coll2)))))
+  ([f coll1 coll2 & more]  (let [step (fn step [cs]
+                                        (let [ss (my-map seq cs)]
+                                          (when (every? identity ss)
+                                           (cons (my-map first ss) (step (map rest ss))))))]
+                             (my-map #(apply f %) (step (conj more coll2 coll1))))))
+
+
+
+
+
+
+
+
+
+
+
+
+

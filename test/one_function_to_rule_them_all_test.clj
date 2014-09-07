@@ -56,3 +56,15 @@
        (fact "Check four predicates"
              (filter (pred-and number? integer? pos? even?) [1 0 -2 :a 7 "a" 2])
              => '(2)))
+
+(facts "Check my-map" :mine
+       (fact "Check my-map for empty coll"
+             (my-map inc []) => '())
+       (fact "Check my-map for one seq"
+             (my-map inc [1 2 3 4]) => '(2 3 4 5))
+       (fact "Check my-map for two seqs"
+             (my-map + [1 1 1] [2 2 2]) => '(3 3 3))
+       (fact "Check my-map for three seqs"
+             (my-map + [1 1 1] [1 1 1] [1 1 1]) => '(3 3 3))
+       (fact "Check my-map for three seq for vector"
+             (my-map vector [1 2 3] [1 2 3] [1 2 3]) => '((1 1 1) (2 2 2) (3 3 3))))
