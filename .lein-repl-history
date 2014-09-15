@@ -1,0 +1,360 @@
+(defn str-cat [a-seq]
+  (reduce concat "" a-seq))
+(str-cat ["I" "am" "Legend"])
+(defn str-cat [a-seq] (reduce concat "" a-seq))
+(defn str-cat [a-seq] (reduce join " " a-seq))
+(defn str-cat [a-seq] (reduce str "" a-seq))
+(str-cat ["I" "am" "Legend"])
+(defn str-cat [a-seq] (reduce clojure.string/join "" a-seq))
+(str-cat ["I" "am" "Legend"])
+(defn str-cat [a-seq] (reduce str (concat " " a-seq)))
+(str-cat ["I" "am" "Legend"])
+(defn str-cat [a-seq] (reduce str (concat "" a-seq)))
+(str-cat ["I" "am" "Legend"])
+(defn str-cat [a-seq] (reduce str "" a-seq))
+(str-cat ["I" "am" "Legend"])
+(defn str-cat [a-seq] (reduce str "" (interpose " " a-seq)))
+(str-cat ["I" "am" "Legend"])
+(str-cat [])
+(defn my-interpose [x a-seq] (reduce concat x a-seq))
+(my-interpose ["I" "am" "Legend"])
+(my-interpose " " ["I" "am" "Legend"])
+(str (my-interpose " " ["I" "am" "Legend"]))
+(def str123 (my-interpose " " ["I" "am" "Legend"]))
+(str str123
+)
+(my-interpose 0 [1 2 3])
+(defn my-interpose [x a-seq] (reduce concat x a-seq))
+(my-interpose 0 [1 2 3])
+(defn my-interpose [x a-seq] (reduce conj x a-seq))
+(my-interpose 0 [1 2 3])
+(my-interpose " " ["I" "am" "Legend"])
+(defn my-interpose [x a-seq] (reduce cons x a-seq))
+(my-interpose " " ["I" "am" "Legend"])
+(my-interpose 0 [1 2 3])
+(conj 1 [0 2]
+)
+(conj 1 [0 2])
+(conj [0 2] 1)
+(conj (conj [0] 1) 2)
+(conj (conj [0] 1) 0)
+(conj (conj (conj [1] 0) 2) 0)
+(defn int-helper [x y] (conj [x] y))
+(int-helper 1 2)
+(defn int-helper [x y] (conj [y] x))
+(int-helper 1 2)
+(defn int-helper [y] (conj [y] 0))
+(int-helper 1 2)
+(int-helper 1)
+(int-helper 2 (int-helper 1))
+(int-helper (int-helper 1))
+(conj [1 :x 2 :x] 3)
+(interpose 1 '())
+(interpose 1 '(1))
+(interpose 1 '(1 2))
+(interpose 1 '(0 2))
+(defn my-count [a-seq]
+  (let [counter (fn [count e] (inc count))]
+    (reduce counter 0 a-seq)))
+(my-count [1 2 3])
+(my-count [])
+(defn rev [a-seq] (reduce conj [] a-seq))
+(rev (range 3))
+(defn rev [a-seq] (reduce cons () a-seq))
+(rev (range 3))
+(defn rev [a-seq]
+  (let [rev-conj (fn [a-seq e] (conj (rest a-seq)]))))
+(defn rev [a-seq] (reduce assoc [] a-seq))
+(rev (range 3))
+(defn rev-helper [a-seq x] (assoc a-seq x 0))
+(defn rev [a-seq] (reduce rev-helper [] a-seq))
+(rev (range 3))
+(defn rev-helper [a-seq x] (assoc a-seq 0 x))
+(rev (range 3))
+(defn rev-helper [a-seq x] (assoc a-seq (count a-seq) x))
+(defn rev [a-seq] (reduce rev-helper [] a-seq))
+(rev (range 3))
+(defn rev [a-seq] (reduce cons () a-seq))
+(rev (range 3))
+(defn rev [a-seq] (reduce rev-helper [] a-seq))
+(defn rev-helper [a-seq x] (cons x a-seq))
+(defn rev [a-seq] (reduce rev-helper () a-seq))
+(rev (range 3))
+(defn my-reverse [a-seq]
+  (reduce (fn [a-seq x] (cons x a-seq) '() a-seq))
+)
+(my-reverse (range 3))
+(defn my-reverse [a-seq]
+  (reduce (fn [a-seq x] (cons x a-seq)) '() a-seq))
+(my-reverse (range 3))
+(defn min-max-element [a-seq]
+  [(reduce min a-seq) (reduce max a-seq])
+(defn min-max-element [a-seq]
+  [(reduce min a-seq) (reduce max a-seq)])
+(min-max-element [2 7 3 15 4])
+defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (< n (first tail))
+        (concat head (cons n tail))
+        (recur (cons (first tail) head) (rest tail))))))
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (< n (first tail))
+        (concat head (cons n tail))
+        (recur (cons (first tail) head) (rest tail))))))
+(insert [] 2)
+(insert [1 3 4] 2)
+(insert [1] 2)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (cons n head)
+        (if (< n (first tail))
+          (concat head (cons n tail))
+          (recur (cons (first tail) head) (rest tail)))))))
+    
+(insert [1] 2)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (concat head (cons n '()))
+        (if (< n (first tail))
+          (concat head (cons n tail))
+          (recur (cons (first tail) head) (rest tail)))))))
+    
+(insert [1] 2)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (concat head (cons n '()))
+        (if (< n (first tail))
+          (concat (cons n head) tail)
+          (recur (cons (first tail) head) (rest tail)))))))
+    
+(insert [1] 2)
+(insert [1 3 4] 2)
+(insert [1 2 4] 3)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (concat head (cons n '()))
+        (if (< n (first tail))
+          (concat (head (cons n tail))
+          (recur (cons (first tail) head) (rest tail)))))))
+    
+)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (concat head (cons n '()))
+        (if (< n (first tail))
+          (concat head (cons n tail))
+          (recur (cons (first tail) head) (rest tail)))))))
+    
+(insert [1 2 4] 3)
+(insert [1 3 4] 2)
+(insert [1 2 4] 3)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (concat head (cons n '()))
+        (if (< n (first tail))
+          (concat head (cons n tail))
+          (recur (reverse (cons (first tail) head)) (rest tail)))))))
+    
+(insert [1 2 4] 3)
+(insert [1] 2)
+( - 1)
+(defn minus
+  ([x] (- x)) 
+  ([x y] (- x y))
+)
+(defn count-params
+  ([x] 1)
+  ([x & more]
+    (+ 1 (count more))))
+(count-params 1)
+(count-params 1 2)
+(count-params 1 2 3)
+(defn my-* 
+  ([] 1)
+  ([x] x)
+  ([x & more] (reduce * x more)))
+(my-*)
+(my-* 2)
+(my-* 2 3)
+(my-* 2 3 7)
+(my-* 2 3 4 5)
+(defn fact [x] (apply * (range 1 (+ n 1))))
+(defn fact [x] (apply * (range 1 (+ x 1))))
+(fact 4)
+(fact 5)
+(defn pred-and
+  ([] (fn [a] true ))
+  ([p] p)
+  ([p  & more] (reduce and p more)))
+(defn pred-and
+  ([] (fn [a] true ))
+  ([p] p)
+  ([p q] (fn [x] (and (p x) (q x))))
+  ([p  & more] (reduce pred-and p more)))
+(defn pred-and
+  ([] (fn [a] true ))
+  ([p] p)
+  ([p q] (fn [x] (and (p x) (q x))))
+  ([p & more] (reduce (fn [p q] (fn [x] (and (p x) (q x)))) p more)))
+(defn pred-and
+  ([] (fn [a] true ))
+  ([p] p)
+  ([p q] (fn [x] (and (p x) (q x)))))
+(filter (pred-and) [1 0 -2])
+(filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3])
+(defn pred-and
+  ([] (fn [a] true ))
+  ([p] p)
+  ([p q] (fn [x] (and (p x) (q x))))
+  ([p & more] p))
+(defn pred-and
+  ([] (fn [a] true ))
+  ([p] p)
+  ([p q] (fn [x] (and (p x) (q x))))
+  ([p q & more] p))
+(defn pred-and
+  ([] (fn [a] true ))
+  ([p] p)
+  ([p q] (fn [x] (and (p x) (q x))))
+  ([p q & more]
+    (reduce pred-and (pred-and p q) more)))
+(filter (pred-and number? integer? pos? even?)[1 0 -2 :a 7 "a" 2])
+(defn parity [a-seq]
+  (let [toggle (fn [a-set elem]
+                 (if (contains? a-set elem) 
+                   (disj a-set elem) 
+                   (conj a-set elem)))]
+  (reduce toggle {} a-seq)))
+(parity [1 2 3 1])
+{}
+{1 1 2}
+(set(1 1 2))
+(set '(1 1 2))
+(defn parity [a-seq]
+  (let [toggle (fn [a-set elem]
+                 (if (contains? a-set elem) 
+                   (disj a-set elem) 
+                   (conj a-set elem)))]
+  (reduce toggle #{} a-seq)))
+(parity [1 2 3 1])
+(insertion-sort [2 5 3 1])
+(defn insertion-sort [a-seq]
+  (reduce insert [] a-seq))
+(insertion-sort [2 5 3 1])
+(insertion-sort (shuffle (range 100)))
+(insertion-sort (shuffle (range 10)))
+(insertion-sort (shuffle (range 1)))
+(insertion-sort (shuffle (range 2)))
+(insertion-sort (shuffle (range 3)))
+(insertion-sort (shuffle (range 4)))
+(shuffle (range 4))
+(insertion-sort '(3 0 1 2))
+(shuffle (range 4))
+(insertion-sort '(3 1 2 0))
+(shuffle (range 4))
+(insertion-sort '(3 2 0 1))
+(shuffle (range 4))
+(insertion-sort '(0 1 2 3))
+(insert '(0) 1)
+(insert '(1) 0)
+(insert '(1 2) 0)
+(insert '(0 2) 1)
+(insert '(2 0) 1)
+(insert '(0 1) 1)
+(insert '(0) 1)
+(insert '(0 1) 2)
+(insert '(0 1 2) 3)
+(insert '(0 1 2) 4)
+(insert '(0 1 2 3) 4)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (concat head (cons n '()))
+        (if (< n (first tail))
+          (concat head (cons n tail))
+          (recur (cons (first tail) head) (rest tail)))))))
+(insert '(0 1 2 3) 4)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (concat (reverse head) (cons n '()))
+        (if (< n (first tail))
+          (concat head (cons n tail))
+          (recur (cons (first tail) head) (rest tail)))))))
+(insert '(0 1 2 3) 4)
+(insertion-sort (shuffle (range 100)))
+(insertion-sort (shuffle (range 10)))
+(insertion-sort (shuffle (range 3)))
+(insertion-sort (shuffle (range 4)))
+(insert '(0 1 2 3) 4)
+(insert '(0 1 2) 3)
+(insert '(0 1 3) 2)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (concat (reverse head) (cons n '()))
+        (if (< n (first tail))
+          (concat head (cons n tail))
+          (recur (reverse (cons (first tail) head)) (rest tail)))))))
+(insert '(0 1 3) 2)
+(insertion-sort (shuffle (range 10)))
+(insert '(0 1 2) 3)
+(defn insert [sorted-seq n]
+  (if (empty? sorted-seq) [n]
+    (loop [head '() tail sorted-seq]
+      (if (empty? tail)
+        (concat head (cons n '()))
+        (if (< n (first tail))
+          (concat head (cons n tail))
+          (recur (reverse (cons (first tail) (reverse head))) 
+                 (rest tail)))))))
+insertion-sort (shuffle (range 10)))
+(insertion-sort (shuffle (range 10)))
+(insertion-sort (shuffle (range 100)))
+(defn test [a-vec x] (conj a-vec x 0))
+(test [] 1)
+(test [1] 1)
+(test [1 0] 1)
+(defn my-interpose [x a-seq]
+  (let [f (fn [a-veq y] (conj a-vec y x))
+        coll (reduce f a-seq)]
+    (dissoc coll (count coll))))
+(defn my-interpose [x a-seq]
+  (let [f (fn [a-vec y] (conj a-vec y x))
+        coll (reduce f a-seq)]
+    (dissoc coll (count coll))))
+(my-interpose 0 [1 2 3])
+(defn my-interpose [x a-seq]
+  (let [f (fn [a-vec y] (conj a-vec y x))
+        coll (reduce f a-seq)]
+    (dissoc coll (dec (count coll)))))
+ (my-interpose 0 [1 2 3])
+(defn my-interpose [x a-seq]
+  (let [f (fn [a-vec y] (conj a-vec y x))
+        coll (reduce f [] a-seq)]
+    (dissoc coll (dec (count coll)))))
+(my-interpose 0 [1 2 3])
+(dissoc [1 2 3] 1)
+(defn my-interpose [x a-seq]
+  (let [f (fn [a-vec y] (conj a-vec y x))
+        coll (reduce f [] a-seq)]
+    (reverse (rest (reverse coll)))))
+(my-interpose 0 [1 2 3])
