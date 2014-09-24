@@ -84,6 +84,24 @@
   )
 
 (defn my-map
-  ([f a-seq] (map f a-seq))
-  ;; Todo do this
-  ([f a b] nil))
+  ([f a-seq]
+     (lazy-seq
+      (let [s (seq a-seq)]
+        (when (identity s)
+          (cons (f (first s)) (my-map f (rest s)))))))
+  ([f a-seq b-seq]
+     (lazy-seq
+      (let [a (seq a-seq)
+            b (seq b-seq)]
+        (when (and a b)
+          (cons (f (first a) (first b)) (my-map f (rest a) (rest b)))))))
+  ([f a-seq b-seq  & more]
+     (let [get-firsts (fn get-firsts [in]
+                        (lazy-seq
+                         (let [s (my-map seq in)]
+                           (when (every? identity s)
+                             (cons (my-map first s) (get-firsts (my-map rest s)))))
+                         ))]
+           (my-map #(apply f %) (get-firsts (conj more b-seq a-seq))))
+     ))
+;;     (reduce (fn [a b] (my-map f a b)) (my-map f a-seq b-seq) more)))
