@@ -72,5 +72,22 @@
     ([pred1 pred2 & more]
      (reduce pred-and (pred-and pred1 pred2) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq] (reduce (fn [seq-1 elem]
+                       (conj seq-1 (f elem)))
+                     []
+                     a-seq))
+  ([f a-seq b-seq]
+   (let [merge-seq (fn self [first-seq second-seq]
+                     (if (and (empty? first-seq) (empty? second-seq)) '()
+                       (cons (concat (flatten [(first first-seq)]) [(first second-seq)])
+                             (self (rest first-seq) (rest second-seq)))))]
+     (reduce (fn [seq-1 elem]
+               (conj seq-1 (apply f elem)))
+             []
+             (merge-seq a-seq b-seq))))
+  ([f a-seq b-seq & more]
+   (reduce (fn [seq-1 elem]
+             (my-map f seq-1 elem))
+           (my-map f a-seq b-seq)
+           more)))
