@@ -58,8 +58,39 @@
   ([x y & more]
     (reduce * (* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [x] true))
+  ([x] x)
+  ([x y] (fn [z] (and (x z) (y z))))
+  ([x y & more]
+   (fn [z] (reduce (fn [p1 p2]
+                     (and p1 (p2 z)))
+                   (and (x z) (y z))
+                   more))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq] (reverse (reduce (fn [x y] (cons (f y) x)) () a-seq)))
+  ([f a-seq b-seq]
+   (let [mymap (fn [s1 s2]
+                 (loop [seq-3 ()
+                        seq-1 s1
+                        seq-2 s2]
+                        (cond
+                         (or (empty? seq-1)(empty? seq-2)) (reverse seq-3)
+                         :else (recur (cons (f (first seq-1) (first seq-2)) seq-3)
+                                      (rest seq-1)
+                                      (rest seq-2)))))]
+   (mymap a-seq b-seq)))
+  ([f a-seq b-seq & more]
+   (let [helpr (fn [x y]
+                 (loop [seq-3 ()
+                        seq-1 x
+                        seq-2 y]
+                        (cond
+                         (or (empty? seq-1)(empty? seq-2)) (reverse seq-3)
+                         :else (recur (cons (apply f (flatten (cons (first seq-1) [(first seq-2)]))) seq-3)
+                                      (rest seq-1)
+                                      (rest seq-2)))))]
+   (reduce helpr (my-map f a-seq b-seq) more))))
+
+
