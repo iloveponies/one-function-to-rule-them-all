@@ -75,7 +75,7 @@
 
 
 (defn pred-and
-  ([] (fn [x] (or (pos? x) (neg? x))))
+  ([] (fn [x] (or (pos? x) (neg? x) (complement (nil? x)))))
   ([pred] pred)
   ([pred1 pred2] (fn [x] (and (pred1 x) (pred2 x))))
   ([pred1 pred2 & more] (fn [x] (and 
