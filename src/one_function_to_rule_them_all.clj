@@ -84,5 +84,6 @@
                                   (reduce (fn [acc pred] (and acc (pred x)))
                                           true more)))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map 
+  ([f a-seq] (reduce (fn [res-seq val] (f (cons res-seq (f val)))) [(first a-seq)] (rest a-seq)))
+  ([f a-seq & more] "not impelmented"))
