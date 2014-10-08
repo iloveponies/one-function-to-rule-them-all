@@ -26,38 +26,47 @@
     (list (apply min a-seq) (apply max a-seq))))
 
 (defn insert [sorted-seq n]
-  (let [helper (fn [typ acc sorted-seq n]
-                 (cond
-                  (and (empty? sorted-seq) (not (= nil n))) (reverse (conj acc n))
-                  (and (empty? sorted-seq) (= nil n)) (reverse acc)
-                  (= nil n) (recur typ (conj acc (first sorted-seq)) (rest sorted-seq) nil)
-                  (typ (first sorted-seq) n) (recur typ (conj acc (first sorted-seq)) (rest sorted-seq) n)
-                  :else (recur typ (conj acc n) sorted-seq nil)))]
-     (helper < () sorted-seq n)))
+  (cond
+    (empty? sorted-seq) (list n)
+    (> (first sorted-seq) n) (cons n sorted-seq)
+    :else (cons (first sorted-seq) (insert (rest sorted-seq) n))))
 
 (defn insertion-sort [a-seq]
   (reduce insert () a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [toggle (fn [a-set elem]
+                 (if (contains? a-set elem)
+                   (disj a-set elem)
+                   (conj a-set elem)))]
+    (reduce toggle #{} a-seq)))
 
 (defn minus
   ([x]  (- x))
   ([x y] (- x y)))
 
-(defn count-params
-  ([]  0)
-  ([x] 1)
-  ([x & more] (inc (count more))))
+(defn count-params [& params]
+  (count params))
 
 (defn my-*
-  ([] (*))
-  ([x] (* x))
+  ([] 1)
+  ([x] x)
   ([x y] (* x y))
-  ([x y & more] (reduce * (* x y) more)))
+  ([x y & more] (reduce my-* (* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [item] true))
+  ([pred?] pred?)
+  ([pred1? pred2?] (fn [item] (and (pred1? item) (pred2? item))))
+  ([pred1? pred2? & more] (reduce pred-and (pred-and pred1? pred2?) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq] (reduce (fn [acc item] (conj acc (f item))) [] a-seq))
+  ([f a-seq & seqs]
+   (loop [results []
+          looping-seqs (cons a-seq seqs)]
+     (if (some empty? looping-seqs)
+       results
+       (recur
+         (conj results (apply f (map first looping-seqs)))
+         (map rest looping-seqs))))))
