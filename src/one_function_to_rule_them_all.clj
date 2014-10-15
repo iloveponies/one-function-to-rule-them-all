@@ -67,5 +67,33 @@
       (if (zero? nargs) true
       (reduce (fn [y f] (and y (f x))) '() args)))))
 
-(defn my-map [f a-seq]
-  [:-])
+; Reimplement (map )
+
+(defn has-nil? [a-seq]
+  (if (empty? a-seq)
+    false
+    (or (nil? (first a-seq)) (has-nil? (rest a-seq)))))
+
+(defn my-map-fix-order [a-seq]
+  (let [firsts-seq
+    (reduce (fn f [coll elem] (conj coll (first elem))) [] a-seq)]
+    (if (has-nil? firsts-seq)
+      '()
+      (conj (my-map-fix-order
+              (reduce (fn f [coll elem] (conj coll (rest elem))) [] a-seq)) firsts-seq))))
+
+(defn my-map-helper [f a-seq]
+  (if (empty? a-seq)
+    '()
+    (conj (my-map-helper f (rest a-seq))
+          (let [elem (reduce f (first a-seq))]
+            (if (vector? elem)
+              (flatten elem)
+              elem)))))
+
+(defn my-map [f & args]
+  (let [nargs (count args)]
+    (if (= nargs 1)
+      (reduce (fn [new-seq elem] (conj new-seq (f elem))) [] (first args))
+      (let [new-seq (my-map-fix-order args)]
+        (my-map-helper f new-seq)))))
