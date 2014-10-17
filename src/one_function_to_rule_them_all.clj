@@ -85,17 +85,40 @@
   )
 
 
-(defn minus [x]
-  :-)
+(defn minus
 
-(defn count-params [x]
-  :-)
+  ([a] (- a))
+  ([a b] (- a b))
 
-(defn my-* [x]
-  :-)
+  )
 
-(defn pred-and [x]
-  (fn [x] :-))
+
+(defn count-params
+
+  ([& more] (count more))
+
+  )
+
+
+(defn my-*
+
+  ([] 1)
+  ([x y & more]
+   (* (* x y ) (reduce * more))
+   )
+
+  )
+
+(my-*)           ;=> 1
+(my-* 4 3)       ;=> 12
+(my-* 1 2 3 4 5) ;=> 120
+
+(defn pred-and
+
+  ([] (fn [val] true))
+  ([& more] (fn [val] (reduce (fn [res q?] (if (false? res) res (q? val))) true more) ))
+
+  )
 
 (defn my-map [f a-seq]
   [:-])
