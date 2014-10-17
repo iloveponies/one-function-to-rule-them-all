@@ -109,9 +109,6 @@
 
   )
 
-(my-*)           ;=> 1
-(my-* 4 3)       ;=> 12
-(my-* 1 2 3 4 5) ;=> 120
 
 (defn pred-and
 
@@ -120,5 +117,31 @@
 
   )
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  [& more]
+   (let
+     [op! (first more)]
+
+     (loop
+       [r (rest more) res []]
+       (if (empty? r)
+         res
+         (recur (rest r)
+                          (conj res
+                          (loop
+                            [re (first r) _res []]
+                            (if (empty? re)
+                              _res
+                              (recur (rest re) (conj _res (op! (first re))))
+                              )
+                            )
+
+
+                          ))
+         )
+
+       )
+
+     )
+
+  )
