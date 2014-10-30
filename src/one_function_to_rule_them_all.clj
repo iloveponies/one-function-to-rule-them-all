@@ -1,22 +1,44 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  :-)
+  (reduce concat () a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (let [add-space
+        (fn [initial x]
+          (str initial " " x))]
+  (reduce add-space a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (let [char-between
+        (fn [initial y]
+          (if (empty? initial)
+            (conj initial y)
+            (conj initial x y)))]
+  (reverse (reduce char-between () a-seq))))
 
 (defn my-count [a-seq]
-  :-)
+  (let [counter
+        (fn [count x]
+          (inc count))]
+    (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (let [reverse-seq
+        (fn [initial x]
+          (conj initial x))]
+    (reduce reverse-seq () a-seq)))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [check-min-max
+        (fn [initial x]
+          (cond
+           (nil? (get initial 0)) (assoc initial 0 x)
+           (nil? (get initial 1)) (assoc initial 1 x)
+           (> x (get initial 1)) (assoc initial 1 x)
+           (< x (get initial 0)) (assoc initial 0 x)
+           :else initial))]
+    (reduce check-min-max [] a-seq)))
 
 (defn insert [sorted-seq n]
   [:-])
