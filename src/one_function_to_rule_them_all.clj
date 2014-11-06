@@ -22,16 +22,28 @@
   (reduce conj '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (vec [(reduce min a-seq) (reduce max a-seq)]))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [m [n]
+         newseq []
+         coll sorted-seq]
+    (if (empty? coll)
+      (if (not (empty? m))
+       (conj newseq (first m))
+       newseq)
+      (if (and (not (empty? m)) (> (first coll) (first m)))
+        (recur (rest m) (conj newseq (first m) (first coll)) (rest coll))
+        (recur  m (conj newseq (first coll)) (rest coll))))))
+
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert [] a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [acc #{}
+       f (fn [x y] (if (contains? x y) (disj x y) (conj x y)))]
+       (reduce f acc a-seq)))
 
 (defn minus [x]
   :-)
