@@ -45,17 +45,27 @@
        f (fn [x y] (if (contains? x y) (disj x y) (conj x y)))]
        (reduce f acc a-seq)))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& more]
+  (count more))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+   ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce * (* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [x] true))
+  ([pred] (fn [x] (pred x)))
+  ([pred1 pred2] (fn [x] (and (pred1 x) (pred2 x))))
+  ([pred1 pred2 & more] (fn [x] (reduce #(and %1 (%2 x)) (and (pred1 x) (pred2 x)) more))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq]
+     (if (empty? a-seq) a-seq
+     (cons (f (first a-seq)) (my-map f (rest a-seq)))))
+  )
