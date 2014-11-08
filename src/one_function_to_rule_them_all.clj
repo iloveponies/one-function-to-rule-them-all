@@ -68,5 +68,12 @@
                 (g x))))
   ([f g & more] (reduce pred-and (pred-and f g) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map 
+  ([f col] (for [item col]
+             (f item)))
+  ([f col & more]
+     (let [min-size (apply min (my-map count more))]
+       (for [index (range min-size)]
+         (apply f
+                (my-map #(nth % index) 
+                        (conj more col)))))))
