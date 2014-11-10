@@ -95,17 +95,11 @@
 
 (defn pred-and
   ([] (fn [x] ()))
-  ;([p] (fn [x] (p x)))
-  ;([p q] (fn [x] (and (p x) (q x))))
   ([& more] (fn [x] (reduce
                      (fn [a p] (and a (p x)))
                      true more)))
   )
 
-(filter (pred-and pos?) [1 0 -2])                    ;=> (1 0 -2)
-(filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) ;=> (1 7)
-(filter (pred-and number? integer? pos? even?)
-        [1 0 -2 :a 7 "a" 2])                    ;=> (0 2)
 
 (defn my-map [f a-seq]
   [:-])
