@@ -76,13 +76,7 @@
         part-1
         (recur (conj part-1 (apply-first part-2)) (seq-rest part-2))))))
 
-  ;(reduce (fn [vect elem-seq] (conj vect (apply-first elem-seq))) [] more)))
 
-(defn auxi [f b-seq]
-  (apply f (reduce (fn [vect a-seq] (conj vect (first a-seq))) [] b-seq)))
-
-(defn auxi2 [b-seq]
-  (reduce (fn [vect a-seq] (conj vect (rest a-seq))) [] b-seq))
 
 
 
