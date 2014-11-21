@@ -1,10 +1,12 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  :-)
+  (reduce concat [] a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (if (empty? a-seq)
+    ""
+    (reduce (fn [s1 s2] (str s1 " " s2)) a-seq)))
 
 (defn my-interpose [x a-seq]
   [:-])
