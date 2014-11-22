@@ -17,10 +17,18 @@
     [] a-seq))
 
 (defn my-count [a-seq]
-  :-)
+  (let [count-fn (fn [count e]
+                   (if (nil? e)
+                     count
+                     (inc count)))]
+    (reduce count-fn 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (let [rev-fn (fn [s e]
+                 (if (nil? e)
+                   s
+                   (conj s e)))]
+    (reduce rev-fn `() a-seq)))
 
 (defn min-max-element [a-seq]
   [:-])
