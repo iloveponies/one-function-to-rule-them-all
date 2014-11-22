@@ -49,17 +49,33 @@
   (reduce (fn [sorted-seq n]
             (insert sorted-seq n)) [] a-seq))
 
+(defn toggle [a-set elem]
+  (if (contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem)
+    ))
+
 (defn parity [a-seq]
-  [:-])
+  (let [parity-check-fn (fn [parity-set e]
+                          (if (nil? e)
+                            parity-set
+                            (toggle parity-set e)))]
+    (reduce parity-check-fn #{} a-seq)))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& more]
+  (count more))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& more]
+  (let [num-params (count more)]
+    (cond
+      (zero? num-params) 1
+      (= num-params 1) (first more) ; return the param
+      (= num-params 2) (* (first more) (second more)) ; multiply these 2 params
+      :else (reduce * (first more) (rest more)))))
 
 (defn pred-and [x]
   (fn [x] :-))
