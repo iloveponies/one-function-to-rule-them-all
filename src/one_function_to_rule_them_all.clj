@@ -9,10 +9,12 @@
     (reduce (fn [s1 s2] (str s1 " " s2)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  (cond
-    (empty? a-seq) []
-    (= (count a-seq) 1) a-seq
-    :else (reduce (fn [s e] (concat s (conj [] e x))) a-seq)))
+  (reduce 
+    (fn [accum e]
+      (if (empty? accum)
+        [e]
+        (conj accum x e)))
+    [] a-seq))
 
 (defn my-count [a-seq]
   :-)
