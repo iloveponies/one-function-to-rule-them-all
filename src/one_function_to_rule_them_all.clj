@@ -90,9 +90,7 @@
                      (let [preds-on-x (build-preds-on pred1 preds x)]
                        ; Had to hit up stackoverflow: http://stackoverflow.com/questions/9218044/in-clojure-how-to-apply-and-to-a-list
                        ; AND is a macro, not a function!
-                       (if (every? identity preds-on-x)
-                         true
-                         false)))))
+                       (every? identity preds-on-x)))))
 
 ; daveho - what is different between mine and his?
 ;(defn pred-and [& pred-list]
