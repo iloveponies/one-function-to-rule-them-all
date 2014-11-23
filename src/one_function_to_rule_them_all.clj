@@ -77,8 +77,28 @@
       (= num-params 2) (* (first more) (second more)) ; multiply these 2 params
       :else (reduce * (first more) (rest more)))))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn build-preds-on [pred1 preds x]
+  "Creates a collection of predicate functions that evaluate the truthiness of parameter x."
+  (reduce (fn [pred-coll p] (conj pred-coll (p x))) ; function that conj's a predicate on x to the pred-coll
+          [(pred1 x)]
+          preds))
+
+(defn pred-and
+  ([] (fn [x] true)) ; nothing - tautology!
+  ([pred] pred) ; single predicate - identity
+  ([pred1 & preds] (fn [x]
+                     (let [preds-on-x (build-preds-on pred1 preds x)]
+                       ; Had to hit up stackoverflow: http://stackoverflow.com/questions/9218044/in-clojure-how-to-apply-and-to-a-list
+                       ; AND is a macro, not a function!
+                       (if (every? identity preds-on-x)
+                         true
+                         false)))))
+
+; daveho - what is different between mine and his?
+;(defn pred-and [& pred-list]
+;  (fn [x]
+;    (let [results (map (fn [pred] (pred x)) pred-list)]
+;      (every? (fn [p] p) results))))
 
 (defn my-map [f a-seq]
   [:-])
