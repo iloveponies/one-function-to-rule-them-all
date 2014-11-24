@@ -77,31 +77,16 @@
       (= num-params 2) (* (first more) (second more)) ; multiply these 2 params
       :else (reduce * (first more) (rest more)))))
 
-(defn build-preds-on [pred1 preds x] ; not the prettiest function signature...
-  "Creates a collection of predicate functions that evaluate the truthiness of parameter x."
-  (reduce (fn [pred-coll p] (do
-                              ;(println p " " x)
-                              (conj pred-coll (p x)))) ; function that conj's a predicate on x to the pred-coll
-          [(pred1 x)]
-          preds))
-; A ha! - I think I am evaluating the function at each conj! 
-
-(defn pred-and
-  ([] (fn [x] true)) ; nothing - tautology!
-  ([pred] pred) ; single predicate - identity
-  ([pred1 & preds] (fn [x]
-                     (let [preds-on-x (build-preds-on pred1 preds x)]
-                       ;(println preds-on-x)
-                       ; Had to hit up stackoverflow: http://stackoverflow.com/questions/9218044/in-clojure-how-to-apply-and-to-a-list
-                       ; AND is a macro, not a function!
-                       (every? identity preds-on-x)))))
-
-; daveho - what is different between mine and his?
-; It appears my function does not short circuit on the number? predicate in the test function.
-;(defn pred-and [& pred-list]
-;  (fn [x]
-;    (let [results (map (fn [pred] (pred x)) pred-list)]
-;      (every? (fn [p] p) results))))
+(defn pred-and [& preds]
+  "Returns a function that evaluates the logical and of suplied preds."
+     (fn [x]
+       (reduce
+         (fn [result pred]
+           (if (pred x)
+             (and result (pred x))
+             (reduced false)))
+         true
+         preds)))
 
 (defn my-map
   ([f coll] (loop [result `()
