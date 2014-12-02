@@ -89,10 +89,16 @@
          preds)))
 
 (defn get-firsts [& colls]
-  (reverse (reduce (fn [result c]
-                     (conj result (first c)))
-                     `()
-                     colls)))
+  (reduce (fn [coll elem]
+             (conj coll (first elem)))
+             []
+             colls))
+
+(defn get-rests [& colls]
+  (reduce (fn [coll elem]
+             (conj coll (rest elem)))
+             []
+             colls))
 
 (defn my-map
   ([f coll] (loop [result `()
@@ -106,8 +112,8 @@
                (if (or (empty? coll1) (empty? coll2))
                  (reverse result)
                  (recur 
-                   (conj result (f (first coll1) (first coll2))) 
+                   (conj result (apply f (get-firsts coll1 coll2))) 
                    (rest coll1) 
                    (rest coll2) ))))
-  ([f c1 c2 & colls] (println "Hooray!")) ) 
+  ([f c1 c2 & colls] (println "Hooray!"))) 
 
