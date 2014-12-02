@@ -106,14 +106,24 @@
               (if (empty? curr-coll)
                 (reverse result)
                 (recur (conj result (f (first curr-coll))) (rest curr-coll)))))
-  ([f c1 c2] (loop [result `()
-                    coll1 c1
-                    coll2 c2]
-               (if (or (empty? coll1) (empty? coll2))
-                 (reverse result)
-                 (recur 
-                   (conj result (apply f (get-firsts coll1 coll2))) 
-                   (rest coll1) 
-                   (rest coll2) ))))
-  ([f c1 c2 & colls] (println "Hooray!"))) 
+;  ([f c1 c2] (loop [result `()
+;                    coll1 c1
+;                    coll2 c2]
+;               (if (or (empty? coll1) (empty? coll2))
+;                 (reverse result)
+;                 (recur 
+;                   (conj result (apply f (get-firsts coll1 coll2))) 
+;                   (rest coll1) 
+;                   (rest coll2) ))))
+  ([f coll & colls] (loop [result `()
+                           curr-colls (conj colls coll)]
+                      (println "result: " result)
+                      (println "curr-colls: " curr-colls)
+                      (if (some empty? curr-colls)
+                        (do
+                          (println curr-colls)
+                          (reverse result)) ; If any are empty, kick out!
+                        (recur  ; Otherwise, apply f again and recur.
+                          (conj result (apply f (apply get-firsts curr-colls)))
+                          (get-rests curr-colls)))))) 
 
