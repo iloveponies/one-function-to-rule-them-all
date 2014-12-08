@@ -53,7 +53,15 @@
   ([p] p)
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
   ([p1 p2 & preds]
-   (reduce #(pred-and %1 %2) (pred-and p1 p2) preds)))
+   (reduce pred-and (pred-and p1 p2) preds)))
 
-(defn my-map [f c & cs]
-  :-)
+(defn my-map [f & colls]
+    (let [y (fn [res cs]
+              (if (some empty? cs)
+                res
+                (let [reducer (fn [fun]
+                                (reduce #(conj %1 (fun %2)) [] cs))
+                      firsts (reducer first)
+                      rests (reducer rest)]
+                  (recur (conj res (apply f firsts)) rests))))]
+      (y [] colls)))
