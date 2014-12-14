@@ -1,5 +1,6 @@
 (ns one-function-to-rule-them-all)
 
+
 (defn concat-elements [a-seq]
   (reduce concat '() a-seq)
   )
@@ -65,14 +66,50 @@
   ([x y] (- x y))
   )
 
-(defn count-params [x]
-  :-)
+(defn count-params [& x]
+  (count x)
+  )
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more]
+     (reduce *
+             (* x y)
+             more))
+  )
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([]
+     (fn [x] (true? true)))
+  ([x] x)
+  ([pred & more]
+     ( reduce (fn [pred1 pred2]
+                (fn [y]
+                  (and (pred1 y) (pred2 y))))
+              pred
+              more))
+  )
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ;; single sequence
+  ([f a-map]
+     (reduce #(conj %1 (f %2) ) [] a-map))
+  ;; multiple sequences
+  ([f a-map & more]
+     (let [make-vector-each-element (fn [a-vec] (reduce #(conj %1 (vector %2))
+                                                       []
+                                                       a-vec))
+           corresponding-conj (fn
+                                [a-vec-of-vec a-vec]
+                                (loop  [acc []
+                                        v1 a-vec-of-vec
+                                        v2 a-vec]
+                                  (if (empty? v2)
+                                    acc
+                                    (recur (conj acc (conj (first v1) (first v2)))
+                                           (rest v1)
+                                           (rest v2)))))]
+       (my-map #(apply f %) (reduce corresponding-conj (make-vector-each-element a-map) more))))
+  )
