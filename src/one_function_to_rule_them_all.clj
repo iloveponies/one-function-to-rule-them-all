@@ -63,5 +63,17 @@
            (pred-and p1 p2) more)))
 
 (defn my-map
-  ;([f a-seq] (reduce (fn [x y] (conj x (f y))) [] a-seq))
-  ([f & seqs] (apply map f seqs)))
+  ([f a-seq] (reduce (fn [x y] (conj x (f y))) [] a-seq))
+  ([f a-seq b-seq] (loop [acc []
+                          la a-seq
+                          lb b-seq]
+                     (cond
+                      (empty? la) acc
+                      (empty? lb) acc
+                      :else
+                      (recur (conj acc (f (first la) (first lb)))
+                             (rest la)
+                             (rest lb)))))
+  ([f a-seq b-seq & more] (reduce (fn [x y] (my-map f x y))
+                                  (my-map f a-seq b-seq) more)))
+
