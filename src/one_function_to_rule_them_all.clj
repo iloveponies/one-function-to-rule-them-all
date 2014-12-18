@@ -77,8 +77,8 @@
   ([f a-seq] 
      (reduce #(conj %1 (f %2)) []  a-seq))
   ([f a-seq & other-seqs]
-     (my-map0 #(apply f %1) 
-              (my-zip (cons a-seq other-seqs)))))
+     (let [all-seqs (cons a-seq other-seqs)] 
+       (my-map0 #(apply f %1) (my-zip all-seqs)))))
 
 (defn my-map 
   ([f a-seq] 
@@ -88,6 +88,6 @@
             result  []]
        (if (empty? (first all-seqs) ) 
          result
-         (recur (my-map rest all-seqs) 
-                (conj result 
-                      (apply f (my-map first all-seqs))))))))
+         (let [new-value (apply f (my-map first all-seqs))
+               rest-seqs (my-map rest all-seqs) ] 
+           (recur rest-seqs (conj result new-value)))))))
