@@ -84,4 +84,4 @@
     (cond
       (empty? slice) [] ; was premature end of one of the sequences - stop recursion
       (empty? rests) [(apply f slice)] ; base case
-      :else (cons (apply f slice) (apply my-map (cons f rests)))))) ; recursively cons resulting map
+      :else (cons (apply f slice) (apply my-map (cons f rests)))))) ; recursively cons resulting collection
