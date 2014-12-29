@@ -78,7 +78,7 @@
                    (if (empty? (first seqs'))
                      [[] []] ; some of the sequences ended prematurely
                      (recur
-                       [(conj slice' (first (first seqs'))) (conj rests' (rest (first seqs')))] ; augment vertical slice and sequences tails
+                       [(conj slice' (ffirst seqs')) (conj rests' (rest (first seqs')))] ; augment vertical slice and sequences tails
                        (rest seqs')))))
         [slice rests] (slicer [[] []] seqs)]
     (cond
