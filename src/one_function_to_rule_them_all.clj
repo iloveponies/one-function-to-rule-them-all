@@ -8,7 +8,11 @@
     (reduce #(str %1 " " %2) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (cond
+    (empty? a-seq) a-seq
+    (= 1 (count a-seq)) a-seq
+    :else
+    (reduce #(conj %1 x %2) [(first a-seq)] (rest a-seq))))
 
 (defn my-count [a-seq]
   :-)
