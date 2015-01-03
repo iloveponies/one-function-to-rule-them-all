@@ -27,10 +27,26 @@
     (reduce #(conj %1 %2) (list (first a-seq)) (rest a-seq))))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [f (first a-seq)
+        limiter (fn [limits e] 
+                  (let [[mini maxi] limits]
+                    (cond
+                      (< e mini) [e maxi]
+                      (> e maxi) [mini e]
+                      :else [mini maxi])))]
+    (reduce limiter [f f] a-seq)))
 
+;; insert n at the right place in sorted-seq
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [so-far []
+         sq sorted-seq]
+    (let [[h & t] sq]
+      (cond
+        (empty? sq) (conj so-far n)
+        (> h n) (concat so-far [n] sq)
+        (= 1 (count sq)) (concat so-far [h n])
+        :else 
+        (recur (conj so-far h) t)))))
 
 (defn insertion-sort [a-seq]
   [:-])
