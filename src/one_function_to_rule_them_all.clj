@@ -72,10 +72,17 @@
 (defn my-map
   ([f & seqs]
    (if (every? empty? seqs) '()
-    (cons 
-      (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs))
-      (apply my-map 
-        (cons f 
-          (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs)))))))
+     (let [firsts (reduce (fn [a-seq elem] (cons (first elem) a-seq)) '() seqs)
+           rests (reduce (fn [a-seq elem] (cons (rest elem) a-seq)) '() seqs)
+           fun-val (apply f firsts)]
+       (cons fun-val (apply my-map (cons f rests)))))))
+
+
+;   (if (every? empty? seqs) '()
+;    (cons 
+;      (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs))
+;      (apply my-map 
+;        (cons f 
+;          (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs)))))))
 
 
