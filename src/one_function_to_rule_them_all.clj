@@ -61,28 +61,12 @@
    (fn [x] 
      (reduce (fn [acc pred] (and acc (pred x))) true more))))
 
-;(defn my-map 
-;  ([f a-seq] (reduce (fn [mapped elem] (conj mapped (f elem))) [] a-seq))
-;  ([f & seqs] 
-;   (reduce (fn [mapped elem] (conj mapped (fn [] elem))) [] seqs))
-;
-;  )))))))))
-
-
 (defn my-map
   ([f & seqs]
-   (if (every? empty? seqs) '()
-     (let [firsts (reduce (fn [a-seq elem] (cons (first elem) a-seq)) '() seqs)
-           rests (reduce (fn [a-seq elem] (cons (rest elem) a-seq)) '() seqs)
-           fun-val (apply f firsts)]
-       (cons fun-val (apply my-map (cons f rests)))))))
-
-
-;   (if (every? empty? seqs) '()
-;    (cons 
-;      (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs))
-;      (apply my-map 
-;        (cons f 
-;          (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs)))))))
-
+     (loop [acc '()
+            lefts seqs]
+       (let [firsts (reduce (fn [a-seq elem] (cons (first elem) a-seq)) '() lefts)
+             rests (reduce (fn [a-seq elem] (cons (rest elem) a-seq)) '() lefts)]
+         (if (every? nil? firsts) (reverse acc)
+           (recur (cons (apply f firsts) acc) rests))))))
 
