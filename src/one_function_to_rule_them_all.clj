@@ -57,17 +57,6 @@
   ([& more]
    (fn [x] (reduce (fn [acc, pred] (and acc (pred x))) true more))))
 
-(defn my-zip [& seqs]
-  (if (some empty? seqs)
-    '()
-    (cons
-     (reverse (reduce (fn [acc a-seq] (cons (first a-seq) acc)) '() seqs))
-     '(());(my-zip (reverse (reduce (fn [acc a-seq] (cons (rest a-seq) acc)) '() seqs ))))))
-
 
 (defn my-map [f & seqs]
-  (if (some empty? seqs)
-    '()
-    (cons
-     (apply f (reverse (reduce (fn [acc a-seq] (cons (first a-seq) acc)) '() seqs)))
-     (my-map f (reverse (reduce (fn [acc a-seq] (cons (rest a-seq) acc)) '() seqs ))))))
+":-")
