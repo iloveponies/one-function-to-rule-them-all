@@ -49,22 +49,35 @@
         (recur (conj so-far h) t)))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert [] a-seq))
+
+(defn odd-values? [freq]
+  (let [[k v] freq]
+    (odd? v)))
 
 (defn parity [a-seq]
-  [:-])
+  (let [fq (frequencies a-seq)
+        odd (filter odd-values? fq)]
+    (set (map first odd))))
 
-(defn minus [x]
-  :-)
+(defn minus 
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& params]
+  (count params))
 
-(defn my-* [x]
-  :-)
+(defn my-* 
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce * (* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and 
+  ([] (fn [x] true))
+  ([p] (fn [x] (p x)))
+  ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
+  ([p1 p2 & ps] (fn [x] (reduce #(and %1 (%2 x)) (and (p1 x) (p2 x)) ps)))) 
 
 (defn my-map [f a-seq]
   [:-])
