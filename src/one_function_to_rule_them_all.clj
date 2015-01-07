@@ -79,5 +79,16 @@
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
   ([p1 p2 & ps] (fn [x] (reduce #(and %1 (%2 x)) (and (p1 x) (p2 x)) ps)))) 
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & sqs]
+  (loop [curr []
+         more sqs]
+    (if (some empty? more)
+      curr
+      (let [all-first (reduce #(if (empty? %2) [] (conj %1 (first %2))) [] more)
+            all-rest (reduce #(conj %1 (rest %2)) [] more)]
+        (recur (conj curr (apply f all-first)) all-rest)))))
+
+
+
+
+
