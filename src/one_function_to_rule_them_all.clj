@@ -77,5 +77,24 @@
                          (p2 x))
                     ps))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn combo-seq-filter [a-seq]
+  (cond
+    (empty? a-seq) '()
+    (empty? (first a-seq)) '()
+    :else (cons (reduce (fn [coll seqq]
+                          (conj coll (first seqq)))
+                        []
+                        a-seq)
+                (combo-seq-filter (reduce (fn [coll seqq]
+                                            (conj coll (rest seqq)))
+                                          []
+                                          a-seq)))))
+(defn my-map
+  ([f a-seq] (if (empty? a-seq)
+               '()
+               (cons (f (first a-seq))
+                     (my-map f (rest a-seq)))))
+  ([f a-seq & seqs] (let [combo-seq (combo-seq-filter (conj seqs a-seq))]
+                      (my-map (fn [x]
+                                (apply f x)) combo-seq))))
+
