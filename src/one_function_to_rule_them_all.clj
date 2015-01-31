@@ -85,10 +85,34 @@
       e-seq
       (recur (rest c-seq)
              (rest d-seq)
-             (conj e-seq (f (first c-seq) (first d-seq)))))))
+             (concat e-seq (f (first c-seq) (first d-seq)))))))
 
 (defn my-map
   ([f a-seq] (my-map-helper1 f a-seq))
   ([f a-seq & more]
    (reduce (fn [x y] (my-map-helper2 f x y)) a-seq more)))
    ;(reduce (fn [x y] (my-map f x y)) (my-map f a-seq b-seq) more)))
+
+(defn get-firsts [& more]
+   (loop [mores more
+           result []]
+      (if (empty? mores)
+        result
+        (recur (rest mores) (conj result (ffirst mores))))))
+
+(defn get-rests [& more]
+  (loop [mores more
+         result []]
+    (if (empty? mores)
+      result
+      (recur (rest mores) (conj result (rest (first mores)))))))
+
+(defn my-map [f & more]
+  (loop [firsts (apply get-firsts more)
+         rests (apply get-rests more)
+         result []]
+    (if (or (empty? rests) (some empty? rests))
+      (conj result (apply f firsts))
+      (recur (apply get-firsts rests)
+             (apply get-rests rests)
+             (conj result (apply f firsts))))))
