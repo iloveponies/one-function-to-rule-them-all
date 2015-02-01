@@ -16,9 +16,10 @@
   (reduce (fn [acc j] (inc acc)) 0 a-seq))
 
 (defn my-reverse [a-seq]
-  (reduce (fn [acc i] (conj acc (conj acc i))) [] a-seq))
+  (reduce (fn [acc i] (cons i acc)) [] a-seq))
 
-(defn min-max-element [a-seq] [:-])
+(defn min-max-element [a-seq]
+  (reduce (fn [[mi ma] i] [(min mi i) (max ma i)]) [9999 -1] a-seq))
 
 (defn insert [sorted-seq n] [:-])
 
@@ -41,4 +42,4 @@
   (fn [x] :-))
 
 (defn my-map [f a-seq]
-  [:-])
+  [:--])
