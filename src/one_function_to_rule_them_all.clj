@@ -4,10 +4,13 @@
   (reduce concat [] a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (if (empty? a-seq)
+    ""
+  (reduce #(str %1 " " %2) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (rest (reduce #(conj %1 x %2) [] a-seq)))
+
 
 (defn my-count [a-seq]
   :-)
