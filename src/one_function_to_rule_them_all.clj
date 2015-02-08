@@ -54,8 +54,7 @@
 (defn pred-and
   ([] true)
   ([x] x)
-  ([x y] (and x y))
-  ([x y & more] (reduce (fn [acc i] (and acc i)) (and x y) more)))
+  ([p & more] (fn [x] (reduce (fn [acc e] (and acc (e x))) (p x) more))))
 
 (defn my-map [f a-seq]
   [:--])
