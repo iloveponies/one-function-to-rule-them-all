@@ -10,29 +10,28 @@
     ""
     (reduce (fn [x y] (str x " " y))
             a-seq)))
-;E3 WIP!
+;E3
 (defn my-interpose [a a-seq]
   (if (empty? a-seq)
     []
-    (reduce (fn [x y] (concat (conj (seq [a]) x) y))
-            a-seq)))
-;(my-interpose [0] [])
-;(seq [1])
-;(conj (seq [1]) 0)
+    (let [helper (fn [acc
+                      elem]
+                   (concat (concat acc [a]) [elem]))]
+     (reduce helper [(first a-seq)] (rest a-seq)))))
+
 
 ;E4
 (defn my-count [a-seq]
-  (let [counter (fn [count elem]
-                  (inc count))]
+  (let [counter (fn [n elem]
+                  (inc n))]
     (reduce counter 0 a-seq)))
 
-;E5 WIP iseq fro long hv error
+;E5
 (defn my-reverse [a-seq]
   (let [reverser (fn [a b]
-                   (concat a [(first b)]))]
+                   (concat [b] a))]
     (reduce reverser [] a-seq)))
-;(my-reverse [1 2])
-; (concat  (rest [1 2 3]) [(first [1 2 3])])
+
 
 ;E6
 (defn min-max-element [a-seq]
@@ -43,7 +42,6 @@
     (reduce helper [(first a-seq) (first a-seq)] a-seq)))
 
 
-; (conj [1 2] 1)
 
 ;E7
 (defn insert [sorted-seq n]
@@ -52,18 +50,18 @@
     (cond (empty? r) (conj acc n)
           (< n (first r)) (concat (conj acc n) r)
           :else (recur (conj acc (first r)) (rest r)))))
-;(insert [1 3 4] 5)
+
 (defn insertion-sort [a-seq]
   (reduce insert [] a-seq))
 
-;E8 WIP iseq bs
-(defn toggle [a-set elem]
-  (if (contains? a-set elem)
-    (cons a-set elem)
-    (conj a-set elem)))
+;E8
 (defn parity [a-seq]
-  (reduce toggle #{} a-seq))
-
+  (let [toggle (fn [a-set
+                    elem]
+                 (if (contains? a-set elem)
+                   (disj a-set elem)
+                   (conj a-set elem)))]
+  (reduce toggle #{} a-seq)))
 
 ;E9
 (defn minus
@@ -92,15 +90,42 @@
     )
 
 ;E13 wip
-(defn ekat
-  ([] ())
-  ([x] [(first x)])
-  ([x y] [(first x) (first y)])
-  ([x y & more]
-   (reduce ekat more))
-    )
+(defn my-map
 
-(ekat [3] [5 2 3] [12 2 4])
+  ([f a-seq]
+  (let [helper (fn [mmap
+                    elem]
+                 (concat mmap [(f elem)]))]
+   (reduce helper [] a-seq)))
+  ([f a-seq b-seq]
+   (if (and (seq a-seq) (seq b-seq))
+     (cons (f (first a-seq) (first b-seq))
+           (my-map f (rest a-seq) (rest b-seq)))
+     []))
+  ([f a-seq b-seq c-seq]
+   (if (and (seq a-seq) (seq b-seq) (seq c-seq))
+     (cons (f (first a-seq) (first b-seq) (first c-seq))
+           (my-map f (rest a-seq) (rest b-seq) (rest c-seq)))
+     []))
+  ([f a b c & more]
+   ;(map-okay f (concat [a b c] more)) ;testit ei diggaa?
+   ))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn map-okay
+  "Apufunktio mymapille"
+  [f a]
+  (let [helper (fn [fun]
+                 (fn [acc
+                      elem]
+                   (concat acc [(fun elem)])))
+        firsts (reduce (helper first) [] a)
+        rests (reduce (helper rest) [] a)]
+    (if (some empty? a)
+      []
+      (cons (apply f firsts)
+      (map-okay f rests))
+    )))
+
+
+
+
