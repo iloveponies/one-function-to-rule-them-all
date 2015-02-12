@@ -58,20 +58,44 @@
 (defn insertion-sort [a-seq]
   (reduce #(insert %1 %2) '() a-seq))
 
+(defn toggle [a-set elem]
+  (if (contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem)))
+
+(defn toggle [a-set elem]
+  (if (contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem)))
+
 (defn parity [a-seq]
-  [:-])
+  (reduce #(toggle %1 %2) (set []) a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (* -1 x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& more]
+  (count more))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& more]
+  (cond
+   (empty? more) 1
+   (= (count more) 1) (first more)
+   (= (count more) 2) (* (first more) (first (rest more)))
+   :else (reduce * 1 more)
+   ))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and-helper [pred1 pred2]
+  (fn [x] (and (pred1 x)  (pred2 x))))
+
+(defn pred-and [& more]
+  (cond
+  (empty? more)(fn [x] true)
+   (= (count more) 1) (first more)
+    (= (count more) 2) (pred-and-helper (first more) (first (rest more)))
+   :else (reduce true? [false] more)))
+
 
 (defn my-map [f a-seq]
   [:-])
