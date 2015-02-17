@@ -26,10 +26,19 @@
           '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    []
+    (let [a (first a-seq)]
+      (reduce (fn [as b] [(if (< b (get as 0)) b (get as 0))
+                          (if (> b (get as 1)) b (get as 1))])
+              [a a]
+              (rest a-seq)))))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (cond (empty? sorted-seq)      (list n)
+        (< n (first sorted-seq)) (cons n sorted-seq)
+        :else                    (cons (first sorted-seq)
+                                       (cons n (rest sorted-seq)))))
 
 (defn insertion-sort [a-seq]
   [:-])
