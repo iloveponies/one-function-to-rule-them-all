@@ -13,7 +13,7 @@
 (defn my-interpose [x a-seq]
   (if (empty? a-seq)
     '()
-    (reduce (fn [a b] (cons a (cons x b)))
+    (reduce (fn [a b] (println [a b]) (conj [a] x b))
             (first a-seq)
             (rest a-seq))))
 
