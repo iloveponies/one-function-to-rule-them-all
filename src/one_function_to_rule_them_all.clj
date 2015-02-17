@@ -12,16 +12,18 @@
 
 (defn my-interpose [x a-seq]
   (if (empty? a-seq)
-    '()
-    (reduce (fn [a b] (println [a b]) (conj [a] x b))
-            (first a-seq)
+    []
+    (reduce (fn [a b] (conj a x b))
+            [(first a-seq)]
             (rest a-seq))))
 
 (defn my-count [a-seq]
-  :-)
+  (reduce (fn [n _] (inc n))
+          0 a-seq))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (reduce (fn [as b] (cons b as))
+          '() a-seq))
 
 (defn min-max-element [a-seq]
   [:-])
