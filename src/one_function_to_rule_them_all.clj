@@ -44,7 +44,10 @@
   [:-])
 
 (defn parity [a-seq]
-  [:-])
+  (reduce (fn [as a] (if (contains? as a)
+                       (disj as a)
+                       (conj as a)))
+          #{} a-seq))
 
 (defn minus [x]
   :-)
