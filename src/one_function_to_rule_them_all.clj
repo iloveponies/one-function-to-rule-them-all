@@ -41,7 +41,7 @@
                                        (cons n (rest sorted-seq)))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
   (reduce (fn [as a] (if (contains? as a)
