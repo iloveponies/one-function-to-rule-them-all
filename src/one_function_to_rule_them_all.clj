@@ -49,11 +49,14 @@
                        (conj as a)))
           #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params
+  ([] 0)
+  ([_ & more] (reduce (fn [acc _] (inc acc))
+                      1 more)))
 
 (defn my-* [x]
   :-)
