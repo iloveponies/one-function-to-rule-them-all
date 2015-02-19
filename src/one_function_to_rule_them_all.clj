@@ -60,8 +60,10 @@
 (defn my-* [& more]
   (reduce * 1 more))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and [& preds]
+  (fn [x] (reduce (fn [cur pred?] (and cur (pred? x)))
+                  true
+                  preds)))
 
 (defn my-map [f a-seq]
   [:-])
