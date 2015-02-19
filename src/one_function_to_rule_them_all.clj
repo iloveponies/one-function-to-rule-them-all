@@ -38,7 +38,7 @@
   (cond (empty? sorted-seq)      (list n)
         (< n (first sorted-seq)) (cons n sorted-seq)
         :else                    (cons (first sorted-seq)
-                                       (cons n (rest sorted-seq)))))
+                                       (insert (rest sorted-seq) n))))
 
 (defn insertion-sort [a-seq]
   (reduce insert '() a-seq))
@@ -53,13 +53,12 @@
   ([x] (- x))
   ([x y] (- x y)))
 
-(defn count-params
-  ([] 0)
-  ([_ & more] (reduce (fn [acc _] (inc acc))
-                      1 more)))
+(defn count-params [& more]
+  (reduce (fn [acc _] (inc acc))
+          0 more))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& more]
+  (reduce * 1 more))
 
 (defn pred-and [x]
   (fn [x] :-))
