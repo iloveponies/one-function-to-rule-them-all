@@ -4,11 +4,9 @@
   (reduce concat [] a-seq))
 
 (defn str-cat [a-seq]
-  (if (empty? a-seq)
-    ""
-    (reduce (fn [a b] (str a " " b))
-            (first a-seq)
-            (rest a-seq))))
+  (if (empty? a-seq) ""
+      (reduce (fn [a b] (str a " " b))
+              a-seq)))
 
 (defn my-interpose [x a-seq]
   (if (empty? a-seq)
@@ -18,21 +16,21 @@
             (rest a-seq))))
 
 (defn my-count [a-seq]
-  (reduce (fn [n _] (inc n))
-          0 a-seq))
+  (reduce (fn [count _] (inc count))
+          0
+          a-seq))
 
 (defn my-reverse [a-seq]
   (reduce (fn [as b] (cons b as))
           '() a-seq))
 
 (defn min-max-element [a-seq]
-  (if (empty? a-seq)
-    []
-    (let [a (first a-seq)]
-      (reduce (fn [as b] [(if (< b (get as 0)) b (get as 0))
-                          (if (> b (get as 1)) b (get as 1))])
-              [a a]
-              (rest a-seq)))))
+  (if (empty? a-seq) []
+      (let [first-elem (first a-seq)]
+        (reduce (fn [min-max cur] [(min cur (get min-max 0))
+                                   (max cur (get min-max 1))])
+                [first-elem first-elem]
+                (rest a-seq)))))
 
 (defn insert [sorted-seq n]
   (cond (empty? sorted-seq)      (list n)
