@@ -65,5 +65,25 @@
                   true
                   preds)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f xs]
+   (loop [acc []
+          xs' xs]
+     (if (empty? xs')
+       acc
+       (recur (conj acc (f (first xs')))
+              (rest xs')))))
+  ([f a-set b-set]
+   (loop [acc []
+          as a-set
+          bs b-set]
+     (if (or (empty? as) (empty? bs))
+       acc
+       (recur (conj acc (f (first as) (first bs)))
+              (rest as)
+              (rest bs)))))
+  ([f a-set b-set & more]
+   (my-map (fn [xs] (apply f xs))
+           (reduce (fn [a b] (my-map conj a b))
+                   (my-map vector a-set)
+                   (cons b-set more)))))
