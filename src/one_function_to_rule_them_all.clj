@@ -64,9 +64,9 @@
                   preds)))
 
 (defn my-map
-  ([f xs]
+  ([f a-seq]
    (loop [acc []
-          xs' xs]
+          xs' a-seq]
      (if (empty? xs')
        acc
        (recur (conj acc (f (first xs')))
