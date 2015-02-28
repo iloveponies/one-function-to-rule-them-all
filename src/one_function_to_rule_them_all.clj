@@ -1,13 +1,25 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  :-)
+  (reduce concat '() a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  ;; (if (empty? a-seq)
+  ;;   ""
+  ;;   (clojure.string/join " " a-seq)))
+  (if (empty? a-seq)
+    ""
+    (apply str
+           (butlast (reduce concat
+                            (map (fn [x] (concat x [" "]))
+                                 a-seq))))))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq)
+    '()
+    (butlast (reduce concat
+                     (map (fn [x] (cons x '(",")))
+                          a-seq)))))
 
 (defn my-count [a-seq]
   :-)
