@@ -18,7 +18,7 @@
   (if (empty? a-seq)
     '()
     (butlast (reduce concat
-                     (map (fn [x] (cons x '(",")))
+                     (map (fn [e] (cons e (list x)))
                           a-seq)))))
 
 (defn my-count [a-seq]
