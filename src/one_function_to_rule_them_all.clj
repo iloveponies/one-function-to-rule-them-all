@@ -41,10 +41,14 @@
    (reduce max a-seq)])
 
 (defn insert [sorted-seq n]
-  [:-])
+  (cond (empty? sorted-seq) (list n)
+        (<= n (first sorted-seq)) (concat (list n (first sorted-seq))
+                                          (rest sorted-seq))
+        (>  n (first sorted-seq)) (concat (list (first sorted-seq))
+                                          (insert (rest sorted-seq) n))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
   [:-])
