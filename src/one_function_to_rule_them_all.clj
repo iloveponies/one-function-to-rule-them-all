@@ -51,13 +51,18 @@
   (reduce insert '() a-seq))
 
 (defn parity [a-seq]
-  (let [odd-parity (fn [a]
-                     (when (odd? (second a))
-                       (first a)))]
-    (reduce odd-parity #{} (frequencies a-seq))))
+  (set
+   (mapcat
+    (fn [[k v]]
+      (when (odd? v) [k]))
+    (reduce (fn [result item]
+              (update-in result [item] (fnil inc 0)))
+            {}
+            a-seq))))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- 0 x))
+  ([x y] (- x y)))
 
 (defn count-params [x]
   :-)
