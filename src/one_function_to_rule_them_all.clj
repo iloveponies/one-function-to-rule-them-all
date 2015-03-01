@@ -29,7 +29,12 @@
     (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  ;; (if (empty? a-seq)
+  ;;   '()
+  ;;   (cons (last a-seq) (butlast a-seq))))
+  (let [reverser (fn [a b]
+                   (vec (flatten (concat (list b a)))))]
+    (reduce reverser [] a-seq)))
 
 (defn min-max-element [a-seq]
   [:-])
