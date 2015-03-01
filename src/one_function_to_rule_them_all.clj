@@ -22,7 +22,11 @@
                           a-seq)))))
 
 (defn my-count [a-seq]
-  :-)
+  (let [counter (fn [count elem]
+                  (if (nil? elem)
+                    count
+                    (inc count)))]
+    (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
   [:-])
