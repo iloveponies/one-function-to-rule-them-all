@@ -51,7 +51,10 @@
   (reduce insert '() a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [odd-parity (fn [a]
+                     (when (odd? (second a))
+                       (first a)))]
+    (reduce odd-parity #{} (frequencies a-seq))))
 
 (defn minus [x]
   :-)
