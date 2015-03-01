@@ -37,7 +37,8 @@
     (reduce reverser [] a-seq)))
 
 (defn min-max-element [a-seq]
-  [:-])
+  [(reduce min a-seq)
+   (reduce max a-seq)])
 
 (defn insert [sorted-seq n]
   [:-])
