@@ -69,8 +69,10 @@
   ([x] 1)
   ([x & more] (+ 1 (count more))))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x & more] (reduce * x more)))
 
 (defn pred-and [x]
   (fn [x] :-))
