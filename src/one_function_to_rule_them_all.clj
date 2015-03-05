@@ -32,8 +32,8 @@
   ;; (if (empty? a-seq)
   ;;   '()
   ;;   (cons (last a-seq) (butlast a-seq))))
-  (let [reverser (fn [a b]
-                   (vec (flatten (concat (list b a)))))]
+  (let [reverser (fn [as b]
+                   (cons b as))]
     (reduce reverser [] a-seq)))
 
 (defn min-max-element [a-seq]
@@ -80,5 +80,13 @@
   ([p q] (fn [x] (and (p x) (q x))))
   ([p q & more] (reduce pred-and (pred-and p q) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f & seqs]
+   (defn transpose [seqs]
+     (for [i (range (count (first seqs)))]
+       (reduce (fn [acc x] (conj acc (get x i))) [] seqs)))
+   (loop [acc []
+          lst (transpose seqs)]
+     (if (empty? lst)
+       acc
+       (recur (conj acc (apply f (first lst))) (rest lst))))))
