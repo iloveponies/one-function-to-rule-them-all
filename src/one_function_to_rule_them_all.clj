@@ -26,13 +26,27 @@
     (reduce f [(first a-seq) (first a-seq)] a-seq)))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (cond
+    (empty? sorted-seq) (list n)
+    (= (count sorted-seq) 1)
+      (if (< (first sorted-seq) n)
+        (conj sorted-seq n)
+        (cons n sorted-seq))
+    :else
+     (let [[a b] (partition-by #(< n %) sorted-seq)]
+       (if (empty? b)
+         (cons n a)
+         (concat a (cons n b))))))
 
 (defn insertion-sort [a-seq]
   [:-])
 
 (defn parity [a-seq]
-  [:-])
+  (let [f (fn [a-set elem]
+    (cond
+     (contains? a-set elem) (disj a-set elem)
+     :else (conj a-set elem)))]
+    (reduce f #{} a-seq)))
 
 (defn minus [x]
   :-)
