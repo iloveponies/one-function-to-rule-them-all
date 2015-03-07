@@ -9,7 +9,9 @@
     (reduce (fn [x y] (str x " " y)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq)
+    '()
+  (concat (reduce (fn [a b] (conj (conj a x) b)) [(first a-seq)] (rest a-seq)))))
 
 (defn my-count [a-seq]
   :-)
