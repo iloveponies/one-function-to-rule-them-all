@@ -22,7 +22,8 @@
     (reduce f '() a-seq)))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [f (fn [[min-val max-val] x] [(min min-val x) (max max-val x)])]
+    (reduce f [(first a-seq) (first a-seq)] a-seq)))
 
 (defn insert [sorted-seq n]
   [:-])
