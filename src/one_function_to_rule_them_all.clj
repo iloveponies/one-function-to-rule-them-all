@@ -14,10 +14,12 @@
   (concat (reduce (fn [a b] (conj (conj a x) b)) [(first a-seq)] (rest a-seq)))))
 
 (defn my-count [a-seq]
-  :-)
+  (let [counter (fn [count x] (inc count))]
+    (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (let [f (fn [b-seq x] (cons x b-seq))]
+    (reduce f '() a-seq)))
 
 (defn min-max-element [a-seq]
   [:-])
