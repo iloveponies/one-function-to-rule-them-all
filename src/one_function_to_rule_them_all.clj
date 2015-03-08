@@ -60,8 +60,11 @@
   ([x] x)
   ([x y & params] (reduce my-* (* x y ) params)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [x] true))
+  ([p] p)
+  ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
+  ([p1 p2 & ps] (reduce pred-and (pred-and p1 p2) ps)))
 
 (defn my-map [f a-seq]
   [:-])
