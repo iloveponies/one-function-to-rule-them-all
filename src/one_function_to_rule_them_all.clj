@@ -86,31 +86,6 @@
                   pred-and
                   (pred-and x y)
                   more)))
-                  
-;; (defn firsts
-;;   ([x] [[(first x)]])
-;;   ;;([x y] ["x:" x "y:" y ]) ;;(concat x (first y)))
-;;   ([x y] [ (conj (first x) (first y)) ])
-;;   ([x y & more] (reduce 
-;;                   firsts
-;;                   [[ (first x) (first y) ]]
-;;                   more)))
-
-;; (defn rests
-;;   ([x] [[(rest x)]])
-;;   ([x y] [ (conj (rest x) (rest y)) ])
-;;   ;; ([x y & more] ["x:" x "y:" y "more:" more]))
-;;   ([x y & more] (reduce 
-;;                   rests
-;;                   [ (rest x) (rest y) ]
-;;                   more)))
-
-;; (defn rests
-;;   ([x] [(rest x)])
-;;   ([x & more] (reduce
-;;                 (fn [a b] (cons b a))
-;;                 (rest x)
-;;                 more)))
 
 (defn firsts [seq-seq]
   (if (empty? seq-seq)
@@ -135,13 +110,10 @@
 
 (defn my-map 
   ([f & seqs] 
-   (if (anyleft? seqs)
-     (cons 
-       (f (firsts seqs))
-       (my-map f (rests seqs)))
-     ())))
-
-;; [ seqs 
-;;  "firsts:" (firsts seqs)
-;;  "rests:" (rests seqs)
-;;  ]))
+   (loop [retval ()
+          r-seqs seqs]
+     (if (anyleft? r-seqs)
+       (recur
+         (conj retval (apply f (firsts r-seqs)))
+         (rests r-seqs))
+       (reverse retval)))))
