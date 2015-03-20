@@ -7,7 +7,9 @@
   (let [add-space
         (fn [initial x]
           (str initial " " x))]
-  (reduce add-space a-seq)))
+  (cond
+   (empty? a-seq) ""
+   :else (reduce add-space a-seq))))
 
 (defn my-interpose [x a-seq]
   (let [char-between
@@ -38,7 +40,9 @@
            (> x (get initial 1)) (assoc initial 1 x)
            (< x (get initial 0)) (assoc initial 0 x)
            :else initial))]
-    (reduce check-min-max [] a-seq)))
+    (cond
+     (= (count a-seq) 1) (conj a-seq (first a-seq))
+     :else (reduce check-min-max [] a-seq))))
 
 (defn insert [sorted-seq n]
   (loop [sorted sorted-seq
@@ -66,17 +70,27 @@
            :else odds))]
     (reduce get-odd-elems #{} a-seq)))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (* -1 x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params
+  ([& more] (count more)))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce * (* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [x] x))
+  ([pred1] (fn [x] (pred1 x)))
+  ([pred1 pred2] (fn [x] (and (pred1 x) (pred2 x))))
+  ([pred1 pred2 & more] (reduce pred-and (pred-and pred1 pred2) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+; Not done:
+(defn my-map
+  ([f a-seq1] f a-seq1)
+  ([f a-seq1 a-seq2] )
+  ([f a-seq1 a-seq2 & more] (conj a-seq1 a-seq2 more)))
