@@ -41,13 +41,30 @@
     (reduce check-min-max [] a-seq)))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [sorted sorted-seq
+         first-part []]
+    (cond
+     (empty? sorted) (conj first-part n)
+     (< n (first sorted)) (concat (conj first-part n) sorted)
+     :else (recur (rest sorted) (conj first-part (first sorted))))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (let [sort-each
+        (fn [initial each]
+          (if (empty? initial)
+            (conj initial each)
+            (insert initial each)))]
+    (reduce sort-each [] a-seq)))
 
 (defn parity [a-seq]
-  [:-])
+  (let [get-odd-elems
+        (fn [odds each]
+          (cond
+           (odd? (count (filter
+                         (fn [x]
+                           (= x each)) a-seq))) (conj odds each)
+           :else odds))]
+    (reduce get-odd-elems #{} a-seq)))
 
 (defn minus [x]
   :-)
