@@ -33,8 +33,9 @@
   (if (empty? a-seq)
     nil
     (reduce (fn [[min max] n]
-              (if (< n min) [n max])
-              (if (> n max) [min n]))
+              (cond (< n min) [n max]
+                    (> n max) [min n]
+                    :else [min max]))
             [(first a-seq) (first a-seq)]
             (rest a-seq))))
 
