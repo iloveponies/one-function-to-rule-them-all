@@ -57,9 +57,6 @@
 (defn my-* [& more] 
   (reduce * more))
 
-(defn pred-and [pred1 pred2]
-  (fn [x] (and (pred1 x) (pred2 x))))
-
 (defn pred-and
   ([] (fn [x] true))
   ([pred] pred)
