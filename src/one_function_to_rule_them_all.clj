@@ -83,5 +83,8 @@
 (defn my-map 
   ([func coll] 
    (if (empty? coll)
-     '()
-     (cons (func (first coll)) (my-map func (rest coll))))))
+     (list)
+     (cons (func (first coll)) (my-map func (rest coll)))))
+  ([func col1 & colls]
+   (let [num-of-colls (+ 1 (count colls))]
+     (my-map #(apply func %) (partition num-of-colls (apply interleave (cons col1 colls)))))))
