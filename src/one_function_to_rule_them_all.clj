@@ -80,5 +80,8 @@
                  ((first predicates) x) (recur true (rest predicates))
                  :else false))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map 
+  ([func coll] 
+   (if (empty? coll)
+     '()
+     (cons (func (first coll)) (my-map func (rest coll))))))
