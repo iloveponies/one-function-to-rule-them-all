@@ -4,7 +4,12 @@
   (reduce concat () a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (cond
+   (< (count a-seq) 2)
+     (str (first a-seq))
+   :else
+    (reduce (fn [string se]
+            (str string " " se)) a-seq)))
 
 (defn my-interpose [x a-seq]
   [:-])
