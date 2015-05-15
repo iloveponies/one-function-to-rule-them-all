@@ -46,5 +46,9 @@
 (defn pred-and [& more]
   (fn [x] (reduce #(and %1 (%2 x)) true more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & seqs]
+  (map #(apply f %1) (let [n-arg (count (first seqs))]
+                       (loop [n (- n-arg 1)
+                              res []]
+                         (if (< n 0) res
+                           (recur (dec n) (cons (reduce #(cons (nth %2 n) %1) [] seqs) res)))))))

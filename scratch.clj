@@ -55,3 +55,7 @@
 (filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) ;=> (1 7)
 (filter (pred-and number? integer? pos? even?)
         [1 0 -2 :a 7 "a" 2])                    ;=> (0 2)
+
+(my-map inc [1 2 3 4])                  ;=> (2 3 4 5)
+(my-map + [1 1 1] [1 1 1] [1 1 1] [1 1 1])      ;=> (4 4 4)
+(my-map vector [1 2 3] [1 2 3] [1 2 3]) ;=> ((1 1 1) (2 2 2) (3 3 3))
