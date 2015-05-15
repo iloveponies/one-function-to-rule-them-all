@@ -41,19 +41,37 @@
   (reduce insert '() a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (reduce (fn [a el]
+            (if (contains? a el)
+              (disj a el)
+              (conj a el)))
+          #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& x]
+  (count x))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce my-* (my-* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [x] true))
+  ([p] (fn [x] (p x)))
+  ([p q] (fn [x] (and (p x) (q x))))
+  ([p q & more] (reduce pred-and (pred-and p q) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & x]
+  (if (some empty? x)
+    '()
+    (cons
+     (apply f (reduce (fn [a b] (concat a [(first b)])) '() x))
+     (apply my-map (cons f (reduce (fn [a b] (conj a (rest b))) '() x))))))
+
+
+
