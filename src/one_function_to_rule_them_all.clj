@@ -19,7 +19,10 @@
 
 
 (defn my-count [a-seq]
-  :-)
+  (if (empty? a-seq)
+    0
+    (reduce (fn [n _]
+              (inc n)) a-seq)))
 
 (defn my-reverse [a-seq]
   [:-])
