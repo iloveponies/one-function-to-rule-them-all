@@ -12,7 +12,11 @@
             (str string " " se)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (reduce (fn [acc it]
+            (if (empty? acc)
+              (seq [it])
+              (concat acc [x it]))) [] a-seq))
+
 
 (defn my-count [a-seq]
   :-)
