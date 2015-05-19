@@ -29,7 +29,15 @@
             (cons it acc)) '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (reduce (fn [acc item]
+            (if (nil? item)
+              acc
+              (if (< item (get acc 0))
+                (assoc acc 0 item)
+                (if (> item (get acc 1))
+                  (assoc acc 1 item)
+                  acc)))) [(first a-seq) (first a-seq)] a-seq))
+
 
 (defn insert [sorted-seq n]
   [:-])
