@@ -40,7 +40,14 @@
 
 
 (defn insert [sorted-seq n]
-  [:-])
+  (let [s (apply list sorted-seq)]
+    (cond
+      (empty? s)
+       (list n)
+      (> (first s) n)
+       (conj s n)
+      :else
+       (conj (insert (rest s) n) (first s)))))
 
 (defn insertion-sort [a-seq]
   [:-])
