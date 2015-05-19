@@ -50,7 +50,11 @@
        (conj (insert (rest s) n) (first s)))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce (fn [sorted n]
+          (if (nil? n)
+            sorted
+            (insert sorted n))) '() a-seq))
+
 
 (defn parity [a-seq]
   [:-])
