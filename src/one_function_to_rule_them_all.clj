@@ -68,5 +68,21 @@
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
   ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)))
 
-(defn my-map [f a-seq & more]
-  nil)
+(defn my-map
+  ([f a-seq]
+   (if (empty? a-seq)
+     (list)
+     (seq (reduce (fn [l e] (conj l (f e))) [] a-seq))))
+
+  ([f a-seq b-seq]
+   (if (or (empty? a-seq) (empty? b-seq))
+     (list)
+     (cons (f (first a-seq) (first b-seq)) (my-map f (rest a-seq) (rest b-seq)))))
+
+  ([f a-seq b-seq c-seq]
+   (if (or (empty? a-seq) (empty? b-seq) (empty? c-seq))
+     (list)
+     (cons (f (first a-seq) (first b-seq) (first c-seq)) (my-map f (rest a-seq) (rest b-seq) (rest c-seq)))))
+
+  ([f a b c & more]
+   (cons (my-map f a b) (my-map f c (first more) (rest more)))))
