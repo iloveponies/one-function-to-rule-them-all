@@ -57,7 +57,15 @@
 
 
 (defn parity [a-seq]
-  [:-])
+  (reduce (fn [acc-set n]
+          (cond
+           (nil? n)
+             acc-set
+           (contains? acc-set n)
+             (disj acc-set n)
+           :else
+             (conj acc-set n))) #{} a-seq))
+
 
 (defn minus [x]
   :-)
