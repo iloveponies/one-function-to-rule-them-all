@@ -54,7 +54,8 @@
 (defn pred-and ([] (fn [x] true))
 		([pred] pred)
 		([pred1 pred2] (fn [x] (and (pred1 x) (pred2 x))))
-		([pred1 pred2 & more] (fn [x] ((reduce pred-and (pred-and pred1 pred2) more) x))))
+		([pred1 pred2 & more] (fn [x] ((reduce pred-and (pred-and pred1 pred2) more) x)))
+ )
 
 (defn my-map [f a-seq]
   [:-])
