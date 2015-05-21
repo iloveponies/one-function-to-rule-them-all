@@ -55,7 +55,6 @@
             sorted
             (insert sorted n))) '() a-seq))
 
-
 (defn parity [a-seq]
   (reduce (fn [acc-set n]
           (cond
@@ -82,15 +81,20 @@
    (reduce my-* (my-* x y) more)))
 
 (defn pred-and
-  ([] (fn [x] true))
-  ([p1] p1)
+  ([] (fn [] :true))
+  ([p1] (fn [x] (p1 x)))
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
-  ([p1 p2 & more] (reduce (fn [func p]
-                            (if nil? p)
-                              func
-                              (pred-and func p)) (pred-and p1 p2) more)))
+  ([p1 p2 & more]
+   (fn [x] (reduce pred-and ((pred-and p1 p2) x) more))))
 
+(defn my-map
+  ([f a-seq] (reduce (fn [acc i]
+                      (if (empty? i)
+                        acc
+                        (conj acc (f i)))) [] a-seq)))
 
-
-(defn my-map [f a-seq]
-  [:-])
+(defn firsts-coll [coll1 & more]
+  (reduce (fn [acc c]
+            (if (empty? c)
+              acc
+              (conj acc (first c)))) [(first coll1)] more))
