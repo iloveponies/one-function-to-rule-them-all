@@ -80,12 +80,14 @@
   ([x y & more]
    (reduce my-* (my-* x y) more)))
 
-(defn pred-and
-  ([] (fn [] :true))
-  ([p1] (fn [x] (p1 x)))
-  ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
-  ([p1 p2 & more]
-   (fn [x] (reduce pred-and ((pred-and p1 p2) x) more))))
+   (defn pred-and
+     ([] (fn [x] true))
+     ([p1] p1)
+     ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
+     ([p1 p2 & more] (reduce (fn [func p]
+                               (if nil? p)
+                                 func
+                                 (pred-and func p)) (pred-and p1 p2) more)))
 
 (defn my-map
   ([f a-seq] (reduce (fn [acc i]
