@@ -56,5 +56,12 @@
 		([pred1 pred2] (fn [x] (and (pred1 x) (pred2 x))))
 		([pred1 pred2 & more] (fn [x] ((reduce pred-and (pred-and pred1 pred2) more) x))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map ([f a-seq]
+  (let [conv (fn [my-vec x] (conj my-vec (f x)))]
+  (reduce conv [] a-seq)))
+	([f a-seq b-seq & more]
+  	(let [n (+ (count more) 2)
+        	partitioned (partition n (apply interleave b-seq a-seq more))
+        	apply-f (fn [my-vec seq] (conj my-vec (apply f seq)))]
+      		(reduce apply-f [] partitioned))))
+
