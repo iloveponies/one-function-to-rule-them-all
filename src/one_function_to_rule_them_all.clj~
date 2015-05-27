@@ -59,9 +59,9 @@
 (defn my-map ([f a-seq]
   (let [conv (fn [my-vec x] (conj my-vec (f x)))]
   (reduce conv [] a-seq)))
-	([f a-seq b-seq & more]
-  	(let [n (+ (count more) 2)
-        	partitioned (partition n (apply interleave b-seq a-seq more))
-        	apply-f (fn [my-vec seq] (conj my-vec (apply f seq)))]
-      		(reduce apply-f [] partitioned))))
+([f a-seq b-seq & more]
+  (let [n (+ (count more) 2)
+        partitioned (partition n (apply interleave b-seq a-seq more))
+        apply-f (fn [my-vec seq] (conj my-vec (apply f seq)))]
+      (reduce apply-f [] partitioned))))
 
