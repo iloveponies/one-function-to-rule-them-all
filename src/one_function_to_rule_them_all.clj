@@ -24,9 +24,8 @@
 		(reduce (fn [acc x] (cons x acc)) '() a-seq)))
 
 (defn min-max-element [a-seq]
-	(let [helper (fn [[cur-m cur-M] elem] [(m cur-m elem) (M cur-M elem)])]
-  	(reduce helper ((first a-seq) (first a-seq)) 
-  									(rest a-seq))))
+  (reduce (fn [[x-min x-max] x]
+  	[(min x-min x) (max x-max x)]) [(first a-seq) (first a-seq)] (rest a-seq)))
 
 (defn insert [sorted-seq n]
   [:-])
@@ -41,7 +40,7 @@
     	(conj a-set elem)))]
     (reduce helper #{} a-seq)))
 
-(defn minus [x]
+(defn minus
   ([x] (- x))
   ([x y] (- x y)))
 
