@@ -19,10 +19,14 @@
     (reduce (fn [c _] (inc c)) 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+	(if (empty? a-seq)
+		'()
+		(reduce (fn [acc x] (cons x acc)) '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+	(let [helper (fn [[cur-m cur-M] elem] [(m cur-m elem) (M cur-M elem)])]
+  	(reduce helper ((first a-seq) (first a-seq)) 
+  									(rest a-seq))))
 
 (defn insert [sorted-seq n]
   [:-])
@@ -31,10 +35,15 @@
   [:-])
 
 (defn parity [a-seq]
-  [:-])
+  (let [helper (fn [a-set elem]
+    (if (contains? a-set elem) 
+    	(disj a-set elem)
+    	(conj a-set elem)))]
+    (reduce helper #{} a-seq)))
 
 (defn minus [x]
-  :-)
+  ([x] (- x))
+  ([x y] (- x y)))
 
 (defn count-params [x]
   :-)
