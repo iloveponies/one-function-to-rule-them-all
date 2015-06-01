@@ -21,7 +21,7 @@
 (defn my-reverse [a-seq]
 	(if (empty? a-seq)
 		'()
-		(reduce (fn [acc x] (cons x acc)) '() a-seq))
+		(reduce (fn [acc x] (cons x acc)) '() a-seq)))
 
 (defn min-max-element [a-seq]
 	(let [helper (fn [[cur-m cur-M] elem] [(m cur-m elem) (M cur-M elem)])]
