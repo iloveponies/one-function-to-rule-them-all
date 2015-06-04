@@ -49,13 +49,26 @@
     (reduce mixmax [] a-seq)))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [acc '()
+         sek sorted-seq]
+    (cond
+     (empty? sek) (concat acc (cons n '()))
+     (== n (first sek)) (concat acc (cons n sek))
+     (< n (first sek)) (concat acc (cons n sek))
+     :else (recur (concat acc (cons (first sek) '())) (rest sek)))))
+
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (reduce
+   (fn [bag elim]
+     (if (contains? bag elim)
+       (disj bag elim)
+       (conj bag elim)))
+   #{}
+   a-seq))
 
 (defn minus [x]
   :-)
