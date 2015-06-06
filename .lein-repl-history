@@ -1,0 +1,19 @@
+(use 'one-function-to-rule-them-all)
+(exit)
+exit
+(help)
+(source map)
+exit
+test
+midje test
+exit
+(println (str "The foolowing text"))
+(println (str "The following text will be " bold-red-font "bold and red" reset-font "."))
+(pst)
+exit
+(check-facts)
+(load-facts)
+(use 'midje.repl)
+(load-facts)
+(load-facts :all)
+(check-facts)
