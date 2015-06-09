@@ -74,14 +74,21 @@
   ([x] (- x))
   ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& x]
+  (count x))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x & more]
+   (reduce * x more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [elem] true))
+  ([p] (fn [elem] (p elem)))
+  ([p q] (fn [elem] (and (p elem) (q elem))))
+  ([p q & more]
+   (reduce pred-and (pred-and p q) more)))
 
 (defn my-map [f a-seq]
   [:-])
