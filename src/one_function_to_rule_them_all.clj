@@ -55,5 +55,10 @@
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
   ([p1 p2 & args] (reduce (fn [prev curr] (pred-and prev curr)) (pred-and p1 p2) args)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & args]
+  (loop [x [] seqs args]
+    (let [curr-first (fn [a-seq] (reduce (fn [prev curr] (conj prev (first curr))) [] a-seq))
+          curr-rest (fn [a-seq] (reduce (fn [prev curr] (conj prev (rest curr))) [] a-seq))]
+      (if (every? empty? seqs)
+        x
+        (recur (conj x (apply f (curr-first seqs))) (curr-rest seqs))))))
