@@ -4,10 +4,15 @@
   (reduce concat a-seq))
 
 (defn str-cat [a-seq]
-  (reduce str "" a-seq))
+  ; Seems funny.
+  (reduce str "" (interpose " " a-seq)))
 
 (defn my-interpose [x a-seq]
-  (reduce ))
+  (loop [aggregate []
+         a-seq a-seq]
+    (if (empty? a-seq)
+      (rest aggregate)
+      (recur (conj (conj aggregate x) (first a-seq)) (rest a-seq)))))
 
 (defn my-count [a-seq]
   :-)
