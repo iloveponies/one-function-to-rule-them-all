@@ -8,11 +8,14 @@
   (reduce str "" (interpose " " a-seq)))
 
 (defn my-interpose [x a-seq]
-  (loop [aggregate []
-         a-seq a-seq]
-    (if (empty? a-seq)
-      (rest aggregate)
-      (recur (conj (conj aggregate x) (first a-seq)) (rest a-seq)))))
+  (if (empty? a-seq)
+    a-seq
+    (reduce (fn [agg cur] (conj agg x cur)) [(first a-seq)] (rest a-seq))))
+;  (loop [aggregate []
+;         a-seq a-seq]
+;    (if (empty? a-seq)
+;      (rest aggregate)
+;      (recur (conj (conj aggregate x) (first a-seq)) (rest a-seq)))))
 
 (defn my-count [a-seq]
   :-)
