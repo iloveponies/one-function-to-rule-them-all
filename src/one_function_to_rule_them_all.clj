@@ -41,19 +41,35 @@
   (reduce insert [] a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [toggle (fn [a-set elem]
+                 (if (contains? a-set elem) (disj a-set elem) (conj a-set elem)))]
+    (reduce toggle #{} a-seq)))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ; Let's not use built-in (-) for sports!
+  ([x] (* -1 x))
+  ([subtractor & subtractees] (reduce + subtractor (map minus subtractees))))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& params]
+  (count params))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& numbers]
+  (reduce * 1 numbers))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and [& predicates]
+  (fn [x] (reduce (fn [so-far predicate] (and so-far (predicate x))) true predicates)))
+; (fn [v] (and (pred1 v) (pred2 v)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq]
+    (loop [head []
+           tail a-seq]
+      (if (empty? tail)
+        head
+        (recur (conj head (f (first tail))) (rest tail)))))
+  ([f a-seq & rest-of-seqs]
+    (loop [head []
+           tails (cons a-seq rest-of-seqs)]
+      (if (some empty? tails)
+        head
+        (recur (conj head (apply f (my-map first tails))) (my-map rest tails))))))
