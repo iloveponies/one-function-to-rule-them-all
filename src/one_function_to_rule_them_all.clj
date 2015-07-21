@@ -57,17 +57,15 @@
   (reduce * 1 numbers))
 
 (defn pred-and [& predicates]
+  ; Doesn't shortcut as the price of reduce, can't think of any compiler magic tosolve this.
   (fn [x] (reduce (fn [so-far predicate] (and so-far (predicate x))) true predicates)))
-; (fn [v] (and (pred1 v) (pred2 v)))
 
 (defn my-map
   ([f a-seq]
-    (loop [head []
-           tail a-seq]
-      (if (empty? tail)
-        head
-        (recur (conj head (f (first tail))) (rest tail)))))
+    (reduce (fn [mapped current] (conj mapped (f current))) [] a-seq))
   ([f a-seq & rest-of-seqs]
+    ; TODO Can this be done more succintly with reduce? Can't wrap my head any
+    ;      better around the way flowing/mapping is done now..
     (loop [head []
            tails (cons a-seq rest-of-seqs)]
       (if (some empty? tails)
