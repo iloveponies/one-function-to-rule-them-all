@@ -89,4 +89,12 @@
 
 (defn my-map
   ([f a-seq] (reduce (fn[b-seq x] (conj b-seq (f x))) [] a-seq))
-  ([f a-seq & more] (
+  ([f a-seq & more]
+    (loop [i 0
+           final-seq []]
+      (if (== (count a-seq) i)
+        final-seq
+      ; need to call f on the ith element of every sequence
+      (let [nextVal (reduce (fn[b-seq x] (conj b-seq (get x i))) [(get a-seq i)] more)]
+       (recur (inc i) (conj final-seq (apply f nextVal))))))))
+;50
