@@ -1,0 +1,35 @@
+(def a
+  (fn [x, y] (+ x y )))  
+a
+(a 1 2)
+(a 1 10)
+(def a
+ )
+(def aa [a-seq]
+   (reduce (fn [x y] (+ x y)) a-seq))
+(defn aa [a-seq]
+   (reduce (fn [x y] (+ x y)) a-seq))
+(aa [2 3 4 5])
+(defn aa [a-seq]
+   (reduce (fn [x y z] (+ x y z)) a-seq))
+(aa [2 3 4 5])
+(aa [2 3 4 5 d d d ])
+(aa [2 3 4 5 5 6 7])
+(aa [2 3 4 5 5 6 7] [ddd])
+(aa [2 3 4 5 5 6 7] [1 2])
+(aa [2 3 4 5 5 6 7] [1 2] [3 4])
+(defn aa [a-seq]
+ (let [sec (fn [x, y]
+               (print x)
+               (print y)
+               (+ x y))]
+(reduce sec a-seq)))
+(aa [1 2 3 4])
+(max 1 2)
+(max 1 2 3)
+(max 1 2 3 4)
+(count 1 2)
+(doc count)
+(count [1 2])
+(count [1 2 3])
+(+ 1 2)
