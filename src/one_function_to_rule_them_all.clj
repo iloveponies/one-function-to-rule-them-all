@@ -12,7 +12,7 @@
   (if (<= (count a-seq) 2)
     a-seq
     (let [acc [(first a-seq) x (second a-seq)]]
-    (reduce (fn [a b] (conj (conj a x) b)) acc (drop 2 a-seq)))))
+      (reduce (fn [a b] (conj (conj a x) b)) acc (drop 2 a-seq)))))
 
 (defn my-count [a-seq]
   (reduce (fn [a b] (inc a)) 0 a-seq))
@@ -40,17 +40,24 @@
 (defn parity [a-seq]
   (reduce toggle #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& args]
+  (reduce (fn [a b] (inc a)) 0 args))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce * (* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [p] true))
+  ([x] x)
+  ([x y] (fn [p] (and (x p) (y p))))
+  ([x y & more] (reduce (fn [a b] (pred-and a b)) (pred-and x y) more)))
 
 (defn my-map [f a-seq]
   [:-])
