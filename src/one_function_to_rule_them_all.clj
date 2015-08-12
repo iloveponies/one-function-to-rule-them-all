@@ -59,5 +59,15 @@
   ([x y] (fn [p] (and (x p) (y p))))
   ([x y & more] (reduce (fn [a b] (pred-and a b)) (pred-and x y) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & more]
+  (letfn [(get-params [a-seq] (reduce (fn [a b] (conj a (first b))) [] a-seq))
+          (rest-params [a-seq] (reduce (fn [a b] (conj a (rest b))) [] a-seq))]
+    (loop [params (get-params more)
+           args-seq (rest-params more)
+           result []]
+      (if (nil? (first params))
+        result
+        (recur (get-params args-seq)
+               (rest-params args-seq)
+               (conj result
+                     (apply f params)))))))
