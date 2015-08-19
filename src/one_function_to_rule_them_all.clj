@@ -52,7 +52,7 @@
   ([p1 p2] (fn[x] (if (and (p1 x) (p2 x))
                         true
                         false)))
-  ([p1 p2 & more] (reduce (pred-and p1 p2) more)))
+  ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)))
 
 (defn my-map [f a-seq]
   [:-])
