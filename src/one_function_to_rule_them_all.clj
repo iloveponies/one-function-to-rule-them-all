@@ -4,6 +4,8 @@
 (defn concat-elements [a-seq]
   (reduce concat a-seq))
 
+; test comment
+
 (defn str-cat [a-seq]
   (if (not (empty? a-seq))
     (reduce (fn [x y] (str x " " y)) a-seq)
