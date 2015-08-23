@@ -15,10 +15,10 @@
     (reduce (fn [x y] (str x " " y)) a-seq)))
 
 
-(defn my-interpose [x a-seq]
+(defn my-interpose [c a-seq]
   (if (empty? a-seq)
     '()
-    (seq (reduce (fn [x y] (conj x "x" y)) [(first a-seq)] (rest a-seq)))))
+    (seq (reduce (fn [x y] (conj x c y)) [(first a-seq)] (rest a-seq)))))
 
 
 (defn my-count [a-seq]
