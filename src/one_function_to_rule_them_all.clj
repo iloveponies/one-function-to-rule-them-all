@@ -72,13 +72,3 @@
 
 (defn my-map [f a-seq]
   [:-])
-
-(defn my-map3 [f & seqs]
-  (let [seqlooper (fn [x] (loop [firstseq (first x)
-                                 restseqs (rest x)
-                                 return   '()]
-                            (if (empty? restseqs)
-                              (conj return (first firstseq))
-                              (recur (first restseqs)
-                                     (rest restseqs)
-                                     (conj return (first firstseq))))))]
