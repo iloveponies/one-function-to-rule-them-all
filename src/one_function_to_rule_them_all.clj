@@ -85,9 +85,11 @@
                 (conj acc (f e)))]
       (reduce fun [] a-seq)))
   ([f a-seq & seqs]
-    (if (empty? a-seq)
-      []
-      (cons (apply f (my-map first (cons a-seq seqs)))
-            (apply my-map f (my-map rest (cons a-seq seqs)))))))
+    (let [heads (my-map first (cons a-seq seqs))
+          tails (my-map rest (cons a-seq seqs))]
+      (if (empty? a-seq)
+        []
+        (cons (apply f heads)
+              (apply my-map f tails))))))
 
 
