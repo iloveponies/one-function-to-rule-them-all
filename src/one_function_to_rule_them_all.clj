@@ -79,17 +79,25 @@
   ([x y & more]
     (reduce pred-and (pred-and x y) more)))
 
-(defn my-map
-  ([f a-seq]
-    (let [fun (fn [acc e]
-                (conj acc (f e)))]
-      (reduce fun [] a-seq)))
-  ([f a-seq & seqs]
-    (let [heads (my-map first (cons a-seq seqs))
-          tails (my-map rest (cons a-seq seqs))]
-      (if (empty? a-seq)
-        []
-        (cons (apply f heads)
-              (apply my-map f tails))))))
+(defn heads-and-tails [a-seq]
+  (loop [heads []
+         tails []
+         rests a-seq]
+    (cond
+      (empty? rests)
+        [heads tails]
+      (empty? (first rests))
+        [[] a-seq]
+      :else
+        (recur (conj heads (first (first rests)))
+               (conj tails (rest (first rests)))
+               (rest rests)))))
 
-
+(defn my-map [f & seqs]
+  (loop [result []
+         rests  seqs]
+    (let [[heads tails] (heads-and-tails rests)]
+      (if (empty? heads)
+        result
+        (recur (conj result (apply f heads))
+               tails)))))
