@@ -39,7 +39,7 @@
     (reduce toggle #{} a-seq)))
 
 (defn minus
-  ([x] x)
+  ([x] (- x))
   ([x y] (- x y)))
 
 (defn count-params [& more]
@@ -52,8 +52,13 @@
   ([x y & more]
     (reduce my-* (my-* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [_] true))
+  ([a?] a?)
+  ([a? b?] (fn [x] (and (a? x) (b? x))))
+  ([a? b? & more] (reduce pred-and (pred-and a? b?) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn zip [& colls] (partition (count colls) (apply interleave colls)))
+
+(defn my-map [f & colls]
+  (reduce #(conj %1 (apply f %2)) [] (apply zip colls)))
