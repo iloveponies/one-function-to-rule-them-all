@@ -1,43 +1,68 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  :-)
+  (reduce concat '() a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (if (empty? a-seq)
+    ""
+    (reduce (fn [a b] (str a " " b)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq)
+    '()
+    (reduce (fn [acc v] (if (empty? acc) (conj acc v) (conj acc x v))) [] a-seq)))
 
 (defn my-count [a-seq]
-  :-)
+  (reduce (fn [acc _] (inc acc)) 0 a-seq))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (reduce (fn [acc v] (cons v acc)) '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    nil
+    (reduce (fn [[acc-min acc-max] v] [(min v acc-min) (max v acc-max)]) [(first a-seq) (first a-seq)] (rest a-seq))))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [acc []
+         l-seq sorted-seq]
+    (let [first (first l-seq)]
+      (cond
+        (empty? l-seq) (conj acc n)
+        (<= n first) (concat acc [n] l-seq)
+        :else (recur (conj acc first) (rest l-seq))))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert [] a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [toggle (fn [as a] (if (contains? as a) (disj as a) (conj as a)))]
+    (if (empty? a-seq)
+      #{}
+      (reduce toggle #{} a-seq))))
 
-(defn minus [x]
-  :-)
+(defn minus ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& more]
+  (count more))
 
-(defn my-* [x]
-  :-)
+(defn my-* [& xs]
+  (reduce * 1 xs))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and [& more]
+  (fn [x] (loop [acc true
+                 pred-seq more]
+            (cond
+              (empty? pred-seq) acc
+              (false? acc) false
+              :else (recur ((first pred-seq) x) (rest pred-seq))))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq]
+    (reduce (fn [acc x] (conj acc (f x))) [] a-seq))
+  ([f a-seq & more]
+   (let [seqs (cons a-seq more)
+         zipped (partition (count seqs) (apply interleave seqs))]
+     (reduce (fn [acc xs] (conj acc (apply f xs))) [] zipped))))
