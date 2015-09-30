@@ -59,16 +59,12 @@
               (false? acc) false
               :else (recur ((first pred-seq) x) (rest pred-seq))))))
 
-(defn my-map
-  ([f a-seq]
-   (loop [acc []
-          l-seq a-seq]
-     (if (empty? l-seq)
-       acc
-       (recur (conj acc (f (first l-seq))) (rest l-seq)))))
-  ([f a-seq & more]
+(defn my-map [f a-seq & more]
+  (let [any-empty? (fn [xs] (reduce (fn [acc v] (or acc (empty? v))) false xs))
+        firsts (fn [xs] (reduce (fn [acc x] (conj acc (first x))) [] xs))
+        rests (fn [xs] (reduce (fn [acc x] (conj acc (rest x))) [] xs))]
     (loop [acc []
            l-seqs (cons a-seq more)]
-      (if (reduce (fn [acc v] (or acc (empty? v))) false l-seqs)
+      (if (any-empty? l-seqs)
         acc
-        (recur (conj acc (apply f (my-map first l-seqs))) (my-map rest l-seqs))))))
+        (recur (conj acc (apply f (firsts l-seqs))) (rests l-seqs))))))
