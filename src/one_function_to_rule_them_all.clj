@@ -55,5 +55,10 @@
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
   ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)))
 
-(defn my-map [f coll]
-  ())
+(defn my-map
+  ([f a-seq]
+    (reduce (fn [acc x] (conj acc (f x))) [] a-seq))
+  ([f a-seq & more]
+   (let [seqs (cons a-seq more)
+         zipped (partition (count seqs) (apply interleave seqs))]
+     (reduce (fn [acc xs] (conj acc (apply f xs))) [] zipped))))
