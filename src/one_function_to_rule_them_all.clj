@@ -90,6 +90,18 @@
                 true
                 x)))))
 
-(defn my-map [f a-seq & more-seq]
-  )
+(defn my-map [f & colls]
+  (loop [result []
+         chain colls]
+   (let [map-vector
+         (reduce (fn [acc el] (conj acc (first el)))
+          []
+          chain)
+         do-the-rest
+         (reduce (fn [acc el] (conj acc (rest el)))
+          []
+          chain)]
+     (if (nil? (first map-vector))
+       result
+       (recur (conj result (apply f map-vector)) do-the-rest)))))
 
