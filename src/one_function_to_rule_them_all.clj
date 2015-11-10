@@ -1,4 +1,5 @@
-(ns one-function-to-rule-them-all)
+(ns one-function-to-rule-them-all
+  (:use clojure.repl))
 
 
 (defn concat-elements [a-seq]
@@ -34,19 +35,37 @@
 
 
 (defn parity [a-seq]
-  [:-])
+  (let [toggle (fn [a-set elm]
+                 (if (a-set elm)
+                   (disj a-set elm)
+                   (conj a-set elm)))]
+    (reduce toggle #{} a-seq)))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& x]
+  (count x))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x y] (* x y))
+  ([x y & more]
+   (reduce my-* (my-* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [elm] true))
+  ([p?] (fn [elm] (p? elm)))
+  ([p1? p2?] (fn [elm] (and (p1? elm) (p2? elm))))
+  ([p1? p2? & preds?] (reduce pred-and (pred-and p1? p2?) preds?)))
 
-(defn my-map [f a-seq]
-  [:-])
+
+(defn my-map [f & colls]
+  (let [map (fn [f coll]
+              (reduce (fn [x y] (conj x (f y))) [] coll))]
+    (if (some empty? colls)
+      '()
+      (cons
+       (apply f (map first colls))
+       (apply my-map f (map rest colls))))))
