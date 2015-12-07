@@ -13,17 +13,9 @@
   (rest (apply concat (map (fn [elem] (conj (cons elem nil) x)) a-seq))))
 
 (defn my-count [a-seq]
-   (let [counter (fn [count]
+   (let [counter (fn [count _]
                    (inc count))]
      (reduce counter 0 a-seq)))
-
-(defn count-elem [elem a-seq]
-  (let [counter (fn [count e]
-                  (if (= e elem)
-                    (inc count)
-                    count))]
-    (reduce counter 0 a-seq)))
-
 
 (defn my-reverse [a-seq]
   [:-])
