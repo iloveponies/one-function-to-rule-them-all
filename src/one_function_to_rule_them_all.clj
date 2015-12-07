@@ -10,14 +10,6 @@
             )))
 
 (defn my-interpose [x a-seq]
-;  (cond
-;    (empty? a-seq) '()
-;    (empty? (rest a-seq)) a-seq
-;    :else (let
-;              [interpose-helper
-;                (fn [elem]
-;                  (conj (cons elem nil) x))]
-;            (reduce interpose-helper '() a-seq))))
   (rest (apply concat (map (fn [elem] (conj (cons elem nil) x)) a-seq))))
 
 (defn my-count [a-seq]
