@@ -23,7 +23,12 @@
     (reduce reverser '() a-seq)))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [minmaxpair (fn [acc elem]
+                     (cond
+                       (< elem (first acc)) [elem (second acc)]
+                       (> elem (second acc)) [(first acc) elem] 
+                       :else acc))]
+    (reduce minmaxpair [(first a-seq) (first a-seq)] a-seq)))
 
 (defn insert [sorted-seq n]
   [:-])
