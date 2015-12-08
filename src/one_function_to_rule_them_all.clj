@@ -31,7 +31,13 @@
     (reduce minmaxpair [(first a-seq) (first a-seq)] a-seq)))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (defn insert-helper [acc seq1]
+    (cond
+      (empty? seq1) (concat acc (list n))
+      (> n (first seq1)) (insert-helper (concat acc (list (first seq1))) (rest seq1))
+      :else (concat acc (list n) seq1)
+      ))
+  (insert-helper '() sorted-seq))
 
 (defn insertion-sort [a-seq]
   [:-])
