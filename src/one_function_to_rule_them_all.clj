@@ -50,8 +50,9 @@
     (reduce parity-helper #{} a-seq)))
                         
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
 (defn count-params [x]
   :-)
