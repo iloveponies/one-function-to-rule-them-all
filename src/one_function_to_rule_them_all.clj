@@ -43,7 +43,12 @@
  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [parity-helper (fn [a-set elem]
+                        (if (contains? a-set elem)
+                          (disj a-set elem)
+                          (conj a-set elem)))]
+    (reduce parity-helper #{} a-seq)))
+                        
 
 (defn minus [x]
   :-)
