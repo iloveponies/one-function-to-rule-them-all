@@ -80,15 +80,12 @@
       (recur (cons (f (first seq1)) acc) (rest seq1)))
     )))
   ([f a-seq & more]
-   (loop [acc '()
+   (reverse (loop [acc '()
           seq1 a-seq
           rem-seqs more]
-     (if (or (empty? seq1) (some (fn [x]  (nil? (first x))) rem-seqs)) ;check all other seqs inthe more list have a first
-;(map (fn [x] (not (nil? (first x)))) rem-seqs)
-
-
+     (if (or (empty? seq1) (some (fn [x]  (nil? (first x))) rem-seqs)) 
        acc
-       (recur (cons (f (first seq1) (my-map first rem-seqs)) acc) (rest seq1) (my-map rest rem-seqs))
+       (recur (cons (apply f (cons (first seq1) (my-map first rem-seqs))) acc) (rest seq1) (my-map rest rem-seqs))
        )
-   )))
+   ))))
 
