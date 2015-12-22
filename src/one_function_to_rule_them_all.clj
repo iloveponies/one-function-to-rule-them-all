@@ -13,13 +13,9 @@
 (defn my-interpose [x a-seq]
   (if (empty? a-seq)
     []
-    (if (empty? (rest a-seq))
-      (vector (first a-seq))
-      (let [inter (fn [e f]
-                    (if (not (or (list? e) (vector? e) (seq? e)))
-                      (vector e x f)
-                      (conj e x f)))]
-        (reduce inter a-seq)))))
+    (let [inter (fn [e f]
+                  (conj e x f))]
+      (reduce inter [(first a-seq)] (rest a-seq)))))
 
 (defn my-count [a-seq]
   (if (empty? a-seq)
@@ -87,11 +83,9 @@
 (defn pred-and
   ([] (fn [e] true))
   ([p] p)
-  ([p & more]
-    (fn [e]
-      (let [ander (fn [acc pre]
-                    (and acc (pre e)))]
-        (reduce ander (p e) more)))))
+  ([p q] (fn [e] (and (p e) (q e))))
+  ([p q & more]
+    (reduce pred-and (pred-and p q) more)))
 
 (defn my-map [f a-seq]
   [:-])
