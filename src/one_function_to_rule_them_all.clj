@@ -44,17 +44,30 @@
 (defn parity [a-seq]
   (reduce toggleElem #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus 
+  ([x] (* -1 x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
 
-(defn my-* [x]
-  :-)
+(defn count-params [& params]
+  (count params))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn my-* 
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce my-* (my-* x y) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn pred-and 
+  ([] (fn [x] true))
+  ([pred] pred)
+  ([pred1 pred2] (fn [x] (and (pred1 x) (pred2 x))))
+  ([pred1 pred2 & more] (reduce pred-and (fn [x] (and (pred1 x) (pred2 x))) more)))
+
+(defn my-map 
+  ([f & seqs] 
+   (if (> (count seqs) 1)
+     (let [paramSeqs (partition (count seqs) (apply interleave seqs))]
+         (reduce (fn [res xs] (conj res (apply f xs))) [] paramSeqs))
+     (reduce (fn [res x] (conj res (f x))) [] (first seqs)))))
+
