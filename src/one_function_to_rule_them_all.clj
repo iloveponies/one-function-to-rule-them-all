@@ -40,16 +40,16 @@
   (let [toggle (fn [set elem]
                  (if (contains? set elem)
                    (disj set elem)
-                   (conj set elem))
-                 )]
+                   (conj set elem)))]
+
     (reduce toggle #{} a-seq)))
 
 (defn minus
   ([x] (- 0 x))
   ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& more]
+  (count more))
 
 (defn my-* [x]
   :-)
