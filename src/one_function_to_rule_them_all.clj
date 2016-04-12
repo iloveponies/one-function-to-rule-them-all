@@ -65,7 +65,7 @@
      (cons (f (first coll))
            (my-map f (rest coll)))))
   ([f coll & more]
-   (let [colls (concat [coll] more)]
+   (let [colls (cons coll more)]
      (if (some empty? colls)
        '()
        (cons (apply f (my-map first colls))
