@@ -8,3 +8,7 @@ pom.xml
 .lein-deps-sum
 .lein-failures
 .lein-plugins
+.idea/
+.nrepl*
+.gitignore
+one-function-to-rule-them-all.iml
