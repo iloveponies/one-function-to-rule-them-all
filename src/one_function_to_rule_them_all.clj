@@ -56,5 +56,10 @@
          (empty? others) true
          :else (recur ((first others) x) (rest others)))))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f a-seq & more]
+  (loop [res '(), input (cons a-seq more)]
+    (if (some empty? input) (reverse res)
+      (let [slice     (map first input)
+            new-input (map rest input)]
+        (recur (cons (apply f slice) res) new-input)))))
+
