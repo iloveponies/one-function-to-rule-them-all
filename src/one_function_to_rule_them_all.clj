@@ -72,4 +72,6 @@
 
 
 (defn my-map [f a-seq]
-  [:-])
+  ([seq1] (map f seq1))
+  ([seq1 seq2] (map f seq1) )
+  ([seq1 seq2 & more]))
