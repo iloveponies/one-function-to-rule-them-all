@@ -69,5 +69,13 @@
   ([pred1 pred2] (fn [elem] (and (pred1 elem) (pred2 elem))))
   ([pred1 pred2 & more] (reduce pred-and (pred-and pred1 pred2) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+; Doesn't work yet...
+(defn my-map
+  ([f seq1] (reduce (fn [acc item] (conj acc (f item))) [] seq1))
+  ([f seq1 & seqs] (loop [acc []
+                     sq (cons seq1 seqs)]
+                (cond
+                  (empty? sq)
+                    acc
+                  :else
+                    (recur (f acc (first sq)) (rest sq))))))
