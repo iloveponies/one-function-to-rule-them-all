@@ -54,9 +54,9 @@
 
 (defn my-* 
   ([] 1)
-  ([a] b)
-  ([b a] (* b a))
-  ([b a & more] (reduce my-* (my-* b a) more)))
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce my-* (my-* x y) more)))
 
 (defn pred-and [x]
   (fn [x] :-))
