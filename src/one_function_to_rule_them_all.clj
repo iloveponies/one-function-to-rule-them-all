@@ -58,8 +58,11 @@
   ([x y] (* x y))
   ([x y & more] (reduce my-* (my-* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [arg] (= arg arg)))
+  ([x] (fn [arg] (x arg)))
+  ([x y] (fn [arg] (and (x arg) (y arg))))
+  ([x y & more] (fn [arg] ((reduce pred-and (pred-and x y) more) arg))))
 
 (defn my-map [f a-seq]
   [:-])
