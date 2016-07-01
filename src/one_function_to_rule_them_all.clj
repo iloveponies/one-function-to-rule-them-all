@@ -66,4 +66,8 @@
 
 (defn my-map 
 	([f a-seq] (reverse (reduce (fn[result x] (conj result (f x))) '() a-seq)))
-	([f a-seq & more] (reduce (fn[result x] (conj result (apply f x))) (vector (apply f a-seq)) more)))
+	([f a-seq & more] 
+    (let [inputs (cons a-seq more)]
+      (if (some empty? inputs)
+        '()
+        (cons (apply f (my-map first inputs)) (apply my-map f (my-map rest inputs)))))))
