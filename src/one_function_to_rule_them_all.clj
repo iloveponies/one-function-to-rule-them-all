@@ -100,9 +100,6 @@
   ([f a-seq] (let [helper (fn [acc x]
                             (conj acc (f x)))]
                (reduce helper [] a-seq)))
-  ([f a-seq & more] (let [take-first-elems (fn [acc x]
-                                             (conj acc (first x)))
-                          apply-to-first (fn [acc x]
+  ([f a-seq & more] (let [apply-to-first (fn [acc x]
                                            (conj acc (apply f x)))]
-
                       (reverse (reduce apply-to-first '() (give-next (cons a-seq more)))))))
