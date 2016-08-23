@@ -11,13 +11,19 @@
       (reduce stringer a-seq))))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (let [interposer (fn [a b]
+                     (conj a x b))]
+    (rest (reduce interposer [] a-seq))))
 
 (defn my-count [a-seq]
-  :-)
+  (let [counter (fn [acc _]
+                  (inc acc))]
+    (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (let [reverser (fn [acc x]
+                   (conj acc x))]
+    (reduce reverser '() a-seq)))
 
 (defn min-max-element [a-seq]
   [:-])

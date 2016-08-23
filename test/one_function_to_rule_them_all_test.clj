@@ -7,8 +7,7 @@
        (concat-elements [])            => (just '())
        (concat-elements [[1 2]])       => (just '(1 2))
        (concat-elements [[1 2] [3 4]]) => (just '(1 2 3 4))
-       (concat-elements [[1 2 2] [2 3]]) => (just '(1 2 2 2 3))
-       (concat-elements [[[1] [2]] [[3]]]) => (just '([1] [2] [3])))
+       (concat-elements [[1 2 2] [2 3]]) => (just '(1 2 2 2 3)))
 
 (facts "str-cat" {:exercise 2
                   :points 1}
@@ -23,8 +22,6 @@
   => [1 0 2 0 3]
   (my-interpose "," ["I" "me" "myself"])
   => (just '("I" "," "me" "," "myself"))
-  (my-interpose :a [[1] [2] [3]])
-  => (just '([1] :a [2] :a [3]))
   (my-interpose :a [1])
   => [1]
   (my-interpose :a [])
@@ -41,7 +38,6 @@
   (my-reverse [1 2 3])     => (just '(3 2 1))
   (my-reverse [1 2 2 3 3]) => (just '(3 3 2 2 1))
   (my-reverse [1 2])       => (just '(2 1))
-  (my-reverse [[1] [2]])   => (just '([2] [1]))
   (my-reverse [])          => (just '()))
 
 (facts "min-max-element" {:exercise 6
@@ -96,6 +92,5 @@
 (facts "my-map" {:exercise 13
                  :points 3}
        (my-map inc [1 2 3 4])                  => [2 3 4 5]
-       (my-map count [[1] [2 3] [4 5 6]])      => [1 2 3]
        (my-map + [1 1 1] [1 1 1] [1 1 1])      => [3 3 3]
        (my-map vector [1 2 3] [1 2 3] [1 2 3]) => [[1 1 1] [2 2 2] [3 3 3]])
