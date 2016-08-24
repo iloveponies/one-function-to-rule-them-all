@@ -21,18 +21,23 @@
     (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  (let [reverser (fn [acc x]
-                   (conj acc x))]
-    (reduce reverser '() a-seq)))
+  (reduce conj '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [min-maxer (fn [acc x]
+                    (let [minimum (min (first acc) x)
+                          maximum (max (second acc) x)]
+                      [minimum maximum]))]
+    (reduce min-maxer [(first a-seq) (first a-seq)] a-seq)))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (let [smaller-than-n (fn [x] (< x n))
+        start (take-while smaller-than-n sorted-seq)
+        end (drop-while smaller-than-n sorted-seq)]
+    (concat start (cons n end))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert [] a-seq))
 
 (defn parity [a-seq]
   [:-])
