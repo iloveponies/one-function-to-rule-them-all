@@ -152,8 +152,8 @@
 
 ; jos mapilla vain yksi sekvenssi niin sitten palauta sama sekvenssi, mutta jokainen jäsen funktiolla prosessoituna
 
-(defn my-map
-  ([f xs] ()
+;(defn my-map
+;;  ([f xs] ()))
 
 
   
