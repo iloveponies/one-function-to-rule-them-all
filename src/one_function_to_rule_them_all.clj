@@ -61,5 +61,21 @@
   ([x y] (fn [t] (and (x t) (y t))))
   ([x y & xs] (reduce pred-and (cons x (cons y xs)))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map 
+  ([f a-seq]
+   (loop [out []
+          xs a-seq]
+     (if (empty? xs)
+       out
+       (recur (conj out (f (first xs)))
+              (rest xs)))))
+  ([f a-seq & seqs]
+   (loop [out []
+          tails (cons a-seq seqs)]
+     (let [any-empty (some true? (my-map empty? tails))
+           fsts (my-map first tails)
+           rsts (my-map rest tails)]
+       (if any-empty
+         out
+         (recur (conj out (apply f fsts))
+                rsts))))))
