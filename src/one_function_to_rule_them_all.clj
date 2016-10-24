@@ -21,7 +21,13 @@
   (reduce conj '() a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (reduce (fn [acc n]
+            (cond
+              (< n (first acc))  [n (second acc)]
+              (> n (second acc)) [(first acc) n]
+              :else acc))
+          [(first a-seq) (first a-seq)]
+          a-seq))
 
 (defn insert [sorted-seq n]
   [:-])
