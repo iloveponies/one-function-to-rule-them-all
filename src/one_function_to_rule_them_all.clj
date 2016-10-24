@@ -39,7 +39,7 @@
   (reduce insert [] a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (reduce (fn [acc x] (if (contains? acc x) (disj acc x) (conj acc x))) #{} a-seq))
 
 (defn minus [x]
   :-)
