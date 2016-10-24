@@ -15,7 +15,7 @@
     (reduce helper [] a-seq)))
 
 (defn my-count [a-seq]
-  :-)
+  (reduce (fn [acc b] (inc acc)) 0 a-seq))
 
 (defn my-reverse [a-seq]
   [:-])
