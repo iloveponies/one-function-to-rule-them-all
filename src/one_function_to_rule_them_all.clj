@@ -60,5 +60,17 @@
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
   ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map [f & seqs]
+  (loop [acc []
+         remaining seqs]
+    (if (empty? (first remaining))
+      acc
+      ; Need to apply f to elements in same position. All args are of same length.
+      ; e.g. for + [1 1 1] [1 1 1] [1 1 1]
+      ; 0: acc: [],      remaining: [1 1 1] [1 1 1] [1 1 1]
+      ; 1: acc: [3],     remaining: [1 1] [1 1] [1 1]
+      ; 2: acc: [3 3],   remaining: [1] [1] [1]
+      ; 3: acc: [3 3 3], remaining: [] [] []
+      (recur
+        (conj acc (apply f (map first remaining)))
+        (map rest remaining)))))
