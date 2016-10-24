@@ -36,7 +36,7 @@
     :else (cons (first sorted-seq) (insert (rest sorted-seq) n))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert [] a-seq))
 
 (defn parity [a-seq]
   [:-])
