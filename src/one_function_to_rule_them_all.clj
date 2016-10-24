@@ -30,7 +30,10 @@
           a-seq))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (cond
+    (empty? sorted-seq) [n]
+    (<= n (first sorted-seq)) (cons n sorted-seq)
+    :else (cons (first sorted-seq) (insert (rest sorted-seq) n))))
 
 (defn insertion-sort [a-seq]
   [:-])
