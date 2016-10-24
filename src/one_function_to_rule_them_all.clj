@@ -48,8 +48,11 @@
 (defn count-params [& x]
   (count x))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([]    1)
+  ([x]   x)
+  ([x y] (* x y))
+  ([x y & more] (reduce my-* (my-* x y) more)))
 
 (defn pred-and [x]
   (fn [x] :-))
