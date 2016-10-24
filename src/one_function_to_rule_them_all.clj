@@ -41,8 +41,9 @@
 (defn parity [a-seq]
   (reduce (fn [acc x] (if (contains? acc x) (disj acc x) (conj acc x))) #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x]   (* -1 x))
+  ([x y] (- x y)))
 
 (defn count-params [x]
   :-)
