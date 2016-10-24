@@ -8,7 +8,11 @@
    (reduce (fn [a b] (str a " " b)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (let [helper (fn [acc e]
+                (if (empty? acc)
+                 (conj acc e)
+                 (conj acc x e)))]
+    (reduce helper [] a-seq)))
 
 (defn my-count [a-seq]
   :-)
