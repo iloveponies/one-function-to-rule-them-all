@@ -1,13 +1,18 @@
 (ns one-function-to-rule-them-all)
 
+; (concat-elements [[1 2] [3 4]]) ;=> (1 2 3 4)
 (defn concat-elements [a-seq]
-  :-)
+  (reduce concat () a-seq))
 
-(defn str-cat [a-seq]
-  :-)
+; (str-cat ["I" "am" "Legend"])  ;=> "I am Legend"
+(defn str-cat [a-seq] 
+  (if (empty? a-seq)
+    ""
+    (reduce #(str %1 " " %2) a-seq)))
 
+; (my-interpose "," ["I" "me" "myself"]) ;=> ("I" "," "me" "," "myself")
 (defn my-interpose [x a-seq]
-  [:-])
+  (rest (reduce #(conj %1 x %2) [] a-seq)))
 
 (defn my-count [a-seq]
   :-)
