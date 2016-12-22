@@ -35,17 +35,16 @@
                         :else min-max)))) ]
     (reduce helper [] a-seq)))
                     
-
 (defn insert [sorted-seq n]
-  (if (empty? sorted-seq) 
-    (list n)
-    (do
+  (if (empty? sorted-seq)
+    (conj sorted-seq n)
+    (do 
       (loop [counter 0
-             orig-seq sorted-seq 
-             tmp-seq [] ]
-        (if (and (not (empty? orig-seq))(> n (first orig-seq)))
-          (recur (inc counter) (rest orig-seq) (conj tmp-seq (first orig-seq)))
-          (concat tmp-seq (conj orig-seq n)))))))
+             from-seq sorted-seq
+             to-seq [] ]
+        (if (and (not (empty? from-seq)) (> n (first from-seq)))
+          (recur (inc counter) (rest from-seq) (conj to-seq (first from-seq)))
+          (concat (conj to-seq n) from-seq))))))
 
 (defn insertion-sort [a-seq]
   (if (empty? a-seq)
@@ -53,8 +52,31 @@
     (do 
       (reduce insert [] a-seq))))
 
+(defn parity-2 [a-seq]
+  (if (empty? a-seq)
+    #{}
+    (do 
+      (set 
+       (map first 
+            (filter #(odd? (second %))
+                    (reduce (fn [counts elem] 
+                              (if (contains? counts elem)
+                                (assoc counts elem (inc (get counts elem)))
+                                (assoc counts elem 1))) {} a-seq)))))))
+
 (defn parity [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    #{}
+    (do 
+      (->> a-seq
+       (reduce (fn [counts elem]
+                 (if (contains? counts elem)
+                   (assoc counts elem (inc (get counts elem)))
+                   (assoc counts elem 1))) {} )
+       (filter #(odd? (second %)))
+       (map first)
+       (set)))))
+
 
 (defn minus
   ([x] (* -1 x))
@@ -75,7 +97,7 @@
    (reduce * vals))))
 
 (defn pred-and
-  ([] true)
+  ([] (fn [x] true))
   ([pred] (fn [x] (pred x)))
   ([pred1 pred2] (fn [x] (if (and (pred1 x) (pred2 x))
                            true
@@ -85,9 +107,21 @@
                                                     (conj pred2)) ]
                                 (empty? (filter false? (map #( % x) all_preds)))))))
 
-; (filter (pred-and number? integer? pos? even?)  [1 0 -2 :a 7 "a" 2])
-; (filter (pred-and number? integer? pos? even?)  [1 0 -2 7 2])
-;  (fn [x] :-))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map 
+  ([f a-seq]
+   (if (empty? a-seq)
+     a-seq
+     (cons (f (first a-seq)) (my-map f (rest a-seq)))))
+  ([f a-seq & colls]
+   (let [step (fn step [cs]
+                 (lazy-seq
+                  (let [ss (map seq cs)]
+                    (when (every? identity ss)
+                      (cons (map first ss) (step (map rest ss)))))))]
+     (map #(apply f %) (step (conj colls a-seq))))))
+
+
+; (my-map inc [1 2 3 4])                  ;=> (2 3 4 5)
+; (my-map + [1 1 1] [1 1 1] [1 1 1])      ;=> (3 3 3)
+; (my-map vector [1 2 3] [1 2 3] [1 2 3]) ;=> ((1 1 1) (2 2 2) (3 3 3))
