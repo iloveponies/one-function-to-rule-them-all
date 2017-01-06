@@ -86,8 +86,9 @@
     :else
      (reduce * more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and 
+  ([] (fn [x] true))
+  ([& more] (fn [x] (reduce (fn [a b] (and a (b x))) true more))))
 
 (defn my-map [f a-seq]
   [:-])
