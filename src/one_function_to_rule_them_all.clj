@@ -104,5 +104,14 @@
   ([x y & more]
     (reduce (fn [p q] (fn [a] (and (p a) (q a)))) (pred-and x y) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq] (for [elem a-seq]
+               (f elem)))
+  ([f a-seq & more]
+    (let [table (conj (vec more) a-seq)
+         ncol (count a-seq)
+         nrow (count table)
+         params (for [col (vec (range ncol))]
+                  (for [row (vec (range nrow))]
+                   (get-in table (conj [row] col))))]
+        (reduce (fn [a param] (conj a (apply f param))) [] params))))
