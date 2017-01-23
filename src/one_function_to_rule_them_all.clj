@@ -11,7 +11,7 @@
 (defn my-interpose [x a-seq]
   (if (empty? a-seq)
     '()
-    (reduce (fn [z a] (concat z [x a])) [(first a-seq)] a-seq)))
+    (reduce (fn [z a] (concat z [x a])) [(first a-seq)] (rest a-seq))))
 
 (defn my-count [a-seq]
   (reduce (fn [x _] (inc x)) 0 a-seq))
