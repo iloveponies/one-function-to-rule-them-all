@@ -1,4 +1,4 @@
-(ns nightcoders.one-function-to-rule-them-all)
+(ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
   (reduce concat [] a-seq))
