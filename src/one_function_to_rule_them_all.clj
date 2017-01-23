@@ -14,7 +14,7 @@
     (reduce (fn [z a] (concat z [x a])) [(first a-seq)] a-seq)))
 
 (defn my-count [a-seq]
-  (reduce inc 0 a-seq))
+  (reduce (fn [x _] (inc x)) 0 a-seq))
 
 (defn my-reverse [a-seq]
   (reduce (fn [z a] (cons a z)) '() a-seq))
@@ -36,19 +36,36 @@
   (reduce insert [] a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (reduce (fn [set a]
+            (if (contains? set a)
+              (disj set a)
+              (conj set a))) #{} a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
+  
 
-(defn count-params [x]
-  :-)
+(defn count-params [& args]
+  (count args))
 
-(defn my-* [x]
-  :-)
+(defn my-* 
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & rest] (reduce my-* (my-* x y) rest)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [_] true))
+  ([x] x)
+  ([x y] (fn [a] (and (x a) (y a))))
+  ([x y & rest] (reduce pred-and (pred-and x y) rest)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f coll] (reverse (reduce (fn [acc y] (cons (f y) acc)) '() coll)))
+  ([f coll & arg-seq]
+    (loop [args []
+           sq (cons coll arg-seq)]
+      (if (some empty? sq)
+        (reverse (my-map (fn [as] (apply f as)) args))
+        (recur (cons (my-map first sq) args) (my-map rest sq))))))
