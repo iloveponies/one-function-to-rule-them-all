@@ -9,10 +9,12 @@
     (reduce (fn [z a] (str z " " a)) a-seq)))
 
 (defn my-interpose [x a-seq]
-  (reduce (fn [z a] (concat z [x a])) '() a-seq))
+  (if (empty? a-seq)
+    '()
+    (reduce (fn [z a] (concat z [x a])) [(first a-seq)] a-seq)))
 
 (defn my-count [a-seq]
-  (reduce (fn [x] (inc x)) 0 a-seq))
+  (reduce inc 0 a-seq))
 
 (defn my-reverse [a-seq]
   (reduce (fn [z a] (cons a z)) '() a-seq))
