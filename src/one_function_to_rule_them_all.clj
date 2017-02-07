@@ -38,8 +38,15 @@
 	(reduce insert [] a-seq)
 )
 
+(defn toggle [a-set elem]
+  (if(contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem))
+)
+
 (defn parity [a-seq]
-  [:-])
+  (reduce (fn [empt x] (toggle empt x)) #{} a-seq)
+)
 
 (defn minus
   ([x] (- x))
@@ -52,11 +59,19 @@
   ([x y & more] (+ 2 (count more))) ; more than two parameters
 )
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)                           ; one parameter
+  ([x y] (* x y))                         ; two parameters
+  ([x y & more] (* x y (reduce #(* %1 x %2)  more))) ; more than two parameters
+)
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [x] true))
+  ([p] (fn [x] p))                           ; one parameter
+  ([p1 p2] (fn [x] (and (p1 x) (p2 x))))                         ; two parameters
+  ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)) ; more than two parameters
+)
 
 (defn my-map [f a-seq]
   [:-])
