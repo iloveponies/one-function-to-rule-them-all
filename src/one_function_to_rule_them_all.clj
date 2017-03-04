@@ -1,26 +1,31 @@
 (ns one-function-to-rule-them-all)
 
-(defn concat-elements [a-seq] (reduce concat () a-seq))
+(defn concat-elements [a-seq]
+  (reduce concat () a-seq))
 
 (defn str-cat [a-seq]
   (if (empty? a-seq)
     ""
-    (apply str(drop 1 (reduce (fn [x y] (concat x " " y)) "" a-seq)))))
+    (apply str (drop 1 (reduce (fn [x y] (concat x " " y)) "" a-seq)))))
 
-(defn my-interpose [x a-seq] (drop 1 (reduce (fn [a b] (conj a x b) ) [] a-seq)))
+(defn my-interpose [x a-seq]
+  (drop 1 (reduce (fn [a b] (conj a x b) ) [] a-seq)))
 
-(defn my-count [a-seq] (reduce (fn [a b] (inc a)) 0 a-seq))
+(defn my-count [a-seq]
+  (reduce (fn [a b] (inc a)) 0 a-seq))
 
-(defn my-reverse [a-seq] (reduce conj () a-seq))
+(defn my-reverse [a-seq]
+  (reduce conj () a-seq))
 
 (defn min-max-element [a-seq]
-  (vec [
-    (reduce (fn [left right] (if (> left right) right left)) (first a-seq) a-seq)
-    (reduce (fn [left right] (if (< left right) right left)) (first a-seq) a-seq)]))
+  (vec [(reduce (fn [left right] (if (> left right) right left)) (first a-seq) a-seq)
+        (reduce (fn [left right] (if (< left right) right left)) (first a-seq) a-seq)]))
 
-(defn insert [sorted-seq n] (sort (cons n sorted-seq)))
+(defn insert [sorted-seq n]
+  (sort (cons n sorted-seq)))
 
-(defn insertion-sort [a-seq] (reduce (fn [left right] (insert left right)) () a-seq))
+(defn insertion-sort [a-seq]
+  (reduce (fn [left right] (insert left right)) () a-seq))
 
 (defn parity [a-seq]
   (let [tog (fn toggle [a e]
@@ -29,9 +34,12 @@
                 (conj a e)))]
                   (reduce (fn [left right] (tog left right)) #{} a-seq)))
 
-(defn minus ([x] (- 0 x)) ([x y] (- x y)))
+(defn minus
+  ([x] (- 0 x))
+  ([x y] (- x y)))
 
-(defn count-params [& more] (count more))
+(defn count-params [& more]
+  (count more))
 
 (defn my-* [& more]
   (let [x (count more)]
@@ -53,10 +61,9 @@
                                                                 (if (right y)
                                                                   (inc left)
                                                                   (+ 0 left)))) 0 more)]
-                                (if (= x z)
-                                 true
-                                 false)))
-           :else "there should NEVER be negative count of arguments"))))
+                            (if (= x z)
+                              true
+                              false)))))))
 
 
 (defn my-map ([f & a-seqs]
