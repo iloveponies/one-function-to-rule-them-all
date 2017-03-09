@@ -62,7 +62,6 @@
   ([p] p)
   ([p1 p2] (fn [elem] (and (p1 elem) (p2 elem))))
   ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)))
-(cons seq1 more)
 
 (defn my-map [f & seq]
  (if (every? empty? seq)
