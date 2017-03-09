@@ -19,27 +19,27 @@
 (defn min-max-element [a-seq]
   (let [min-max (fn [base elem] 
                 (let [[mi ma] base]
-				  [(min mi elem) (max ma elem)]))]
-	(if-not (empty? a-seq)
-	  (reduce min-max [(first a-seq) (first a-seq)] (rest a-seq))
-	  [])))
+                  [(min mi elem) (max ma elem)]))]
+    (if-not (empty? a-seq)
+      (reduce min-max [(first a-seq) (first a-seq)] (rest a-seq))
+      [])))
 
 (defn insert [sorted-seq n]
   (let [smaller (take-while (fn [seq] (<= seq n)) sorted-seq)
         greater (drop-while (fn [seq] (<= seq n)) sorted-seq)]
-	(if-not (empty? sorted-seq)
-	  (concat smaller [n] greater)
-	  [n])))
+    (if-not (empty? sorted-seq)
+      (concat smaller [n] greater)
+      [n])))
 
 (defn insertion-sort [a-seq]
   (reduce insert [] a-seq))
 
 (defn parity [a-seq]
   (reduce (fn [set elem] (if-not (empty? set)
-	                      (if(contains? set elem)
+                          (if(contains? set elem)
                            (disj set elem)
-	                       (conj set elem))
-						  #{elem})) #{} a-seq))
+                           (conj set elem))
+                          #{elem})) #{} a-seq))
 
 (defn minus
   ([x] (- 0 x))
