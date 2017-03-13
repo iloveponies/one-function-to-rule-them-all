@@ -93,9 +93,6 @@
                                        (rest accumulator-tail)
                                        (rest seq-tail)))))
         elem-lists (reduce sequence-combiner (my-map list a-seq) more)]
-    (loop [results []
-           elems-tail elem-lists]
-      (if (empty? elems-tail)
-        results
-        (recur (conj results (apply f (first elems-tail)))
-               (rest elems-tail)))))))
+    (let [func-applier (fn [accumulator elem]
+                         (conj accumulator (apply f elem)))]
+      (reduce func-applier [] elem-lists)))))
