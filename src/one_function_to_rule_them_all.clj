@@ -48,17 +48,32 @@
          #{}
          a-seq))
 
-(defn minus [x]
-  :-)
+(defn minus
+ ([x] (- x))
+ ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& params]
+ (count params))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+ ([] 1)
+ ([x] x)
+ ([x y] (* x y))
+ ([x y & more] (reduce my-* (my-* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+ ([] (fn [x] true))
+ ([p] (fn [x] (p x)))
+ ([p q] (fn [x] (and (p x) (q x))))
+ ([p q & more] (reduce pred-and (pred-and p q) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map-helper [f a-seq]
+ (seq (reduce #(conj %1 (f %2))
+              []
+              a-seq)))
+
+(defn my-map
+ ([f coll] (my-map-helper f coll))
+ ([f coll & more-colls] (let [collections (cons coll more-colls)]
+                         (my-map (partial apply f)
+                                 (partition (count collections) (apply interleave collections))))))
