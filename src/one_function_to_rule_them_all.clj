@@ -5,12 +5,16 @@
 
 (defn str-cat [a-seq]
   (let [interpose-space (fn [x y] (apply str (concat x " " y)))]
-  (if (empty? a-seq)
-    ""
-    (reduce interpose-space (first a-seq) (rest a-seq)))))
+    (if (empty? a-seq)
+      ""
+      (reduce interpose-space (first a-seq) (rest a-seq)))))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (let [interpose-x (fn [y z] (conj (conj y x) z))]
+    (if (empty? a-seq)
+      []
+      (reduce interpose-x [(first a-seq)] (rest a-seq)))))
+
 
 (defn my-count [a-seq]
   :-)
