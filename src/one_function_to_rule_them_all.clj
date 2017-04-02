@@ -41,18 +41,20 @@
   (reduce min-max [nil nil] a-seq)))
 
 (defn insert [sorted-seq n]
-  (let [find-index (fn [sorted-seq n curr-index]
+  (let [find-index (fn [sorted-seq n curr-index sorted-seq-count]
                      (cond (empty? sorted-seq) curr-index
-                           (nil? (get sorted-seq curr-index)) curr-index
-                           (< n (get sorted-seq curr-index)) curr-index
-                           :else (recur sorted-seq n (inc curr-index))))
-        index (find-index sorted-seq n 0)]
+                           (= curr-index sorted-seq-count) curr-index
+                           (< n (nth sorted-seq curr-index)) curr-index
+                           :else (recur sorted-seq n (inc curr-index) sorted-seq-count)))
+        index (find-index sorted-seq n 0 (count sorted-seq))]
     (if (empty? sorted-seq)
       [n]
       (concat (concat (take index sorted-seq) [n]) (drop index sorted-seq)))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (let [insert-to-seq (fn [b-seq elem]
+                        (insert (b-seq elem)))]
+  (reduce insert [] a-seq)))
 
 (defn parity [a-seq]
   [:-])
