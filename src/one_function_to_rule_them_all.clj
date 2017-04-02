@@ -33,7 +33,12 @@
       (reduce reverser [(first a-seq)] (rest a-seq)))))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [min-max (fn [[curr-min curr-max] elem]
+                  (cond (nil? curr-min) [elem elem]
+                        (< curr-max elem) [curr-min elem]
+                        (< elem curr-min) [elem curr-max]
+                        :else [curr-min curr-max]))]
+  (reduce min-max [nil nil] a-seq)))
 
 (defn insert [sorted-seq n]
   [:-])
