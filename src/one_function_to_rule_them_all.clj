@@ -69,11 +69,21 @@
 (defn count-params [& more]
   (count more))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (reduce * (* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+    ([] (fn [x] true))
+    ([pred] pred)
+    ([pred1 pred2] (fn [x] (and (pred1 x) (pred2 x))))
+    ([pred1 pred2 & more]
+       (let [combine-preds (fn [pred1 pred2]
+                        (fn [x] (and (pred1 x) (pred2 x))))]
+         (reduce combine-preds (combine-preds pred1 pred2) more))))
+
 
 (defn my-map [f a-seq]
   [:-])
