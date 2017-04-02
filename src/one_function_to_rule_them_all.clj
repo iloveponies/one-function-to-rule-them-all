@@ -52,9 +52,7 @@
       (concat (concat (take index sorted-seq) [n]) (drop index sorted-seq)))))
 
 (defn insertion-sort [a-seq]
-  (let [insert-to-seq (fn [b-seq elem]
-                        (insert (b-seq elem)))]
-  (reduce insert [] a-seq)))
+  (reduce insert [] a-seq))
 
 (defn parity [a-seq]
   [:-])
