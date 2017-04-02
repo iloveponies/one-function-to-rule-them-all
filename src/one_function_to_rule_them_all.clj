@@ -85,5 +85,10 @@
          (reduce combine-preds (combine-preds pred1 pred2) more))))
 
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq]
+    (let [apply-f-to-elem (fn [prev-seq elem]
+                            (conj prev-seq (f elem)))]
+  (reduce apply-f-to-elem [] a-seq)))
+  ([f a-seq & seqs]
+    ()))
