@@ -54,11 +54,17 @@
 (defn insertion-sort [a-seq]
   (reduce insert [] a-seq))
 
-(defn parity [a-seq]
-  [:-])
+(defn toggle [a-set elem]
+  (if (contains? a-set elem) (disj a-set elem) (conj a-set elem)))
 
-(defn minus [x]
-  :-)
+(defn parity [a-seq]
+  (let [parity-checker (fn [parity-set elem]
+                        (toggle parity-set elem))]
+    (reduce parity-checker #{} a-seq)))
+
+(defn minus
+  ([x] (- 0 x))
+  ([x y] (- x y)))
 
 (defn count-params [x]
   :-)
