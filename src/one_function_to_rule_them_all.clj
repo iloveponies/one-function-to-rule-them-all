@@ -4,9 +4,10 @@
   (reduce concat a-seq))
 
 (defn str-cat [a-seq]
+  (let [interpose-space (fn [x y] (apply str (concat x " " y)))]
   (if (empty? a-seq)
     ""
-    (reduce (fn [x y] (apply str (concat x " " y))) (first a-seq) (rest a-seq))))
+    (reduce interpose-space (first a-seq) (rest a-seq)))))
 
 (defn my-interpose [x a-seq]
   [:-])
