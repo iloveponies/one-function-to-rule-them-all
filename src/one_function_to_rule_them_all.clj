@@ -85,10 +85,31 @@
          (reduce combine-preds (combine-preds pred1 pred2) more))))
 
 
+(defn length-of-shortest-seq [seqs]
+  (if (= 1 (count seqs))
+    (count (first seqs))
+    (min (count (first seqs)) (length-of-shortest-seq (rest seqs)))))
+
+(defn get-element-at-index-from-seqs [index seqs]
+  (if (empty? seqs)
+    []
+    (cons (nth (first seqs) index) (get-element-at-index-from-seqs index (rest seqs)))))
+
+(defn get-elements-at-index-seq [max-index seqs]
+  (loop [index 0
+         current-seq []]
+    (if (<= max-index index)
+      current-seq
+      (recur (inc index) (cons (get-element-at-index-from-seqs index seqs) current-seq)))))
+
 (defn my-map
   ([f a-seq]
     (let [apply-f-to-elem (fn [prev-seq elem]
                             (conj prev-seq (f elem)))]
-  (reduce apply-f-to-elem [] a-seq)))
+      (reduce apply-f-to-elem [] a-seq)))
   ([f a-seq & seqs]
-    ()))
+   (let [min-seq-len (min (count a-seq) (length-of-shortest-seq seqs))
+         seqs-as-sequence (cons a-seq seqs)
+         apply-f-to-elem (fn [prev-seq elemseq]
+                           (cons (apply f elemseq) prev-seq))]
+      (reduce apply-f-to-elem [] (get-elements-at-index-seq min-seq-len seqs-as-sequence)))))
