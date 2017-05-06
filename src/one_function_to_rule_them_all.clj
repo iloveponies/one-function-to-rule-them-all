@@ -58,19 +58,33 @@
     (reduce reducer-fn '() a-seq)))
 
 (defn parity [a-seq]
-  [:-])
+    (let [reducer-fn (fn [current-accum-val next-item]
+                          (let [[item item-freq] next-item]
+                              (if (odd? item-freq)
+                                (conj current-accum-val item)
+                                current-accum-val)))]
+    (reduce reducer-fn #{} (frequencies a-seq))))
 
-(defn minus [x]
-  :-)
+(defn minus
+    ([x] (- 0 x))
+    ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& params]
+    (count params))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([] 1)
+  ([x] x)
+  ([x y] (* x y))
+  ([x y & more] (* x y (reduce * more))))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+    ([] (fn [v] true))
+    ([x] (fn [v] (x v)))
+    ([x & more] (fn [v] 
+        (let [reducer-fn (fn [current-accum-val next-item] 
+                            (if (true? current-accum-val) (and (next-item v) current-accum-val) false))]
+        (reduce reducer-fn (x v) more)))))
 
 (defn my-map [f a-seq]
   [:-])
