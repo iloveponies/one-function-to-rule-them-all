@@ -1,19 +1,35 @@
 (ns one-function-to-rule-them-all)
 
 (defn concat-elements [a-seq]
-  :-)
+  (reduce concat '() a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  ;; or just `(clojure.string/join " " a-seq)`
+  (if (empty? a-seq)
+    ""
+    (let [cat (fn [sum new]
+                (str sum " " new))]
+      (reduce cat a-seq))))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq)
+    []
+    (let [interposer (fn [sum elem]
+                       (conj sum x elem))]
+      ;; Could someone please merge some PRs? Instructions say `'()` but tests
+      ;; expect `[]`..........................................................
+      (reduce interposer [(first a-seq)] (rest a-seq)))))
 
 (defn my-count [a-seq]
-  :-)
+  (let [counter (fn [c elem]
+                  (inc c))]
+    (reduce counter 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (let [reverse-adder (fn [sum elem]
+                        ;; Why `conj` works differently in `my-interpose`?
+                        (conj sum elem))]
+    (reduce reverse-adder '() a-seq)))
 
 (defn min-max-element [a-seq]
   [:-])
