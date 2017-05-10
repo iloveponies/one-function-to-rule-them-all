@@ -40,7 +40,17 @@
       [min max])))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (loop [new-seq '()
+         n n
+         sorted-seq sorted-seq]
+    (if (not n)
+      new-seq
+      (if (empty? sorted-seq)
+        (concat new-seq [n])
+        (let [f (first sorted-seq)]
+          (if (<= n f)
+            (concat new-seq [n f] (rest sorted-seq))
+            (recur (concat new-seq [f]) n (rest sorted-seq))))))))
 
 (defn insertion-sort [a-seq]
   [:-])
