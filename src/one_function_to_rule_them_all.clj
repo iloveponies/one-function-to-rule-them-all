@@ -27,12 +27,14 @@
 
 (defn my-reverse [a-seq]
   (let [reverse-adder (fn [sum elem]
-                        ;; Why `conj` works differently in `my-interpose`?
                         (conj sum elem))]
     (reduce reverse-adder '() a-seq)))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [min-max-counter (fn [extremes
+                             elem]
+                          [(min (nth extremes 0) elem) (max (nth extremes 1) elem)])]
+    (reduce min-max-counter [(Integer/MAX_VALUE) (Integer/MIN_VALUE)] a-seq)))
 
 (defn insert [sorted-seq n]
   [:-])
