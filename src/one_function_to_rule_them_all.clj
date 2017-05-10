@@ -48,7 +48,7 @@
             :else (recur (concat new-seq [f]) (rest sorted-seq))))))
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert '() a-seq))
 
 (defn parity [a-seq]
   [:-])
