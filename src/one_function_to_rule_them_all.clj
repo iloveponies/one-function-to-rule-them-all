@@ -31,10 +31,13 @@
     (reduce reverse-adder '() a-seq)))
 
 (defn min-max-element [a-seq]
-  (let [min-max-counter (fn [extremes
-                             elem]
-                          [(min (nth extremes 0) elem) (max (nth extremes 1) elem)])]
-    (reduce min-max-counter [(Integer/MAX_VALUE) (Integer/MIN_VALUE)] a-seq)))
+  (let [min-max-counter (fn [{maximum :max
+                              minimum :min} elem]
+                          {:max (max maximum elem) :min (min minimum elem)})]
+    ;; Transform the map to an array
+    (let [{:keys [min max]}
+          (reduce min-max-counter {:min (Integer/MAX_VALUE) :max (Integer/MIN_VALUE)} a-seq)]
+      [min max])))
 
 (defn insert [sorted-seq n]
   [:-])
