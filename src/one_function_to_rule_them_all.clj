@@ -51,19 +51,35 @@
   (reduce insert '() a-seq))
 
 (defn parity [a-seq]
-  [:-])
+  (let [paritier (fn [{:keys [evens odds]} n]
+                   (cond
+                     (some #{n} odds) {:evens (conj evens n)
+                                       :odds (disj odds n)}
+                     (some #{n} evens) {:evens (disj evens n)
+                                        :odds (conj odds n)}
+                     :else {:evens evens
+                            :odds (conj odds n)}))]
+    (:odds (reduce paritier {:evens #{}
+                             :odds #{}} a-seq))))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (- x))
+  ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params [& x]
+  (count x))
 
-(defn my-* [x]
-  :-)
+(defn my-*
+  ([& x] (reduce * x)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [_] true))
+  ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
+  ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f & more]
+   (loop [new-seq '()
+          seq-of-seqs more]
+     (if (some empty? seq-of-seqs) new-seq
+         (recur (concat new-seq [(apply f (map first seq-of-seqs))]) (map rest seq-of-seqs))))))
