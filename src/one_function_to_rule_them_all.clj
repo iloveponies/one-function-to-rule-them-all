@@ -77,9 +77,19 @@
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
   ([p1 p2 & more] (reduce pred-and (pred-and p1 p2) more)))
 
+(defn firsts [seq-of-seqs]
+  (let [get-first (fn [firsts-seq a-seq]
+                    (concat firsts-seq [(first a-seq)]))]
+    (reduce get-first '() seq-of-seqs)))
+
+(defn rests [seq-of-seqs]
+  (let [get-rest (fn [rests-seq a-seq]
+                   (concat rests-seq [(rest a-seq)]))]
+    (reduce get-rest '() seq-of-seqs)))
+
 (defn my-map
   ([f & more]
    (loop [new-seq '()
           seq-of-seqs more]
      (if (some empty? seq-of-seqs) new-seq
-         (recur (concat new-seq [(apply f (map first seq-of-seqs))]) (map rest seq-of-seqs))))))
+         (recur (concat new-seq [(apply f (firsts seq-of-seqs))]) (rests seq-of-seqs))))))
