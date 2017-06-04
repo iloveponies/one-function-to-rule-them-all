@@ -56,15 +56,17 @@
   ([p q & more] (reduce pred-and
                         (fn [x] (and (p x) (q x)))
                         more)))
+(defn my-map [f a-seq]
+  [:-])
 
 ;Does not work at this point
-(defn my-map;(map f)(map f coll)(map f c1 c2)(map f c1 c2 c3)(map f c1 c2 c3 & colls)
- ([f a-seq]
-  (if (seq a-seq)
-   (lazy-seq
-    (cons (f (first a-seq))
-          (my-map f (rest a-seq))
-  )))
-  [f a-seq b-seq] (reduce f [] a-seq)
-  [f a-seq b-seq c-seq & more] (reduce f [] a-seq)
-))
+;(defn my-map;(map f)(map f coll)(map f c1 c2)(map f c1 c2 c3)(map f c1 c2 c3 & colls)
+; ([f a-seq]
+;  (if (seq a-seq)
+;   (lazy-seq
+;    (cons (f (first a-seq))
+;          (my-map f (rest a-seq))
+;  )))
+;  [f a-seq b-seq] (reduce f [] a-seq)
+;  [f a-seq b-seq c-seq & more] (reduce f [] a-seq)
+;))
