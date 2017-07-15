@@ -65,5 +65,11 @@
   ([] (fn [x] true))
   ([& more] (fn [val] (every? true? (map (fn [pred] (pred val)) more)))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq] (reduce (fn [response elem] (conj response (f elem))) [] a-seq))
+  ([f a-seq & more]
+   (loop [all (cons a-seq more)
+          result []]
+      (if (empty? (first all))
+        result
+        (recur (my-map rest all) (conj result (apply f (my-map first all))))))))
