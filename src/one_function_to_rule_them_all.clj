@@ -79,11 +79,8 @@
 (minus 2 1)
 
 (defn count-params
-  ([] 0)
   ([& more]
-   (if (= 1 (count more))
-     1
-     (reduce (fn [acc x] (inc acc)) more))))
+    (reduce (fn [acc x] (inc acc)) 0 more)))
 
 (count-params :a)
 (count-params)
@@ -93,7 +90,7 @@
   ([& more]
      (reduce (fn [acc y] (* acc y)) 1 (seq more))))
 
-(my-*)
+(my-* 2 3)
 
 (defn pred-and
   ([] (fn [x] true))
