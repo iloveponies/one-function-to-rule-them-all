@@ -6,23 +6,23 @@
 (defn str-cat [a-seq]
   (if (empty? a-seq)
     ""
-    (let [cate (fn [m n]
-                (str m " " n))]
-      (reduce cate a-seq))))
+    (let [add-space (fn [string1 string2]
+                      (str string1 " " string2))]
+      (reduce add-space a-seq))))
 
 (defn my-interpose [x a-seq]
   (if (empty? a-seq)
     '()
-    (let [ad   (fn [m n]
-                (conj m x n))]
-      (reduce ad [(first a-seq)] (rest a-seq)))))
+    (let [add-spacer (fn [a b]
+                       (conj a x b))]
+      (reduce add-spacer [(first a-seq)] (rest a-seq)))))
 
 (defn my-count [a-seq]
-  (let [ counts (fn [n elem]
-                    (if (empty? elem)
+  (let [seq-count (fn [n elem]
+                    (if (nil? elem)
                       n
                       (inc n)))]
-    (reduce counts 0 a-seq)))
+    (reduce seq-count 0 a-seq)))
 
 (defn my-reverse [a-seq]
   (if (empty? a-seq)
@@ -32,15 +32,15 @@
 (defn min-max-element [a-seq]
   (if (empty? a-seq)
     []
-    (let [min-max-helper (fn [[min max] elem]
+    (let [track-min-max (fn [[min max] elem]
                           (let [[min max]
+                                (if (< elem min)
+                                  [elem max]
+                                  [min max])]
                             (if (> elem max)
                               [min elem]
                               [min max])))]
-                             (if (< elem min)
-                                  [elem max]
-                                  [min max])]
-      (reduce min-max-helper [(first a-seq) (first a-seq)] a-seq))))
+      (reduce track-min-max [(first a-seq) (first a-seq)] a-seq))))
 
 (defn insert [sorted-seq n]
   (cond
@@ -57,6 +57,7 @@
             (apply conj new-seq (first a-seq) n (rest a-seq))
           :else (recur (rest a-seq) (conj new-seq (first a-seq))))))))
 
+
 (defn insertion-sort [a-seq]
   (reduce insert [] a-seq))
 
@@ -72,27 +73,27 @@
   ([x] (- x))
   ([x y] (- x y)))
 
-(defn count-params [& pars]
-  (count pars))
+(defn count-params [& params]
+  (count params))
 
-(defn my-* [& pars]
-  (reduce * 1 pars))
+(defn my-* [& params]
+  (reduce * 1 params))
 
 (defn pred-and
   ([] (fn [x] true))
-  ([x1] (fn [x] (x1 x)))
-  ([x1 x2] (fn [x] (and (x1 x) (x2 x))))
-  ([x1 x2 & more]
-    (reduce pred-and (pred-and x1 x2) more)))
+  ([p1] (fn [x] (p1 x)))
+  ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
+  ([p1 p2 & more]
+    (reduce pred-and (pred-and p1 p2) more)))
 
 (defn my-map
   ([f a-seq]
-   (let [my-helper (fn [a-seq elem]
+   (let [helper (fn [a-seq elem]
                    (conj a-seq (f elem)))]
-     (seq (reduce my-helper [] a-seq))))
+     (seq (reduce helper [] a-seq))))
   ([f a-seq & more]
-   (let [se (cons a-seq more)]
-     (if (some empty? se)
+   (let [seqs (cons a-seq more)]
+     (if (some empty? seqs)
        '()
-       (cons (apply f (my-map first se))
-                  (apply my-map f (my-map rest se)))))))
+       (cons (apply f (my-map first seqs))
+                  (apply my-map f (my-map rest seqs)))))))
