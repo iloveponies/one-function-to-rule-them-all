@@ -15,7 +15,13 @@
 
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq)
+    '()
+    (reduce
+      (fn [item1 item2]
+        (conj item1 x item2))
+      (conj '() (first (reverse a-seq)))
+      (rest (reverse a-seq)))))
 
 (defn my-count [a-seq]
   [:-])
