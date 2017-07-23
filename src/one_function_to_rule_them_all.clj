@@ -99,8 +99,11 @@
   ([pred1? pred2? & more] (reduce pred-and (pred-and pred1? pred2?) more)))
 
 (pred-and (filter (pred-and) [1 0 -2]))
-          ;=> (1 0 -2)
 
-
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f & more]
+   (loop [result []
+          left more]
+     (if (some empty? left)
+       (seq result)
+       (recur (conj result (apply f (map first left))) (map rest left))))))
