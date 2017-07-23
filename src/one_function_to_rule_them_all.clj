@@ -7,13 +7,18 @@
     a-seq))
 
 (defn str-cat [a-seq]
-  :-)
+  (if (empty? a-seq)
+    ""
+    (reduce
+      (fn [word1 word2] (str word1 " " word2))
+      a-seq)))
+
 
 (defn my-interpose [x a-seq]
   [:-])
 
 (defn my-count [a-seq]
-  :-)
+  [:-])
 
 (defn my-reverse [a-seq]
   [:-])
