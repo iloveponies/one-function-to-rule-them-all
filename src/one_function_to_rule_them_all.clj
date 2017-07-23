@@ -27,7 +27,10 @@
   [:-])
 
 (defn my-reverse [a-seq]
-  [:-])
+  (reduce
+    #(conj %1 %2)
+    '()
+    a-seq))
 
 (defn min-max-element [a-seq]
   [:-])
