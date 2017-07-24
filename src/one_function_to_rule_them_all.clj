@@ -78,8 +78,9 @@
       #{}
       a-seq)))
 
-(defn minus [x]
-  :-)
+(defn minus
+  ([x] (* -1 x))
+  ([x y] (- x y)))
 
 (defn count-params [x]
   :-)
