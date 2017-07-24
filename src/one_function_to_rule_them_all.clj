@@ -68,7 +68,15 @@
       a-seq)))
 
 (defn parity [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    #{}
+    (reduce
+      (fn [the-set elem]
+        (if (contains? the-set elem)
+          (disj the-set elem)
+          (conj the-set elem)))
+      #{}
+      a-seq)))
 
 (defn minus [x]
   :-)
