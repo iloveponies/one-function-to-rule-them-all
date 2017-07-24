@@ -46,8 +46,7 @@
              [(first min-max-vec) number]
              min-max-vec)))
        [(first a-seq) (first a-seq)]
-       a-seq
-       )))
+       a-seq)))
 
 (defn insert [sorted-seq n]
   [:-])
