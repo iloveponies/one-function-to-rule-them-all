@@ -36,7 +36,18 @@
     a-seq))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    []
+    (reduce
+       (fn [min-max-vec number]
+         (if (< number (first min-max-vec))
+           [number (second min-max-vec)]
+           (if (> number (second min-max-vec))
+             [(first min-max-vec) number]
+             min-max-vec)))
+       [(first a-seq) (first a-seq)]
+       a-seq
+       )))
 
 (defn insert [sorted-seq n]
   [:-])
