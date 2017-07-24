@@ -82,8 +82,11 @@
   ([x] (* -1 x))
   ([x y] (- x y)))
 
-(defn count-params [x]
-  :-)
+(defn count-params
+  ([] 0)
+  ([x] 1)
+  ([x & more] (+ 1 (count more))))
+
 
 (defn my-* [x]
   :-)
