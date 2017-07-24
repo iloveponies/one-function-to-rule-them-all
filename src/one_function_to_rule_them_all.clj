@@ -24,7 +24,10 @@
       (rest (reverse a-seq)))))
 
 (defn my-count [a-seq]
-  [:-])
+  (reduce
+    (fn [counter elem] (inc counter))
+    0
+    a-seq))
 
 (defn my-reverse [a-seq]
   (reduce
@@ -40,6 +43,7 @@
 
 (defn insertion-sort [a-seq]
   [:-])
+
 
 (defn parity [a-seq]
   [:-])
