@@ -51,7 +51,7 @@
 (defn insert [sorted-seq n]
   (concat
     (take-while
-      (fn [x] (<= x n))
+      (fn [x] (< x n))
       sorted-seq)
     (conj () n)
     (drop-while
@@ -59,8 +59,13 @@
       sorted-seq)))
 
 (defn insertion-sort [a-seq]
-  [:-])
-
+  (if (empty? a-seq)
+    '()
+    (reduce
+      (fn [sorted-seq elem]
+        (insert sorted-seq elem))
+      []
+      a-seq)))
 
 (defn parity [a-seq]
   [:-])
