@@ -98,8 +98,23 @@
      (* x y)
      more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+(defn pred-and
+  ([] (fn [elem] true))
+  ([x] x)
+  ([x y] (fn [elem] (and (x elem) (y elem))))
+  ([x y & more]
+   (reduce
+     (fn [preds the-pred]
+       (fn [elem]
+         (and (preds elem) (the-pred elem))))
+     (fn [elem] (x elem))
+     more)))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn my-map
+  ([f a-seq]
+   (reduce
+     (fn [a b]
+       (conj a (f b)))
+     '()
+     (reverse a-seq))))
+
