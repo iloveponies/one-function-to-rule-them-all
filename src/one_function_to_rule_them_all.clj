@@ -101,8 +101,7 @@
 (defn pred-and
   ([] (fn [elem] true))
   ([x] x)
-  ([x y] (fn [elem] (and (x elem) (y elem))))
-  ([x y & more]
+  ([x & more]
    (reduce
      (fn [preds the-pred]
        (fn [elem]
