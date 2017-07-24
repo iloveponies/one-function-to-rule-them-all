@@ -49,7 +49,14 @@
        a-seq)))
 
 (defn insert [sorted-seq n]
-  [:-])
+  (concat
+    (take-while
+      (fn [x] (<= x n))
+      sorted-seq)
+    (conj () n)
+    (drop-while
+      (fn [x] (< x n))
+      sorted-seq)))
 
 (defn insertion-sort [a-seq]
   [:-])
