@@ -88,13 +88,23 @@
  ([pred1 pred2] (fn [x] (and (pred1 x) (pred2 x))))
  ([pred1 pred2 & more] (reduce pred-and (pred-and pred1 pred2) more)))
 
+
+(defn transpose [matrix]
+  (partition (count matrix) (into [] (for [i (range 0 (count (first matrix)))
+                                           j (range 0 (count matrix))]
+            
+                                      (get-in matrix [j i])))))
+       
+      
+
+
 (defn my-map 
  ([f a-seq] (reduce (fn [new e]
                      (conj new (f e)))
                     []
                     a-seq))
  ([f a-seq & more]
-  (let [trans (apply mapv vector (into [] (concat [a-seq] more)))]
+  (let [trans (transpose (into [] (concat [a-seq] more)))]
    (my-map #(apply f %) trans))))
 
   
