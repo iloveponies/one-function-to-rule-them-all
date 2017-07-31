@@ -68,8 +68,28 @@
   ([] (fn [x] true))
   ([pred] pred)
   ([p1 p2] (fn [x] (and (p1 x) (p2 x))))
-  ([p1 p2 & more] (fn [x] (and (pred-and p1 p2)
+  ([p1 p2 & more] (fn [x] (and ((pred-and p1 p2) x)
                                (every? true? (map #(% x) more))))))
 
-(defn my-map [f a-seq]
-  [:-])
+(defn head-taker [xss]
+  (cond (empty? xss) ()
+        (some empty? xss) ()
+        :else (cons (first (first xss))
+                    (head-taker (rest xss)))))
+
+(defn removed-heads [xss]
+  (cond (empty? xss) ()
+        (some empty? xss) ()
+        :else (cons (rest (first xss))
+                    (removed-heads (rest xss)))))
+
+(defn my-map
+  ([f xs] (if (empty? xs)
+            xs
+            (cons (f (first xs))
+                  (my-map f (rest xs)))))
+  ([f xs & more] (let [all (cons xs more)]
+                   (if (some empty? all)
+                     ()
+                     (cons (apply f (head-taker all))
+                           (my-map f (removed-heads all)))))))
