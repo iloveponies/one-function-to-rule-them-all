@@ -84,12 +84,18 @@
                     (removed-heads (rest xss)))))
 
 (defn my-map
-  ([f xs] (if (empty? xs)
-            xs
-            (cons (f (first xs))
-                  (my-map f (rest xs)))))
-  ([f xs & more] (let [all (cons xs more)]
-                   (if (some empty? all)
-                     ()
-                     (cons (apply f (head-taker all))
-                           (my-map f (removed-heads all)))))))
+  ([f xs] (loop [ys xs
+                 acc []]
+            (if (empty? ys)
+              acc
+              (recur (rest ys)
+                     (conj acc (f (first ys)))))))
+  ([f xs & more] (loop [ys xs
+                        tail more
+                        acc []]
+                   (if (empty? ys)
+                     acc
+                     (recur (rest ys)
+                            (removed-heads tail)
+                            (conj acc
+                                  (apply f (head-taker (cons ys tail)))))))))
