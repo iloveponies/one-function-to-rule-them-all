@@ -123,7 +123,12 @@
 (defn count-params [& params]
   (count params))
 
-
+;; Write the function my-* that takes any number of parameters.
+;; If no parameters are given, return 1
+;; If one parameter x is given, return x.
+;; If two parameters x and y are given, return xy.
+;; If more than two parameters x, y, …… are given, return their product
+;; You are free to use *, but not apply.
 ;; (my-*)           ;=> 1
 ;; (my-* 4 3)       ;=> 12
 ;; (my-* 1 2 3 4 5) ;=> 120
@@ -134,8 +139,58 @@
   ([x y & more]
    (reduce my-* (my-* x y) more)))
 
-(defn pred-and [x]
-  (fn [x] :-))
+;; Remember the function pred-and that you implemented in Predicates? Write a new definition for it that works for any
+;; amount of parameters.
+;; If no parameters are given, return a predicate that always returns true.
+;; If only one predicate p is given, return p.
+;; If two predicates are given, return a predicate that returns true if both of them return true and false otherwise.
+;; If more than two predicates are given, return a predicate that returns true only if all of the predicates return
+;; true and false otherwise.
+;; (filter (pred-and) [1 0 -2])                    ;=> (1 0 -2)
+;; (filter (pred-and pos? odd?) [1 2 -4 0 6 7 -3]) ;=> (1 7)
+;; (filter (pred-and number? integer? pos? even?)
+;;         [1 0 -2 :a 7 "a" 2])                    ;=> (0 2)
+(defn pred-and
+  ([]
+   (fn [x] true))
+  ([pred1] pred1)
+  ([pred1 pred2]
+   (fn [x] (and (pred1 x) (pred2 x))))
+  ([pred1 pred2 & more]
+   (reduce pred-and (pred-and pred1 pred2) more)))
 
-(defn my-map [f a-seq]
-  [:-])
+
+;; Write the function my-map that works just like standard map. It takes one or more sequences and a
+;; function f that takes as many parameters as there are sequences.
+;; (my-map inc [1 2 3 4])                  ;=> (2 3 4 5)
+;; (my-map + [1 1 1] [1 1 1] [1 1 1])      ;=> (3 3 3)
+;; (my-map vector [1 2 3] [1 2 3] [1 2 3]) ;=> ((1 1 1) (2 2 2) (3 3 3))
+
+(defn foo [f seq-of-seqs]
+  (reduce
+    (fn[res a-seq] (conj res (f a-seq)))
+    []
+    seq-of-seqs))
+
+(defn firsts [a-seq]
+  (foo first a-seq))
+
+(defn rests [a-seq]
+  (foo rest a-seq))
+
+(defn rearrange [a-seq]
+  (cond
+    (= 0 (count (first a-seq))) []
+    (= 1 (count (first a-seq))) [(firsts a-seq)]
+    :else (cons
+            (firsts a-seq)
+            (rearrange (rests a-seq)))))
+
+(defn my-map [f & seq-of-seqs]
+  (reduce
+    (fn [result a-seq]
+      (do
+        (println result a-seq)
+        (conj result (apply f a-seq))))
+    []
+    (rearrange seq-of-seqs)))
