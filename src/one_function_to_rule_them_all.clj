@@ -55,11 +55,12 @@
   ([x y] (* x y))
   ([x y & more] (reduce * (* x y) more)))
 
-  (defn pred-and
-    ([] (fn [_] true))
-    ([p?] p?)
-    ([p1? p2?] (fn [x] (and (p1? x) (p2? x))))
-    ([p1? p2? & more] (reduce pred-and (pred-and p1? p2?) more)))
+(defn pred-and
+  ([] (fn [_] true))
+  ([p?] p?)
+  ([p1? p2?] (fn [x] (and (p1? x) (p2? x))))
+  ([p1? p2? & more] (reduce pred-and (pred-and p1? p2?) more)))
 
 (defn my-map [f a-seq]
   [:-])
+  
