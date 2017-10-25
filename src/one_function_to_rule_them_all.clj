@@ -62,5 +62,4 @@
   ([p1? p2? & more] (reduce pred-and (pred-and p1? p2?) more)))
 
 (defn my-map [f a-seq]
-  [:-])
-  
+  )
