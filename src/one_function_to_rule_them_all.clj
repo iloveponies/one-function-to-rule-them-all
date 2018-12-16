@@ -90,10 +90,14 @@
    (reduce pred-and (fn [x] (and (p1 x) (p2 x))) more)))
 
 
-;(defn my-map [f seq-1 seq-2]
-;  (if (and (empty? seq-2) (empty? seq-2))
-;     ()
-;     (cons (f (first seq-1) (first seq-2)) (my-map f (rest seq-1) (rest seq-2)))))
-; EXTRA
-(defn my-map [f a-seq]
-  [:-])
+; Encore
+(defn my-map
+  ([f a-seq]
+   (reduce (fn [acc elem] (conj acc (f elem))) [] a-seq)) ;not again it is important to use vector as opposed to list as it affects whether conj prepends or appends
+  ([f a-seq & more-seqs]
+   (let [all-seqs (cons a-seq more-seqs)]
+     ;prepare the input so that result is first seq contains the first item in each coll, then the second etc.
+     ;partition then chunks the outcome back to as many sequences there were in the input
+     ; ([1 2 3] [1 2 3] [1 2 3]) => ((1 1 1) (2 2 2) (3 3 3))
+     (let [interleaved-seqs (partition (count all-seqs) (apply interleave all-seqs))]
+       (reduce (fn [acc s] (conj acc (apply f s))) [] interleaved-seqs)))))
