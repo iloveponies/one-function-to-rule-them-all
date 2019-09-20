@@ -13,7 +13,13 @@
   ))
 
 (defn my-interpose [x a-seq]
-  [:-])
+  (if (empty? a-seq)
+      []
+      (let [f (fn [acc b]
+                (concat acc [x b]))]
+      (concat [(first a-seq)] (reduce f [] (rest a-seq)))
+    )))
+
 
 (defn my-count [a-seq]
   :-)
