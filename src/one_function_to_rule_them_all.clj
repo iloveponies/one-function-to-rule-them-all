@@ -5,7 +5,12 @@
   )
 
 (defn str-cat [a-seq]
-  :-)
+  (if (empty? a-seq)
+    ""
+    (let [f (fn [a b]
+              (str a " " b))]
+    (reduce f (first a-seq) (rest a-seq)))
+  ))
 
 (defn my-interpose [x a-seq]
   [:-])
