@@ -71,8 +71,8 @@
   ))
 
 
-(defn count-params [x]
-  :-)
+(defn count-params [& more]
+  (count more))
 
 (defn my-* [x]
   :-)
