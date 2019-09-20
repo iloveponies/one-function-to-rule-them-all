@@ -39,11 +39,17 @@
     (reduce f [(first a-seq) (first a-seq)] a-seq)
     ))
 
+
 (defn insert [sorted-seq n]
-  [:-])
+  (let [pred (fn [a] (> n a))
+        i (count (take-while pred sorted-seq))]
+    (concat (take i sorted-seq) [n] (drop i sorted-seq))
+  ))
+
+
 
 (defn insertion-sort [a-seq]
-  [:-])
+  (reduce insert [] a-seq))
 
 (defn parity [a-seq]
   [:-])
