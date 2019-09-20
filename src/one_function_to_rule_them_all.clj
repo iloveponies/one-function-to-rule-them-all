@@ -23,13 +23,21 @@
 
 (defn my-count [a-seq]
   (let [f (fn [a b ] (inc a ))]
-  (reduce f 0 a-seq)))
+    (reduce f 0 a-seq)))
 
 (defn my-reverse [a-seq]
-  [:-])
+  (let [f (fn [a b] (cons b a))]
+    (reduce f [] a-seq)))
 
 (defn min-max-element [a-seq]
-  [:-])
+  (let [f (fn [minmax x] (if (> (first minmax) x)
+                           [x (second minmax)]
+                           (if (< (second minmax) x)
+                             [(first minmax) x]
+                             minmax)
+                           ))]
+    (reduce f [(first a-seq) (first a-seq)] a-seq)
+    ))
 
 (defn insert [sorted-seq n]
   [:-])
