@@ -22,7 +22,8 @@
 
 
 (defn my-count [a-seq]
-  :-)
+  (let [f (fn [a b ] (inc a ))]
+  (reduce f 0 a-seq)))
 
 (defn my-reverse [a-seq]
   [:-])
