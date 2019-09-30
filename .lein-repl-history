@@ -1,0 +1,330 @@
+(cons [1 2] [2 3])
+(str "asd" "dsa")
+(reduce str ["aa" "bb" "lol"])
+(reduce (fn [str-1 str-2] (str str-1 \s str-2)) ["aa" "bb" "lol"])
+(reduce (fn [str-1 str-2] (str str-1 " " str-2)) ["aa" "bb" "lol"])
+(interpose " " "asd")
+(interpose \space "asd")
+(str \space "asd" \space "aa")
+(defn str-cat [a-seq]
+  (if (empty? a-seq) "" 
+    (reduce str (interpose a-seq \space))))
+(str-cat ["I" "am" "Legend"])
+(conj [] 1)
+(defn my-interpose [x a-seq]
+  (reduce 
+    (fn [a-vec elem] (conj a-vec elem))      
+    []
+    a-seq))
+(my-interpose 1 [2 4 6])
+(conj 1 [2 1 4])
+(conj [2 1 4] 1)
+(conj (conj [2 1 4] 1) 8)
+(conj (conj nil 1) 8)
+(defn my-interpose [x a-seq]
+  (reduce 
+    (fn [a-vec elem] (conj (conj a-vec x) elem))
+    a-seq))
+(my-interpose 1 [2 4 6])
+(defn my-interpose [x a-seq]
+  (reduce 
+    (fn [a-vec elem] (conj (conj a-vec x) elem))
+    []
+    a-seq))
+(my-interpose 1 [2 4 6])
+(str "405060173")
+(apply Integer/valueOf (str "405060173"))
+(map Integer/valueOf (str "405060173"))
+(map Integer/valueOf "405060173")
+(map Integer/parseInt "405060173")
+(map int "405060173")
+(map (fn [char-a] (- (int char-a) 48)) "405060173")
+(apply sum (map (fn [char-a] (- (int char-a) 48)) "405060173"))
+(map (fn [char-a] (- (int char-a) 48)) "405060173")
+(apply sum '(4 0 5 0 6 0 1 7 3))
+(apply + '(4 0 5 0 6 0 1 7 3))
+(apply + (map (fn [char-a] (- (int char-a) 48)) "405060173"))
+(apply + (map (fn [char-a] (- (int char-a) 48)) "4318773276"))
+(apply + (map (fn [char-a] (- (int char-a) 48)) "431877327"))
+(apply + (map (fn [char-a] (- (int char-a) 48)) "420527103"))
+(apply + (map (fn [char-a] (- (int char-a) 48)) "412290094"))
+(apply + (map (fn [char-a] (- (int char-a) 48)) "431877327"))
+(defn my-interpose [x a-seq]
+  (reduce 
+    (fn [a-vec elem] (conj (conj a-vec x) elem))
+    []
+    a-seq))
+(my-interpose 1 [2 4 6])
+(inc 1 [2 4 6])
+(cons 1 '(2 3))
+(cons 1 '())
+(cons 2 (cons 1 '()))
+(max 0 nil)
+(max 0 (or nil 0))
+(defn min-max-element [a-seq]
+  (reduce
+    (fn [min-max elem]
+      [(min elem (or (first min-max) elem))
+       (max elem (or (second min-max) elem))])
+    [nil nil] a-seq))
+(min-max-element [1])          ;=> [1 1]
+(min-max-element [])
+(cons 3 '())
+(cons 3 '(4))
+(conj '(4) 3)
+(conj 3 '(4))
+(conj '(4) 3)
+(conj [4] 3)
+(split-at 2 [1 2 3])
+(concat [1 2] 5 [7 8])
+(concat [1 2] (cons 5 '(7 8)))
+(seq 4)
+(seq [4])
+(rest '(1 2))
+(first '(1 2))
+(contains? [1 2] 2)
+(contains? 2 [1 2])
+(contains? '(1 2) 2)
+(contains? (range 1 2) 2)
+(< 1 nil)
+(map (fn [e] (<= e 5)) '(1 2 3 4 5 6 7 8))
+(filter (fn [e] (<= e 5)) '(1 2 3 4 5 6 7 8))
+(defn insert [sorted-seq n]
+  (let [beg (filter (fn [e] (<= e n)) sorted-seq)
+        end (drop (count beg) sorted-seq)]
+    (concat beg (cons n end))))
+(insert '(1 2 3 9) 6)
+(insert '() 6)
+(insert '(1) 6)
+(insert '(9) 6)
+(defn insertion-sort [a-seq]
+  (reduce insert '() a-seq))
+(insertion-sort '(9 7 5 1 2))
+(assoc {} :d)
+(assoc :d {})
+(defn parity [a-seq]
+  (reduce 
+    (fn [a-set elem] 
+      ((if (contains? a-set elem) disj conj) a-set elem) {} a-seq)))
+(parity [:a :b :c])
+(defn parity [a-seq]
+  (reduce 
+    (fn [a-set elem] 
+      ((if (contains? a-set elem) disj conj) a-set elem)) {} a-seq))
+(parity [:a :b :c])
+(contains? {2} 2)
+(contains? #{2} 2)
+(disj #{2} 2)
+(- 5)
+(defn testll [] 0)
+(testll)
+(defn count-params 
+  ([] 0)
+  ([& more] (inc (count-params more))))
+(count-params)
+(count-params 1)
+(count-params 1 3)
+(defn count-params 
+  ([] 0)
+  ([x] 1)
+  ([x & more] (inc (count-params more))))
+(count-params 1)
+(count-params 0)
+(count-params)
+(count-params 1 2)
+(count-params 1 2 3)
+(count-params 1 2 3 4)
+(defn count-params 
+  ([] 0)
+  ([x] 1)
+  ([x & more] (reduce inc 0 (count-params more))))
+ (count-params 1 2 3 4)
+(defn count-params 
+  ([] 0)
+  ([& more] (reduce inc 0 more)))
+ (count-params 1 2 3 4)
+(defn my-* [x]
+  ([] 1)
+  ([x] x)
+;  ([x y] (* x y))
+  ([x & more] (reduce * 1 more)))
+(defn my-* [x]
+  ([] 1)
+  ([x] x)
+  ([x & more] (reduce * 1 more)))
+(defn my-* [x]
+  ([] 1)
+  ([x] x)
+  ([x y & more] (reduce * 1 more)))
+(defn my-* 
+  ([] 1)
+  ([x] x)
+;  ([x y] (* x y))
+  ([x & more] (reduce * 1 more)))
+(my-* 1)
+(my-* 1 2)
+(my-* 2 2)
+(my-* 2 2 3 4)
+(my-* 2 2)
+(my-* 2 4)
+(my-* 4 4)
+(my-* 5 4)
+(defn pred-and 
+  ([] (fn [_] true))
+  ([& more]
+   (fn [x] (reduce (fn [acc pred] (and acc (pred x))) true more))))
+(+)
+(map +)
+(map + '())
+(map + '(1))
+(map + '(1 1))
+(map + '())
+(map + [})
+(map + [])
+(+)
+(+ 1)
+(reduce + '() '(1 2 3))
+(reduce + (fn [acc rst] (cons rst acc)) '(1 2 3))
+(conj '() 1)
+(conj '(2) 1)
+(cons 1 '(2))
+(conj [29 1)
+(conj [29] 1)
+(defn my-map 
+  ([f a-seq] (reduce (fn [mapped elem] (conj mapped (f elem))) [] a-seq)))
+(my-map - [1 4 0 9])
+(apply )))))))
+(defn my-test
+  ([& seqs] (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs)))
+(my-test [1 2 3] [3 4 5] [5 6 7])
+(defn my-test
+  ([f & seqs]
+   (apply f
+     (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs)
+   )))
+(my-test [1 2 3] [3 4 5] [5 6 7])
+(my-test + [1 2 3] [3 4 5] [5 6 7])
+(defn my-test
+  ([f & seqs]
+   (apply f
+     ;(reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs)
+   (map first seqs)
+   )))
+(my-test + [1 2 3] [3 4 5] [5 6 7])
+(defn my-test  
+  ([f & seqs]
+   (let [helper (fn [seqs-2]
+   (if (empty? seqs) '()
+   (cons
+     (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs-2))
+     (recur (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs-2))
+   )))] (helper seqs))))
+(defn my-test  
+  ([f & seqs]
+   (let [helper (fn [seqs-2]
+   (if (empty? seqs) '()
+   (cons
+     (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs-2))
+     (helper (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs-2))
+   )))] (helper seqs))))
+(defn my-test  
+  ([f & seqs]
+   (let [helper (fn [seqs-2]
+   (if (empty? seqs) '()
+   (cons
+     (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs-2))
+     (helperi (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs-2))
+   )))] (helper seqs))))
+(defn my-test  
+  ([f & seqs]
+    (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs))))
+(my-test + [1 2 3] [3 4 5] [5 6 7])
+(defn my-test  
+  ([f & seqs]
+    (cons
+      (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs))
+      (apply my-test (cons f (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs))))))
+(my-test + [1 2 3] [3 4 5] [5 6 7])
+(defn my-test  
+  ([f & seqs]
+    (cons
+      (apply f (reduce (fn [acc-seq elem] (cons (or (first elem) 0) acc-seq)) '() seqs))
+      (apply my-test 
+        (cons f
+          (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs))))))
+(my-test + [1 2 3] [3 4 5] [5 6 7])
+(defn my-test
+  ([f & seqs]
+   (if (every? empty? seqs) '()
+    (cons
+      (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs))
+      (apply my-test 
+        (cons f
+          (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs)))))))
+(my-test + [1 2 3] [3 4 5] [5 6 7])
+(defn my-map
+  ([f & seqs]
+   (if (every? empty? seqs) '()
+    (cons
+      (apply f (reduce (fn [acc-seq elem] (cons (first elem) acc-seq)) '() seqs))
+      (apply my-test 
+        (cons f
+          (reduce (fn [acc-seq elem] (cons (rest elem) acc-seq)) '() seqs)))))))
+(my-map inc [1 2 3 4])
+(my-map + [1 1 1] [1 1 1] [1 1 1])
+(my-map vector [1 2 3] [1 2 3] [1 2 3])
+left(my-map + [1 1 1] [1 1 1] [1 1 1])
+(my-map + [1 1 1] [1 1 1] [1 1 1])
+(my-map + [1 1 1])
+(defn my-map
+  ([f & seqs]
+   (if (every? empty? seqs) '()   
+     (loop [acc '()
+            lefts seqs]
+       (let [firsts (reduce (fn [a-seq elem] (cons (first elem) a-seq)) '() seqs)
+             rests (reduce (fn [a-seq elem] (cons (rest elem) a-seq)) '() seqs)
+             fun-val (apply f firsts)]
+       (recur (cons fun-val acc) f rests))))))
+(defn my-map
+  ([f & seqs]
+   (if (every? empty? seqs) '()   
+     (loop [acc '()
+            lefts seqs]
+       (let [firsts (reduce (fn [a-seq elem] (cons (first elem) a-seq)) '() seqs)
+             rests (reduce (fn [a-seq elem] (cons (rest elem) a-seq)) '() seqs)
+             fun-val (apply f firsts)]
+       (recur (cons fun-val acc) rests))))))
+(my-map + [1 1 1])
+(defn my-map
+  ([f & seqs]
+     (loop [acc '()
+            lefts seqs]
+       (let [firsts (reduce (fn [a-seq elem] (cons (first elem) a-seq)) '() seqs)
+             rests (reduce (fn [a-seq elem] (cons (rest elem) a-seq)) '() seqs)
+             fun-val (apply f firsts)]
+       (if (every? nil? firsts) acc
+       (recur (cons fun-val acc) rests))))))
+(my-map + [1 1 1])
+(defn my-map
+  ([f & seqs]
+     (loop [acc '()
+            lefts seqs]
+       (let [firsts (reduce (fn [a-seq elem] (cons (first elem) a-seq)) '() lefts)
+             rests (reduce (fn [a-seq elem] (cons (rest elem) a-seq)) '() lefts)
+             fun-val (apply f firsts)]
+       (if (every? nil? firsts) acc
+       (recur (cons fun-val acc) rests))))))
+(my-map + [1 1 1])
+(my-map + [1 1 1] [2 3 4])
+(defn my-map
+  ([f & seqs]
+     (loop [acc '()
+            lefts seqs]
+       (let [firsts (reduce (fn [a-seq elem] (cons (first elem) a-seq)) '() lefts)
+             rests (reduce (fn [a-seq elem] (cons (rest elem) a-seq)) '() lefts)]
+       (if (every? nil? firsts) acc
+       (recur (cons (apply f firsts) acc) rests))))))
+(my-map + [1 1 1] [2 3 4])
+(my-map + [1 1 1])
+(my-map + [1 1 1] [2 3 4] [2 2 2])
+(= 2 2 2)
